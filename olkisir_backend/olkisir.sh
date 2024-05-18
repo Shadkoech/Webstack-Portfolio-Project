@@ -1,4 +1,4 @@
-psql -U postgres
+sudo -u postgres psql
 CREATE DATABASE olkisirdb;
 \c olkisirdb
 CREATE USER olkisir WITH PASSWORD 'leaves';
