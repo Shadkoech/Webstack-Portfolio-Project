@@ -92,9 +92,9 @@ const Login = () => {
          // Optional: Ensures background stays fixed while content scrolls
          backgroundAttachment: "fixed",
        }}>
-        <div className="w-full max-w-xs m-auto bg-indigo-100 rounded p-5">
+        <div className="w-full max-w-xs m-auto bg-lime-300 rounded p-5">
             <header>
-                <img className="w-20 mx-auto mb-5" src="https://img.icons8.com/fluent/344/year-of-tiger.png" alt="Tiger" />
+                <img className="w-20 mx-auto mb-5 rounded-full" src="/logo.png" alt="Tiger" />
             </header>
             <form onSubmit={handleSubmit}>
                 <div>

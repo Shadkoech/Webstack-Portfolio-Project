@@ -79,8 +79,8 @@ const Register = () => {
          // Optional: Ensures background stays fixed while content scrolls
          backgroundAttachment: "fixed",
        }}>
-            <form className='border p-10 my- md:w-4/12 w-8/12  bg-indigo-100  ' onSubmit={handleSubmit}>
-                <img className="w-10 mx-auto mb-" src="https://img.icons8.com/fluent/344/year-of-tiger.png" alt="Tiger" />
+            <form className='border p-10 my- md:w-4/12 w-8/12  bg-lime-300  ' onSubmit={handleSubmit}>
+                <img className="w-10 mx-auto mb- rounded-full" src="/logo.png" alt="Tiger" />
 
                 {isError && (
                     <motion.div
