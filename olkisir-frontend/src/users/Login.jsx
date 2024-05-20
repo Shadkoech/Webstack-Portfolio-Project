@@ -92,20 +92,20 @@ const Login = () => {
          // Optional: Ensures background stays fixed while content scrolls
          backgroundAttachment: "fixed",
        }}>
-        <div className="w-full max-w-xs m-auto bg-lime-300 rounded p-5">
+        <div className="w-full max-w-xs m-auto bg-lime-300 rounded-md p-5">
             <header>
                 <img className="w-20 mx-auto mb-5 rounded-full" src="/logo.png" alt="Tiger" />
             </header>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label className="block mb-2 text-slate-900" htmlFor="username">Username</label>
+                    <label className="block mb-2 text-black" htmlFor="username">Username</label>
                     <input className="w-full p-2 mb-6 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300"
                         type="text"
                         name='email'
                         onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 <div>
-                    <label className="block mb-2 text-slate-900" htmlFor="password">Password</label>
+                    <label className="block mb-2 text-black" htmlFor="password">Password</label>
                     <input className="w-full p-2 mb-6 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300"
                         type="password"
                         name="password"
@@ -117,8 +117,8 @@ const Login = () => {
                 </div>
             </form>
             <footer>
-                <Link className="text-slate-900 hover:text-pink-700 text-sm float-left" to="#">Forgot Password?</Link>
-                <Link className="text-slate-900 hover:text-pink-700 text-sm float-right" to="/register" >Create Account</Link>
+                <Link className="text-black hover:text-pink-700 text-sm float-left" to="#">Forgot Password?</Link>
+                <Link className="text-black hover:text-pink-700 text-sm float-right" to="/register" >Create Account</Link>
             </footer>
         </div>
         </div>
