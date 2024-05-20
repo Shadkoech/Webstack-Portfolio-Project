@@ -50,3 +50,5 @@ class UserLoginSerializer(serializers.Serializer):
         except User.DoesNotExist:
             raise serializers.ValidationError("Invalid login credentials")
         
+class LogoutSerializer(serializers.Serializer):
+    refresh_token = serializers.CharField(required=True)
