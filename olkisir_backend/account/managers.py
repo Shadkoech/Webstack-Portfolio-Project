@@ -27,9 +27,3 @@ class CustomUserManager(BaseUserManager):
         user.is_superuser = True
         user.save(using=self._db)
         return user
-        # extra_fields.setdefault('is_active', True)
-        # extra_fields.setdefault('role', 1)
-
-        # if extra_fields.get('role') != 1:
-        #     raise ValueError('Superuser must have role of Global Admin')
-        # return self.create_user(email, password, **extra_fields)
