@@ -102,7 +102,7 @@ const Register = () => {
                     </p> */}
                 </div>
                 <div className=''>
-                    <label className="mb- text-indigo-500" htmlFor="username">Username</label><br />
+                    <label className="mb- text-slate-900" htmlFor="username">Username</label><br />
                     <input
                         type="text"
                         name='username'
@@ -112,7 +112,7 @@ const Register = () => {
                     />
                 </div>
                 <div className=''>
-                    <label className='mb- text-indigo-500'>Email</label><br />
+                    <label className='mb- text-slate-900'>Email</label><br />
                     <input
                         type="email"
                         name='email'
@@ -122,7 +122,7 @@ const Register = () => {
                     />
                 </div>
                 <div className=''>
-                    <label className='mb- text-indigo-500'>First Name</label><br />
+                    <label className='mb- text-slate-900'>First Name</label><br />
                     <input
                         type="text"
                         name='first_name'
@@ -132,7 +132,7 @@ const Register = () => {
                     />
                 </div>
                 <div className=''>
-                    <label className='mb- text-indigo-500'>Last Name</label><br />
+                    <label className='mb- text-slate-900'>Last Name</label><br />
                     <input
                         type="text"
                         name='last_name'
@@ -142,7 +142,7 @@ const Register = () => {
                     />
                 </div>
                 <div className=''>
-                    <label className='mb- text-indigo-500'>Password</label><br />
+                    <label className='mb- text-slate-900'>Password</label><br />
                     <input
                         type={showPass ? 'text' : 'password'}
                         name='password'
@@ -152,7 +152,7 @@ const Register = () => {
                     />
                 </div>
                 <div className=''>
-                    <label className='mb- text-indigo-500'>Role</label><br />
+                    <label className='mb- text-slate-900'>Role</label><br />
                     <select
                         name='role'
                         value={role}
@@ -167,7 +167,7 @@ const Register = () => {
                         ))}
                     </select>
                 </div>
-                <div className='text-indigo-500 space-x-1 text-xs p-2'>
+                <div className='text-slate-900 space-x-1 text-xs p-2'>
                     <input
                         type="checkbox"
                         name='checkbox'
@@ -180,7 +180,7 @@ const Register = () => {
                     <button type="submit" className='bg-indigo-700 hover:bg-pink-700 text-white font-bold w-10/12 rounded font-bold text-neutral-300 hover:bg-green-500 h-8 mb-2'>
                         Register
                     </button>
-                    <Link className="text-xs hover:font-bold text-indigo-500 underline" to="/login">
+                    <Link className="text-xs hover:font-bold text-slate-900 underline" to="/login">
                         Already Registered?
                     </Link>
                 </div>
