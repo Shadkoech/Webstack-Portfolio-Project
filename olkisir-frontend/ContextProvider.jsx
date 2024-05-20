@@ -28,7 +28,18 @@ const AuthProvider = ({ children }) => {
         }
     }
 
-    return (<AuthContext.Provider value={{ login, role, token }}>
+    const logout = async () => {
+        try {
+            const accessToken = localStorage.getItem('ACCESS_TOKEN');
+            const refreshToken = localStorage.getItem('REFRESH_TOKEN');
+            await axiosClient.post('/logout/', {accessToken});
+            localStorage.removeItem('ACCESS_TOKEN', 'REFRESH_TOKEN');
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+
+    return (<AuthContext.Provider value={{ login, role, token, logout }}>
         {children}
     </AuthContext.Provider>)
 
