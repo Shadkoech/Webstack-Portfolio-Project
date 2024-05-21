@@ -31,6 +31,8 @@ DEBUG = True
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,6 +57,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    # 'cors.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'olkisir_backend.urls'
