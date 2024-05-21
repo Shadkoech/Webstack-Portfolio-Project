@@ -24,6 +24,7 @@ function App() {
   //   // Optional: Ensures background stays fixed while content scrolls
   //   backgroundAttachment: "fixed",
   // }}>
+
     <Router>
    <Routes>
      <Route path="/register" element={<Register />} />
@@ -34,7 +35,6 @@ function App() {
    </Routes>
    </Router>
   //  </div>
-   
     
   )
 }
