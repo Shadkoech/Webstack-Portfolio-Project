@@ -3,10 +3,10 @@ import { useAuth } from '../../ContextProvider'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { ProductsList } from '../products/productsList';
-import { Home } from '../products/home';
-import { Trader } from '../products/Trader';
-import { Transporter } from '../products/Transporter';
-import { Orders } from '../products/orders';
+import { Home } from '../home/home';
+import { Trader } from '../traders/Trader';
+import { Transporter } from '../transporters/Transporter';
+import { Orders } from '../orders/orders';
 
 
 export const Dispatcher = () => {

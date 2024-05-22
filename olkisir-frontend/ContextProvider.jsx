@@ -31,15 +31,15 @@ const AuthProvider = ({ children }) => {
     }
     const logout = async () => {
         try {
-            const refresh_token = localStorage.getItem('REFRESH_TOKEN');
-            const access_token = localStorage.getItem('ACCESS_TOKEN')
-            const config = {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            };
-            console.log('e', config)
-            await axios.post('http://127.0.0.1:8000/logout/', { refresh_token }, config);
+            // const refresh_token = localStorage.getItem('REFRESH_TOKEN');
+            // const access_token = localStorage.getItem('ACCESS_TOKEN')
+            // const config = {
+            //     headers: {
+            //         'Authorization': `Bearer ${token}`
+            //     }
+            // };
+            // console.log('e', config)
+            // await axios.post('http://127.0.0.1:8000/logout/', { refresh_token }, config);
             setRole(0);
             setToken(null);
             localStorage.removeItem('ACCESS_TOKEN');
