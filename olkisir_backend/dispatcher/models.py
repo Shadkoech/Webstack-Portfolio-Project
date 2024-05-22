@@ -20,22 +20,22 @@ class Trader(models.Model):
 
 
 class Product(models.Model):
-    product_name = models.CharField(max_length=100)
-    quantity = models.IntegerField()
+    product_type = models.CharField(null=True, max_length=100)
+    brand = models.CharField(max_length=50)
+    SKU = models.CharField(max_length=100)
     batch_number = models.CharField(max_length=100)
     
 
 class Order(models.Model):
     """An associative class that maps a given order to a given stage in the dispatch process"""
     loading_id = models.CharField(max_length=50)
-    trader = models.CharField(max_length=100)
-    product =  models.ForeignKey(Product, on_delete=models.CASCADE)
     destination = models.CharField(max_length=100)
     time_dispatched = models.DateTimeField(default=timezone.now)
 
     dispatch_chemist = models.ForeignKey(DispatchChemist, on_delete=models.CASCADE)
     transporter = models.ForeignKey(Transporter, on_delete=models.CASCADE)
     trader = models.ForeignKey(Trader, on_delete=models.CASCADE)
+    product =  models.ForeignKey(Product, on_delete=models.CASCADE)
 
 
 class Reason(models.Model):

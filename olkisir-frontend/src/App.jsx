@@ -6,6 +6,7 @@ import Login from './users/Login'
 import { Dispatcher } from './panel/Dispatcher';
 import React from 'react'
 import backgroundImage from "/oilbg6.jpg";
+import { Products } from './products/products';
 
 
 function App() {
@@ -23,16 +24,17 @@ function App() {
   //   // Optional: Ensures background stays fixed while content scrolls
   //   backgroundAttachment: "fixed",
   // }}>
+
     <Router>
    <Routes>
      <Route path="/register" element={<Register />} />
      <Route path="/login" element={<Login />} />
      <Route path='/' element={<Home/>}/>
      <Route path='/dispatcher' element={<Dispatcher/>}/>
+     <Route path='/products' element={<Products/>}/>
    </Routes>
    </Router>
   //  </div>
-   
     
   )
 }
