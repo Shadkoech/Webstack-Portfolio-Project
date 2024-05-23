@@ -7,6 +7,8 @@ import { Dispatcher } from './panel/Dispatcher';
 import React from 'react'
 import backgroundImage from "/oilbg6.jpg";
 import { Products } from './products/products';
+// import { Orders } from './dashboard/orders';
+import { ProductsList } from './products/productsList'; 
 
 
 function App() {
@@ -31,7 +33,10 @@ function App() {
      <Route path="/login" element={<Login />} />
      <Route path='/' element={<Home/>}/>
      <Route path='/dispatcher' element={<Dispatcher/>}/>
+      <Route path="products" element={<Products />} />
      <Route path='/products' element={<Products/>}/>
+     
+     {/* <Route path='/productList' element={<ProductsList/>}/> */}
    </Routes>
    </Router>
   //  </div>
