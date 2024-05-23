@@ -14,7 +14,7 @@ export const ProductEdit = ({ productId, isOpen, onClose }) => {
 
   useEffect(() => {
     if (productId) {
-      axios.get(`http://127.0.0.1:8000/api/products/${productId}`)
+      axios.get(`http://127.0.0.1:8000/api/products/${productId}/`)
         .then(response => {
           setProductData(response.data);
         })
