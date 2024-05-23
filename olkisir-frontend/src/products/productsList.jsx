@@ -1,42 +1,69 @@
-import { useEffect, useState } from 'react';
-// import { ProductEdit } from './productEdit';
-import { ProductView } from './productView'; 
-import { Products } from './products'; // Import the Products component
-import axios from "axios";
-import { Link } from 'react-router-dom';
-import ProductDelete from './productDelete';
+import React, { useEffect, useState } from 'react';
 import { ProductEdit } from './productEdit';
-
+import { ProductView } from './productView'; 
+import { Products } from './products'; 
+import Modal from "../modal/Modal";
+import axios from "axios";
+import ProductDelete from './productDelete';
 
 export const ProductsList = () => {
     const [activeComponent, setActiveComponent] = useState('');
     const [products, setProducts] = useState([]);
-    const [showAddForm, setShowAddForm] = useState(false); // State to show form or keep it hidden(default)
- 
-    
+    const [showAddForm, setShowAddForm] = useState(false);
+    const [showEditForm, setShowEditForm] = useState(false);
+    const [selectedProductId, setSelectedProductId] = useState(null);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [showViewModal, setShowViewModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [productToDelete, setProductToDelete] = useState(null);
 
-    const handleDelete = (productId) => {
-        console.log(`Product with ID ${productId} deleted.`);
-        // Add your delete logic here
-      };
-  
-
-
-    // Toggling the display of the add form
     const toggleAddForm = () => {
         setShowAddForm(!showAddForm);
     };
 
-    // Function to toggle the display of the edit form
-// const toggleEditForm = () => {
-//     setShowEditForm(!showEditForm);
-// };
+    const toggleEditForm = (productId) => {
+        setSelectedProductId(productId);
+        setShowEditForm(!showEditForm);
+    };
+
+    const toggleViewModal = () => {
+        setShowViewModal(!showViewModal);
+    };
+
+    const toggleDeleteModal = () => {
+        setShowDeleteModal(!showDeleteModal);
+    };
+
+    const handleViewProduct = (product) => {
+        setSelectedProduct(product);
+        toggleViewModal();
+    };
+
+
+
+    const handleDeleteProduct = async () => {
+        try {
+            // Send a DELETE request to the backend API to delete the product
+            await axios.delete(`http://127.0.0.1:8000/api/products/${productToDelete.id}`);
+            // Update the product list after deletion
+            setProducts(products.filter(product => product.id !== productToDelete.id));
+            // Close the delete modal
+            toggleDeleteModal();
+        } catch (error) {
+            if (error.response && error.response.status === 404) {
+                console.error('Product not found:', error);
+            } else {
+                console.error('Error deleting product:', error);
+            }
+        }
+    };
+
 
     const renderCrud = () => {
         switch (activeComponent) {
           case 'edit':
             return <div>
-              <ProductEdit />
+              <ProductEdit productId={selectedProductId} isOpen={showEditForm} onClose={() => setShowEditForm(false)} />
             </div>;
           case 'view':
             return <div>
@@ -45,7 +72,7 @@ export const ProductsList = () => {
         }
       };
 
-      const handleProducts = async () => {
+    const handleProducts = async () => {
         try {
             const response = await axios.get("http://127.0.0.1:8000/api/products/");
             setProducts(response.data);
@@ -53,85 +80,72 @@ export const ProductsList = () => {
             console.error("There was an error fetching products from backend:", error.message);
         }
       }
-      console.log(products);
 
-      useEffect(() => {
+    useEffect(() => {
         handleProducts();
-      }, []);
+    }, []);
 
+    return (
+        <div className="relative overflow-x-auto shadow-md mt-20 sm:rounded-lg">
+            <div className='flex justify-between mt-2'>
+                <div></div>
+                <button onClick={toggleAddForm} className='bg-blue-500 rounded-md py-2 px-4 text-white'>Add</button>
+            </div>
+            {showAddForm && <Products />}
+    
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" className="px-6 py-3">ID</th>
+                        <th scope="col" className="px-6 py-3">Product Type</th>
+                        <th scope="col" className="px-6 py-3">Brand</th>
+                        <th scope="col" className="px-6 py-3">SKU</th>
+                        <th scope="col" className="px-6 py-3">Price</th>
+                    </tr>
+                </thead>
+    
+                <tbody>
+                    {products && products.map((product) => (
+                        <tr key={product.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{product.id}</th>
+                            <td className="px-6 py-4">{product.product_type}</td>
+                            <td className="px-6 py-4">{product.brand}</td>
+                            <td className="px-6 py-4">{product.SKU}</td>
+                            <td className="px-6 py-4">{product.price}</td>
+                            <td className="px-6 py-4 text-right">
+                                <button onClick={() => toggleEditForm(product.id)} className='bg-blue-500 rounded-md py-2 px-4 text-white'>Edit</button>
+                            </td>
+                            <td className="px-6 py-4 text-right">
+                                <a onClick={() => handleViewProduct(product)} className="font-medium text-green-600 dark:text-green-500 hover:underline">View</a>
+                            </td>
+                            <td className="px-6 py-4 text-right">
+                                <ProductDelete productId={product.id} onDelete={() => console.log('Deleted successfully')}/>
+                                {/* <a onClick={() => {
+                                    setProductToDelete(product.id);
+                                    toggleDeleteModal();
+                                }} className="font-medium text-red-600 dark:text-red-500 hover:underline"> Delete</a> */}
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            <div className="p-4 sm:ml-64">{renderCrud()}</div>
 
-  return (
-    <div className="relative overflow-x-auto shadow-md mt-20 sm:rounded-lg">
-        <div className='flex justify-between mt-2'>
-            <div></div>
-            {/*<button className='bg-blue-500 rounded-md py-2 px-4 text-white'>Add</button>*/}
-            <button onClick={toggleAddForm} className='bg-blue-500 rounded-md py-2 px-4 text-white'>Add</button>
+            <Modal isOpen={showEditForm || showViewModal || showDeleteModal} onClose={() => setShowEditForm(false)}>
+  {showEditForm && (
+    <ProductEdit productId={selectedProductId} isOpen={showEditForm} onClose={() => setShowEditForm(false)} />
+  )}
+  {showViewModal && (
+    <ProductView productData={selectedProduct} isOpen={showViewModal} onClose={toggleViewModal} />
+  )}
+  {/* {showDeleteModal && (
+    <ProductDelete
+      product={productToDelete}
+      onDelete={handleDeleteProduct}
+    />
+  )} */}
+</Modal>
+
         </div>
-        {/* Render the add form (Products component) conditionally */}
-        {showAddForm && <Products />}
-
-    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" className="px-6 py-3">
-                    ID
-                </th>
-                <th scope="col" className="px-6 py-3">
-                    Product Type
-                </th>
-                <th scope="col" className="px-6 py-3">
-                    Brand
-                </th>
-                <th scope="col" className="px-6 py-3">
-                    SKU
-                </th>
-                <th scope="col" className="px-6 py-3">
-                    Price
-                </th>
-            </tr>
-        </thead>
-
-        <tbody>
-    {products && products.map((product) => (
-        <tr key={product.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {product.id}
-            </th>
-            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {product.product_type}
-            </th>
-            <td className="px-6 py-4">
-                {product.brand}
-            </td>
-            <td className="px-6 py-4">
-                {product.SKU}
-            </td>
-            <td className="px-6 py-4">
-                {product.price}
-            </td>
-            <td className="px-6 py-4 text-right">
-                {/* <a onClick={() => setActiveComponent('edit')} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a> */}
-                <Link to={`/editProduct/${product.id}`}><button className='bg-blue-500 text-white py-2 px-4'>Edit</button></Link>
-                
-            </td>
-            <td className="px-6 py-4 text-right">
-                {/* <a onClick={() => setActiveComponent('view')} className="font-medium text-green-600 dark:text-green-500 hover:underline">View</a> */}
-                <Link to={`/viewProduct/${product.id}`}><button className='text-green-500'>view</button></Link>
-                
-            </td>
-            <td className="px-6 py-4 text-right">
-                {/* <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a> */}
-                {/* <Link to={`/deleteProduct/${product.id}`}><button className='text-red-500'>Delete</button></Link> */}
-                <ProductDelete productId={product.id} onDelete={handleDelete} />
-
-            </td>
-        </tr>
-    ))}
-</tbody>
-
-    </table>
-    <div className="p-4 sm:ml-64">{renderCrud()}</div>
-</div>
-
-  )
+    )
 }

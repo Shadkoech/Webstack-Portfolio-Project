@@ -8,9 +8,10 @@ function ProductDelete({ productId, onDelete }) {
 
   const handleDelete = async () => {
     try {
-        await axios.delete(`http://localhost:8000/api/products/${productId}`)
+        await axios.delete(`http://localhost:8000/api/products/${productId}/`)
         onDelete(productId);
         closeModal();
+        // window.location.reload()
     } catch (error) {
         console.error(error.message);
     }

@@ -80,6 +80,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'olkisir_backend.wsgi.application'
 AUTH_USER_MODEL = 'account.User'
+APPEND_SLASH = False
 
 
 # Database
