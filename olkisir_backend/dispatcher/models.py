@@ -23,7 +23,7 @@ class Product(models.Model):
     product_type = models.CharField(null=True, max_length=100)
     brand = models.CharField(max_length=50)
     SKU = models.CharField(max_length=100)
-    batch_number = models.CharField(max_length=100)
+    price = models.CharField(max_length=100)
     
 
 class Order(models.Model):

@@ -35,6 +35,7 @@ function App() {
      <Route path='/dispatcher' element={<Dispatcher/>}/>
       <Route path="products" element={<Products />} />
      <Route path='/products' element={<Products/>}/>
+     
      {/* <Route path='/productList' element={<ProductsList/>}/> */}
    </Routes>
    </Router>
