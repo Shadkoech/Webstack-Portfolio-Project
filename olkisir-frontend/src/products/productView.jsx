@@ -1,6 +1,6 @@
-import React from 'react';
 
-export const ProductView = () => {
+
+export const ProductView = ({productId}) => {
   return (
     <div>
         <h2>product name</h2>

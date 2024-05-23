@@ -32,10 +32,6 @@ DEBUG = True
 
 INSTALLED_APPS = [
     'jazzmin',
-<<<<<<< HEAD
-=======
-
->>>>>>> 5ec8f7414b1ebe459f6b62eb350de68a6a7036cd
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

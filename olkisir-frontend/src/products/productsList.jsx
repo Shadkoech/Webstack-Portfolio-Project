@@ -1,14 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { ProductEdit } from './productEdit';
+import { useEffect, useState } from 'react';
+// import { ProductEdit } from './productEdit';
 import { ProductView } from './productView'; 
 import { Products } from './products'; // Import the Products component
 import axios from "axios";
+import { Link } from 'react-router-dom';
+import ProductDelete from './productDelete';
+import { ProductEdit } from './productEdit';
+
 
 export const ProductsList = () => {
     const [activeComponent, setActiveComponent] = useState('');
     const [products, setProducts] = useState([]);
     const [showAddForm, setShowAddForm] = useState(false); // State to show form or keep it hidden(default)
-    const [showEditForm, setShowEditForm] = useState(false);
+ 
+    
+
+    const handleDelete = (productId) => {
+        console.log(`Product with ID ${productId} deleted.`);
+        // Add your delete logic here
+      };
+  
+
 
     // Toggling the display of the add form
     const toggleAddForm = () => {
@@ -16,15 +28,15 @@ export const ProductsList = () => {
     };
 
     // Function to toggle the display of the edit form
-const toggleEditForm = () => {
-    setShowEditForm(!showEditForm);
-};
+// const toggleEditForm = () => {
+//     setShowEditForm(!showEditForm);
+// };
 
     const renderCrud = () => {
         switch (activeComponent) {
           case 'edit':
             return <div>
-              <ProductEdit/>
+              <ProductEdit />
             </div>;
           case 'view':
             return <div>
@@ -98,14 +110,20 @@ const toggleEditForm = () => {
                 {product.price}
             </td>
             <td className="px-6 py-4 text-right">
-                {/*<a onClick={() => setActiveComponent('edit')} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>*/}
-                <button onClick={toggleEditForm} className='bg-blue-500 rounded-md py-2 px-4 text-white'>Edit</button>
+                {/* <a onClick={() => setActiveComponent('edit')} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a> */}
+                <Link to={`/editProduct/${product.id}`}><button className='bg-blue-500 text-white py-2 px-4'>Edit</button></Link>
+                
             </td>
             <td className="px-6 py-4 text-right">
-                <a onClick={() => setActiveComponent('view')} className="font-medium text-green-600 dark:text-green-500 hover:underline">View</a>
+                {/* <a onClick={() => setActiveComponent('view')} className="font-medium text-green-600 dark:text-green-500 hover:underline">View</a> */}
+                <Link to={`/viewProduct/${product.id}`}><button className='text-green-500'>view</button></Link>
+                
             </td>
             <td className="px-6 py-4 text-right">
-                <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+                {/* <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a> */}
+                {/* <Link to={`/deleteProduct/${product.id}`}><button className='text-red-500'>Delete</button></Link> */}
+                <ProductDelete productId={product.id} onDelete={handleDelete} />
+
             </td>
         </tr>
     ))}

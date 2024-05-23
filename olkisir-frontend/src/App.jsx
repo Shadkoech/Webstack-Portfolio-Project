@@ -4,11 +4,13 @@ import Register from './users/Register'
 import Home  from './others/Home';
 import Login from './users/Login'
 import { Dispatcher } from './panel/Dispatcher';
-import React from 'react'
-import backgroundImage from "/oilbg6.jpg";
+// import React from 'react'
+// import backgroundImage from "/oilbg6.jpg";
 import { Products } from './products/products';
 // import { Orders } from './dashboard/orders';
-import { ProductsList } from './products/productsList'; 
+import { ProductEdit } from './products/productEdit';
+import { ProductView } from './products/productView';
+import ProductDelete from './products/productDelete';
 
 
 function App() {
@@ -35,6 +37,9 @@ function App() {
      <Route path='/dispatcher' element={<Dispatcher/>}/>
       <Route path="products" element={<Products />} />
      <Route path='/products' element={<Products/>}/>
+     <Route path='/editProduct/:productId' element={ <ProductEdit />} />
+     <Route path='/viewProduct/:productId' element={ <ProductView />} />
+     <Route path='/deleteProduct/:productId' element={<ProductDelete />}/>
      
      {/* <Route path='/productList' element={<ProductsList/>}/> */}
    </Routes>
