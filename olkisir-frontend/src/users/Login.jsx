@@ -40,48 +40,7 @@ const Login = () => {
 
 
     return (
-        // <div className="md:w-full flex justify-center bg-slate-800">
-        //     <form className='border rounded p-10 my-4 md:w-3/12 bg-transparent' onSubmit={handleSubmit}>
-        //         {isError && (
-        //             <div className='bg-red-600 w-full text-center p-1 text-white rounded'>
-        //                 {errorMessage}
-        //             </div>
-        //         )}
-        //         {loginSuccess && (
-        //             <div className='bg-green-600 w-full text-center p-1 text-white rounded'>
-        //                 {loginSuccess}
-        //             </div>
-        //         )}
-        //         <div className='p-2'>
-        //             <label className='text-neutral-300 font-bold'>Email</label><br />
-        //             <input
-        // type="text"
-        // name='email'
-        // onChange={(e) => setEmail(e.target.value)}
-        //                 className='w-full p-1 h-8 border rounded bg-transparent outline-none text-neutral-200 font-light'
-        //                 required
-        //             />
-        //         </div>
-        //         <div className='p-2'>
-        //             <label className='text-neutral-300 font-bold'>Password</label><br />
-        //             <input
-        // type="password"
-        // name='password'
-        // onChange={(e) => setPassword(e.target.value)}
-        //                 className='w-full p-1 h-8 border rounded bg-transparent outline-none text-neutral-200 font-light'
-        //                 required
-        //             />
-        //         </div>
-        //         <div className='w-full flex flex-col items-center'>
-        //             <button type="submit" className='bg-green-400 w-10/12 rounded font-bold text-neutral-300 hover:bg-green-500 h-8 mb-2'>
-        //                 Login
-        //             </button>
-        //             <Link className="text-xs hover:font-bold text-neutral-300 underline" to="/register">
-        //                 Register Here
-        //             </Link>
-        //         </div>
-        //     </form>
-        // </div>
+        
         <div className="flex flex-col items-center justify-center h-screen"
    
         style={{
@@ -98,7 +57,7 @@ const Login = () => {
             </header>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label className="block mb-2 text-black" htmlFor="username">Username</label>
+                    <label className="block mb-2 text-black" htmlFor="username">Email</label>
                     <input className="w-full p-2 mb-6 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300"
                         type="text"
                         name='email'
