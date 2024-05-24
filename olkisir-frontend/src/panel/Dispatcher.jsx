@@ -48,7 +48,7 @@ export const Dispatcher = () => {
 
   return (
     <div>
-      <nav className="bg-sky-950 dark:bg-gray-900 fixed w-full z-20 top-0 ml-64 right-0 border-b border-gray-200 dark:border-gray-600">
+      <nav className="bg-stone-600 dark:bg-gray-900 fixed w-full z-20 top-0 ml-64 right-0 border-b border-gray-200 dark:border-gray-600 h-20">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             <button type="button" className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800" onClick={logout}>Logout</button>
