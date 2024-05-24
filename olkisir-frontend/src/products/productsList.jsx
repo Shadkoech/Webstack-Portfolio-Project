@@ -17,7 +17,6 @@ export const ProductsList = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showViewModal, setShowViewModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [productToDelete, setProductToDelete] = useState(null);
 
   const totalPages = Math.ceil(products.length / pageSize); // calculating total no of pages
 
@@ -32,10 +31,6 @@ export const ProductsList = () => {
 
   const toggleViewModal = () => {
     setShowViewModal(!showViewModal);
-  };
-
-  const toggleDeleteModal = () => {
-    setShowDeleteModal(!showDeleteModal);
   };
 
   const handleViewProduct = (product) => {
@@ -63,27 +58,7 @@ export const ProductsList = () => {
     setProducts((prevProducts) => [...prevProducts, newProduct]);
   };
 
-  //   const handleDeleteProduct = async () => {
-  //     try {
-  //       // Send a DELETE request to the backend API to delete the product
-  //       await axios.delete(
-  //         `http://127.0.0.1:8000/api/products/${productToDelete.id}`
-  //       );
-  //       // Update the product list after deletion
-  //       setProducts(
-  //         products.filter((product) => product.id !== productToDelete.id)
-  //       );
-  //       // Close the delete modal
-  //       toggleDeleteModal();
-  //     } catch (error) {
-  //       if (error.response && error.response.status === 404) {
-  //         console.error("Product not found:", error);
-  //       } else {
-  //         console.error("Error deleting product:", error);
-  //       }
-  //     }
-  //   };
-
+ 
   const renderCrud = () => {
     switch (activeComponent) {
       case "edit":
@@ -302,12 +277,6 @@ export const ProductsList = () => {
             onClose={toggleViewModal}
           />
         )}
-        {/* {showDeleteModal && (
-                    <ProductDelete
-                        product={productToDelete}
-                        onDelete={handleDeleteProduct}
-                    />
-                )} */}
       </Modal>
     </div>
   );

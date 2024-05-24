@@ -26,10 +26,12 @@ const Home = () => {
         <div></div>
         <div></div>
         <div></div>
+        {token? <Link to='/dispatcher'>Dashboard</Link>: <div className='flex space-x-8'>
         <div className='text-indigo-500 bg-white mt-2 rounded p-1'><Link to='/register'>Register</Link></div>
         <div className='text-indigo-500 bg-white mt-2 rounded p-1'>
           <Link to='/login'>Login</Link>
         </div>
+          </div>}
       </div>
 
     </div>

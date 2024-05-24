@@ -7,28 +7,32 @@ import { Dispatcher } from './panel/Dispatcher';
 import { ProductEdit } from './products/productEdit';
 import { ProductView } from './products/productView';
 import ProductDelete from './products/productDelete';
+import PrivateRoute from './users/PrivateRoute';
+import PublicRoute from './users/PublicRoute';
 
 
 function App() {
 
 
   return (
-
     <Router>
-   <Routes>
-     <Route path="/register" element={<Register />} />
-     <Route path="/login" element={<Login />} />
-     <Route path='/' element={<Home/>}/>
-     <Route path='/dispatcher' element={<Dispatcher/>}/>
-     <Route path='/editProduct/:productId' element={ <ProductEdit />} />
-     <Route path='/viewProduct/:productId' element={ <ProductView />} />
-     <Route path='/deleteProduct/:productId' element={<ProductDelete />}/>
-     
-     {/* <Route path='/productList' element={<ProductsList/>}/> */}
-   </Routes>
-   </Router>
-  //  </div>
-    
+      <Routes>
+        <Route path="/register" element={<PublicRoute>
+          <Register />
+        </PublicRoute>} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/' element={<Home />} />
+        <Route path='/dispatcher'
+          element={<PrivateRoute>
+            <Dispatcher />
+          </PrivateRoute>} />
+        <Route path='/editProduct/:productId' element={<ProductEdit />} />
+        <Route path='/viewProduct/:productId' element={<ProductView />} />
+        <Route path='/deleteProduct/:productId' element={<ProductDelete />} />
+
+        {/* <Route path='/productList' element={<ProductsList/>}/> */}
+      </Routes>
+    </Router>
   )
 }
 
