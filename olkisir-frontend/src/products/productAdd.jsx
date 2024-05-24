@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import PropTypes from 'prop-types';
 
-export const ProductEdit = ({ productId, isOpen, onClose, onUpdateProduct }) => {
+export const ProductAdd = ({ isOpen, onClose, onAddProduct }) => {
   const [productData, setProductData] = useState({
     product_type: "",
     brand: "",
@@ -12,42 +12,24 @@ export const ProductEdit = ({ productId, isOpen, onClose, onUpdateProduct }) => 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  useEffect(() => {
-    if (productId) {
-      axios.get(`http://127.0.0.1:8000/api/products/${productId}/`)
-        .then(response => {
-          setProductData(response.data);
-        })
-        .catch(error => {
-          console.error("Error fetching product details:", error);
-        });
-    }
-  }, [productId]);
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
 
     try {
-      let response;
-      if (productId) {
-        response = await axios.put(`http://127.0.0.1:8000/api/products/${productId}/`, productData);
-        setMessage("Product updated successfully");
-      } else {
-        response = await axios.post("http://127.0.0.1:8000/api/products", productData);
-        setMessage("Product added successfully");
-      }
-      console.log("Product action successful:", response.data);
+      const response = await axios.post("http://127.0.0.1:8000/api/products/", productData);
+      setMessage("Product added successfully");
+      console.log("Product added successfully:", response.data);
 
-      onUpdateProduct(response.data);
+      onAddProduct(response.data);
 
       setTimeout(() => {
         setMessage("");
-        onClose(); // Close the modal after the action
+        onClose(); // Close the modal after adding the product
       }, 2000);
     } catch (error) {
-      console.error("Error:", error);
-      setMessage("Failed to perform action. Please try again.");
+      console.error("Error adding product:", error);
+      setMessage("Failed to add product. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -63,30 +45,8 @@ export const ProductEdit = ({ productId, isOpen, onClose, onUpdateProduct }) => 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="bg-white dark:bg-gray-900 p-4 rounded-lg shadow-lg max-w-md w-full">
-      <div className="flex justify-end">
-          <div></div>
-        <button
-          onClick={onClose}
-          className="mt-4 text-sm font-medium text-gray-900 dark:text-white hover:underline"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="size-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18 18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-        </div>
         <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-          {productId ? "Edit Product" : "Add a new product"}
+          Add a new product
         </h2>
         {message && <p className={message.includes("error") ? "text-red-500" : "text-green-500"}>{message}</p>}
         <form onSubmit={handleSubmit}>
@@ -161,17 +121,18 @@ export const ProductEdit = ({ productId, isOpen, onClose, onUpdateProduct }) => 
             disabled={loading}
             className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
           >
-            {loading ? (productId ? "Updating..." : "Adding...") : (productId ? "Update product" : "Add product")}
+            {loading ? "Adding..." : "Add product"}
           </button>
         </form>
+        <button onClick={onClose} className="mt-4 text-sm font-medium text-gray-900 dark:text-white hover:underline">
+          Close
+        </button>
       </div>
     </div>
   );
 };
 
-
-ProductEdit.propTypes = {
-  productId: PropTypes.any, // Define the type for productId
+ProductAdd.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };
