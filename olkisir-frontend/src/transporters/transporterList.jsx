@@ -10,13 +10,13 @@ import { TransporterAdd } from "./transporterAdd";
 export const TransporterList = () => {
     let i = 1
     const [activeComponent, setActiveComponent] = useState("");
-    const [transporters, settransporters] = useState([]);
+    const [transporters, setTransporters] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize] = useState(10); // Setting the pagesize for pagination
     const [showAddForm, setShowAddForm] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
-    const [selectedtransporterId, setSelectedtransporterId] = useState(null);
-    const [selectedtransporter, setSelectedtransporter] = useState(null);
+    const [selectedTransporterId, setSelectedTransporterId] = useState(null);
+    const [selectedTransporter, setSelectedTransporter] = useState(null);
     const [showViewModal, setShowViewModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -27,7 +27,7 @@ export const TransporterList = () => {
     };
 
     const toggleEditForm = (transporterId) => {
-        setSelectedtransporterId(transporterId);
+        setSelectedTransporterId(transporterId);
         setShowEditForm(!showEditForm);
     };
 
@@ -35,29 +35,29 @@ export const TransporterList = () => {
         setShowViewModal(!showViewModal);
     };
 
-    const handleViewtransporter = (transporter) => {
-        setSelectedtransporter(transporter);
+    const handleViewTransporter = (transporter) => {
+        setSelectedTransporter(transporter);
         toggleViewModal();
     };
 
-    const handleDeletetransporter = (transporterId) => {
-        settransporters(transporters.filter((transporter) => transporter.id !== transporterId));
+    const handleDeleteTransporter = (transporterId) => {
+        setTransporters(transporters.filter((transporter) => transporter.id !== transporterId));
     };
 
-    const handleUpdatetransporterList = (updatedtransporter) => {
-        settransporters((prevtransporters) => {
-            const updatedtransporters = prevtransporters.map((transporter) => {
-                if (transporter.id === updatedtransporter.id) {
-                    return updatedtransporter;
+    const handleUpdateTransporterList = (updatedTransporter) => {
+        setTransporters((prevTransporters) => {
+            const updatedTransporters = prevTransporters.map((transporter) => {
+                if (transporter.id === updatedTransporter.id) {
+                    return updatedTransporter;
                 }
                 return transporter;
             });
-            return updatedtransporters;
+            return updatedTransporters;
         });
     };
 
-    const handleAddtransporterList = (newtransporter) => {
-        settransporters((prevtransporters) => [...prevtransporters, newtransporter]);
+    const handleAddTransporterList = (newTransporter) => {
+        setTransporters((prevTransporters) => [...prevTransporters, newTransporter]);
     };
 
 
@@ -67,7 +67,7 @@ export const TransporterList = () => {
                 return (
                     <div>
                         <TransporterEdit
-                            transporterId={selectedtransporterId}
+                            transporterId={selectedTransporterId}
                             isOpen={showEditForm}
                             onClose={() => setShowEditForm(false)}
                         />
@@ -84,10 +84,10 @@ export const TransporterList = () => {
         }
     };
 
-    const handletransporters = async () => {
+    const handleTransporters = async () => {
         try {
             const response = await axios.get("http://127.0.0.1:8000/api/transporters/");
-            settransporters(response.data);
+            setTransporters(response.data);
         } catch (error) {
             console.error(
                 "There was an error fetching transporters from backend:",
@@ -97,14 +97,14 @@ export const TransporterList = () => {
     };
 
     useEffect(() => {
-        handletransporters();
+        handleTransporters();
     }, []);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
-    const paginatedtransporters = transporters.slice(
+    const paginatedTransporters = transporters.slice(
         (currentPage - 1) * pageSize,
         currentPage * pageSize
     );
@@ -124,7 +124,7 @@ export const TransporterList = () => {
                 <TransporterAdd
                     isOpen={showAddForm}
                     onClose={toggleAddForm}
-                    onAddtransporter={handleAddtransporterList}
+                    onAddTransporter={handleAddTransporterList}
                 />
             )}
 
@@ -151,7 +151,7 @@ export const TransporterList = () => {
                     </thead>
 
                     <tbody>
-                        {paginatedtransporters.map((transporter) => (
+                        {paginatedTransporters.map((transporter) => (
                             <tr
                                 key={transporter.id}
                                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -188,7 +188,7 @@ export const TransporterList = () => {
                                             </svg>
                                         </button>
                                         <a
-                                            onClick={() => handleViewtransporter(transporter)}
+                                            onClick={() => handleViewTransporter(transporter)}
                                             className="text-blue-500 mt-2 size-5"
                                         >
                                             {/* View button */}
@@ -214,7 +214,7 @@ export const TransporterList = () => {
                                         </a>
                                         <TransporterDelete
                                             transporterId={transporter.id}
-                                            onDelete={handleDeletetransporter}
+                                            onDelete={handleDeleteTransporter}
                                         />
                                     </div>
                                 </td>
@@ -261,16 +261,16 @@ export const TransporterList = () => {
                 onClose={() => setShowEditForm(false)}
             >
                 {showEditForm && (
-                    <transporterEdit
-                        transporterId={selectedtransporterId}
+                    <TransporterEdit
+                        transporterId={selectedTransporterId}
                         isOpen={showEditForm}
                         onClose={() => setShowEditForm(false)}
-                        onUpdatetransporter={handleUpdatetransporterList}
+                        onUpdateTransporter={handleUpdateTransporterList}
                     />
                 )}
                 {showViewModal && (
-                    <transporterView
-                        transporterData={selectedtransporter}
+                    <TransporterView
+                        transporterData={selectedTransporter}
                         isOpen={showViewModal}
                         onClose={toggleViewModal}
                     />

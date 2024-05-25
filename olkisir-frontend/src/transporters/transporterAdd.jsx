@@ -19,9 +19,7 @@ export const TransporterAdd = ({ isOpen, onClose, onAddTransporter }) => {
       const response = await axios.post("http://127.0.0.1:8000/api/transporters/", transporterData);
       setMessage("Transporter added successfully");
       console.log("Transporter added successfully:", response.data);
-
       onAddTransporter(response.data);
-
       setTimeout(() => {
         setMessage("");
         onClose(); // Close the modal after adding the transporter
