@@ -10,6 +10,7 @@ import backgroundImage from "/oilbg6.jpg";
 import { TraderList } from "../traders/traderList";
 // Transporter imports
 import { TransporterList } from "../transporters/transporterList";
+import logo from '/logo.png';
 
 
 
@@ -72,6 +73,9 @@ export const Dispatcher = () => {
         className="bg-orange-400 dark:bg-gray-900 fixed w-full z-20 top-0 left-0 right-0 border-b border-gray-200 dark:border-gray-600 h-20"
       >
         <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
+        <div className='w-14 h-14 mb-8'>
+          <img className='mb-8 rounded-full' src={logo} alt='image'></img>
+        </div>
           <div>
             <button
               data-collapse-toggle="navbar-sticky"
