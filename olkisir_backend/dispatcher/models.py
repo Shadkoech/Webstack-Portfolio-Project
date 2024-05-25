@@ -11,7 +11,8 @@ class DispatchChemist(models.Model):
 class Transporter(models.Model):
     """Model representing the driver for each order"""
     transporter_name = models.CharField(max_length=100)
-    driver = models.CharField(max_length=100)
+    representative = models.CharField(max_length=100)
+    contact = models.CharField(null=True, max_length=20)
 
 class Trader(models.Model):
     """Model for the customer getting the dispatched goods"""

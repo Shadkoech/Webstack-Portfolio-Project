@@ -5,9 +5,13 @@ import { useEffect } from "react";
 import { ProductsList } from "../products/productsList";
 import { Home } from "../home/home";
 import { Trader } from "../traders/Trader";
-import { Transporter } from "../transporters/Transporter";
 import { Orders } from "../orders/orders";
 import backgroundImage from "/oilbg6.jpg";
+
+// Transporter imports
+import { TransporterList } from "../transporters/transporterList";
+
+
 
 export const Dispatcher = () => {
   const navigate = useNavigate();
@@ -44,7 +48,7 @@ export const Dispatcher = () => {
       case "transporter":
         return (
           <div>
-            <Transporter />
+            <TransporterList />
           </div>
         );
       case "orders":
