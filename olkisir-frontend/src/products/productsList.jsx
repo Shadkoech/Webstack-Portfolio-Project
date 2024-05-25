@@ -116,7 +116,7 @@ export const ProductsList = () => {
                     onClick={toggleAddForm}
                     className="bg-blue-500 rounded-md py-2 px-4 text-white mb-2 hover:bg-blue-400"
                 >
-                    Add
+                    Create Product
                 </button>
             </div>
             {showAddForm && (
@@ -129,7 +129,7 @@ export const ProductsList = () => {
 
             <div className="rounded-lg overflow-hidden border border-gray-500">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <thead className="text-xs text-black uppercase bg-gray-300 dark:bg-gray-700 dark:text-gray-400">
+                    <thead className="text-xs text-black uppercase bg-orange-200 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" className="px-6 py-3">
                                 No.
@@ -172,7 +172,7 @@ export const ProductsList = () => {
                                     <div className="text-left flex justify-between space-x-2 w-4">
                                         <button
                                             onClick={() => toggleEditForm(product.id)}
-                                            className=" py-2 px-4 text-blue-500"
+                                            className=" text-blue-500"
                                         >
                                             {/* Edit button */}
                                             <svg
@@ -192,7 +192,7 @@ export const ProductsList = () => {
                                         </button>
                                         <a
                                             onClick={() => handleViewProduct(product)}
-                                            className="font-medium text-green-600 dark:text-green-500 hover:underline"
+                                            className="text-blue-500 mt-2 size-5"
                                         >
                                             {/* View button */}
                                             <svg
@@ -240,7 +240,7 @@ export const ProductsList = () => {
                     <button
                         onClick={() => handlePageChange(currentPage - 1)}
                         disabled={currentPage === 1}
-                        className="mr-2 bg-gray-200 hover:bg-gray-300 text-black font-bold py-1 px-2 rounded-md text-sm"
+                        className="mr-2 bg-orange-200 hover:bg-orange-300 text-black font-bold py-1 px-2 rounded-md text-sm"
                     >
                         {/* {"<"} */}
                         Previous
@@ -249,7 +249,7 @@ export const ProductsList = () => {
                     <button
                         onClick={() => handlePageChange(currentPage + 1)}
                         disabled={currentPage === totalPages}
-                        className="bg-gray-200 hover:bg-gray-300 text-black font-bold py-1 px-2 rounded-md text-sm mr-5"
+                        className="bg-orange-200 hover:bg-orange-300 text-black font-bold py-1 px-2 rounded-md text-sm mr-5"
                     >
                         {/* {">"} */}
                         next

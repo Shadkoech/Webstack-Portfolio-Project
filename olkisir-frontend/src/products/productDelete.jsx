@@ -25,7 +25,7 @@ function ProductDelete({ productId, onDelete }) {
 
   return (
     <div>
-      <button onClick={openModal} className=" text-red-500 px-4 py-2 rounded">
+      <button onClick={openModal} className=" text-red-500 px-4 py-2 w-4 h-4 ">
         {/* Delete button */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
