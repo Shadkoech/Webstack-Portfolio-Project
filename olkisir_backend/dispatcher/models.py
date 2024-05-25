@@ -7,6 +7,7 @@ class DispatchChemist(models.Model):
     """Model representing dispatch details"""
 
     chemist_name = models.CharField(max_length=100)
+    contact = models.CharField(max_length=100, null=True)
 
 class Transporter(models.Model):
     """Model representing the driver for each order"""
