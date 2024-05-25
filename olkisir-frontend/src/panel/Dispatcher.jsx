@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { ProductsList } from "../products/productsList";
 import { Home } from "../home/home";
-import { Trader } from "../traders/Trader";
+
 import { Orders } from "../orders/orders";
 import backgroundImage from "/oilbg6.jpg";
-
+import { TraderList } from "../traders/traderList";
 // Transporter imports
 import { TransporterList } from "../transporters/transporterList";
 
@@ -42,7 +42,7 @@ export const Dispatcher = () => {
       case "trader":
         return (
           <div>
-            <Trader />
+            <TraderList />
           </div>
         );
       case "transporter":
@@ -57,6 +57,7 @@ export const Dispatcher = () => {
             <Orders />
           </div>
         );
+      
     }
   };
 

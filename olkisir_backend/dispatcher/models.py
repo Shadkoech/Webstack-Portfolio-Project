@@ -18,6 +18,8 @@ class Trader(models.Model):
     """Model for the customer getting the dispatched goods"""
 
     trader_name = models.CharField(max_length=100)
+    trader_address = models.CharField(max_length=100, null=True)
+    contact = models.CharField(null=True, max_length=20)
 
 
 class Product(models.Model):
