@@ -6,17 +6,14 @@ export const Orders = () => {
   const [showModal, setShowModal] = useState(false);
   const [products, setProducts] = useState([]);
   const [traders, setTraders] = useState([]);
-  const [transporters, setTransporters] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState('');
   const [selectedTrader, setSelectedTrader] = useState('');
-  const [selectedTransporter, setSelectedTransporter] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [selectedProducts, setSelectedProducts] = useState([]);
 
   useEffect(() => {
     fetchProducts();
     fetchTraders();
-    fetchTransporters();
   }, []);
 
   const fetchProducts = async () => {
@@ -34,15 +31,6 @@ export const Orders = () => {
       setTraders(response.data);
     } catch (error) {
       console.error('There was an error fetching traders:', error.message);
-    }
-  };
-
-  const fetchTransporters = async () => {
-    try {
-      const response = await axios.get('http://127.0.0.1:8000/api/transporters/');
-      setTransporters(response.data);
-    } catch (error) {
-      console.error('There was an error fetching transporters:', error.message);
     }
   };
 
@@ -64,20 +52,20 @@ export const Orders = () => {
       <section className="bg-white dark:bg-gray-900">
         <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
           <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-            Make a new Order
+            Make a new Order 
           </h2>
           <form action="#">
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
               <div className="sm:col-span-2">
                 <label
-                  htmlFor="loading-id"
+                  htmlFor="name"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Loading ID
                 </label>
                 <select
-                  name="loading-id"
-                  id="loading-id"
+                  name="product_type"
+                  id="category"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
                   {/* Options for Loading ID */}
@@ -130,21 +118,14 @@ export const Orders = () => {
                 >
                   Transporter
                 </label>
-                <select
+                <input
+                  type="text"
                   name="transporter"
                   id="transporter"
-                  value={selectedTransporter}
-                  onChange={(e) => setSelectedTransporter(e.target.value)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  placeholder="Choose the transporter"
                   required
-                >
-                  <option value="">Select a transporter</option>
-                  {transporters.map((transporter) => (
-                    <option key={transporter.id} value={transporter.id}>
-                      {transporter.transporter_name} - {transporter.representative} - {transporter.contact}
-                    </option>
-                  ))}
-                </select>
+                />
               </div>
               <div>
                 <label
@@ -178,44 +159,33 @@ export const Orders = () => {
                   required
                 />
               </div>
-              <div className="w-full">
-                <label
-                  htmlFor="quantity"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Quantity
-                </label>
-                <input
-                  type="number"
-                  name="quantity"
-                  id="quantity"
-                  value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  min="1"
-                />
-              </div>
+            </div>
+            <div className="mt-4">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white">Selected Products</h3>
+              <ul>
+                {selectedProducts.map((product, index) => (
+                  <li key={index}>
+                    {product.product_type} - {product.brand} - {product.SKU} - {product.quantity}
+                  </li>
+                ))}
+              </ul>
             </div>
             <button
               type="submit"
-              className="inline-flex items-center px-4 py-2.5 mt-4 text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900"
+              className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
             >
-              Submit
+              Create order
             </button>
           </form>
         </div>
       </section>
-
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-        <div>
-          <label
-            htmlFor="product"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
+        <h2 className="text-xl font-bold mb-4">Select Products</h2>
+        <div className="mb-4">
+          <label htmlFor="product" className="block text-sm font-medium text-gray-700">
             Product
           </label>
           <select
-            name="product"
             id="product"
             value={selectedProduct}
             onChange={(e) => setSelectedProduct(e.target.value)}
@@ -224,21 +194,17 @@ export const Orders = () => {
             <option value="">Select a product</option>
             {products.map((product) => (
               <option key={product.id} value={product.id}>
-                {product.product_name}
+                {product.product_type} - {product.brand} - {product.SKU}
               </option>
             ))}
           </select>
         </div>
-        <div>
-          <label
-            htmlFor="quantity"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
+        <div className="mb-4">
+          <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">
             Quantity
           </label>
           <input
             type="number"
-            name="quantity"
             id="quantity"
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
