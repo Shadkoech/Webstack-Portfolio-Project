@@ -12,12 +12,14 @@ import { TraderList } from "../traders/traderList";
 import { TransporterList } from "../transporters/transporterList";
 import logo from '/logo.png';
 import { ChemistList } from "../chemist/chemistList";
+// import { useAuth } from "../../ContextProvider";
 
 
 
 export const Dispatcher = () => {
+  // const {user} = useAuth();
   const navigate = useNavigate();
-  const { logout, token } = useAuth();
+  const { logout, token, user } = useAuth();
   const [activeComponent, setActiveComponent] = useState("home");
 
   useEffect(() => {
@@ -61,9 +63,9 @@ export const Dispatcher = () => {
         );
       case "chemist":
         return (<div>
-          <ChemistList/>
+          <ChemistList />
         </div>)
-      
+
     }
   };
 
@@ -78,9 +80,11 @@ export const Dispatcher = () => {
         className="bg-orange-400 dark:bg-gray-900 fixed w-full z-20 top-0 left-0 right-0 border-b border-gray-200 dark:border-gray-600 h-20"
       >
         <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
-        <div className='w-14 h-14 mb-8'>
-          <img className='mb-8 rounded-full' src={logo} alt='image'></img>
-        </div>
+          <div className='w-14 h-14 mb-8'>
+            <img className='mb-8 rounded-full' src={logo} alt='image'></img>
+          </div>
+          <div className="text-xl text"><span className="text-xl text-sl-400 font-bold">Welcome,</span> {!user ? 'Loading user....' : user.first_name}</div>
+
           <div>
             <button
               data-collapse-toggle="navbar-sticky"
@@ -108,6 +112,8 @@ export const Dispatcher = () => {
             </button>
           </div>
           <div className="flex items-center justify-end space-x-3">
+
+            <div><span className="text-xl font-bold">Role,</span> {!user? 'loading role...':user.role === 1 ? "Admin" : user.role === 2 ? 'Dispatch Chemist' : user.role === 3 ? 'Transporter' : user.role === 4 ? 'Trader' : ""}</div>
             <button
               type="button"
               className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
@@ -163,7 +169,8 @@ export const Dispatcher = () => {
                 >
                   <path d="M22 12l-10-10v6c0 .55-.45 1-1 1s-1-.45-1-1V2L2 12h2v10a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V12h2z" />
                 </svg>
-                <span className="ms-3 text-black">Home</span>
+                {/* {user.role} */}
+                <span className="ms-3 text-black">Home </span>
               </a>
             </li>
             <li>
@@ -258,7 +265,7 @@ export const Dispatcher = () => {
                   <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
                 </svg>
                 <span className="flex-1 ms-3 whitespace-nowrap text-black">
-                 Dispatch Chemists
+                  Dispatch Chemists
                 </span>
                 {/* <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">Pro</span> */}
               </a>

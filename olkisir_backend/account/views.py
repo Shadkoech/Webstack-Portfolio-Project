@@ -38,6 +38,21 @@ class AuthUserLoginView(APIView):
             }
 
             return Response(response, status=status.HTTP_200_OK)
+
+class UserDetailsView(APIView):
+    # Class the fetches user details
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        user_data = {
+            'username': user.username,
+            'email': user.email,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'role': user.role,
+        }
+        return Response(user_data, status=status.HTTP_200_OK)
         
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
