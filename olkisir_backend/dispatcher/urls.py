@@ -23,7 +23,8 @@ order_router.register(r'orders', OrderViewSet)
 return_router = DefaultRouter()
 return_router.register(r'returns', ReturnViewSet)
 
-
+# custom_router = DefaultRouter()
+# custom_router.register(r'custom-order', CustomOrder)
 
 # Extending routes
 router = DefaultRouter()
@@ -34,8 +35,10 @@ router.registry.extend(product_router.registry)
 router.registry.extend(reason_router.registry)
 router.registry.extend(order_router.registry)
 router.registry.extend(return_router.registry)
+# router.registry.extend(custom_router.registry)
 
 
 urlpatterns = [
-    path('', include(router.urls))
+    path('', include(router.urls)),
+    # path('custom-order/', CustomOrder.as_view(), name='custom-order'),
 ]

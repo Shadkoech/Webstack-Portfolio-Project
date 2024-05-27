@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Modal from '../modal/Modal';
 import axios from 'axios';
 
-export const Orders = () => {
+export const OrderAdd = () => {
   const [showModal, setShowModal] = useState(false);
   const [products, setProducts] = useState([]);
   const [traders, setTraders] = useState([]);
@@ -90,7 +90,6 @@ export const Orders = () => {
         trader: selectedTrader,
         product: selectedProducts
       };
-      console.log('uggf', payload);
       const response = await axios.post('http://127.0.0.1:8000/api/orders/', payload);
       console.log('Order created:', response.data);
       // This is where you can redirect the user or perform other actions upon successful creation of the order
