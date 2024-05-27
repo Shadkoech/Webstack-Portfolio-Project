@@ -72,6 +72,12 @@ export const Orders = () => {
       setShowModal(false);
     }
   };
+  const handleRemoveProduct = (productId) => {
+    setSelectedProducts((prevProducts) =>
+      prevProducts.filter((product) => product.id !== productId)
+    );
+  };
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -84,7 +90,7 @@ export const Orders = () => {
         trader: selectedTrader,
         product: selectedProducts
       };
-      console.log(payload);
+      console.log('uggf', payload);
       const response = await axios.post('http://127.0.0.1:8000/api/orders/', payload);
       console.log('Order created:', response.data);
       // This is where you can redirect the user or perform other actions upon successful creation of the order
@@ -98,7 +104,7 @@ export const Orders = () => {
       <section className="bg-white dark:bg-gray-900">
         <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
           <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-            Make a new Order 
+            Make a new Order
           </h2>
           <form onSubmit={handleSubmit}>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
@@ -227,8 +233,19 @@ export const Orders = () => {
               <h3 className="text-lg font-medium text-gray-900 dark:text-white">Selected Products</h3>
               <ul>
                 {selectedProducts.map((product, index) => (
-                  <li key={index}>
-                    {product.product_type} - {product.brand} - {product.SKU} - {product.quantity}
+                  <li className='space-x-3'
+                  key={index}>
+                    <span>{product.product_type} - {product.brand} - {product.SKU} - {product.quantity}</span>
+                    <button
+                      onClick={() => handleRemoveProduct(product.id)}
+                      className="bg-white text-red-500 px-2 py-1 rounded"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="8" stroke="currentColor" class="size-3">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                      </svg>
+
+                    </button>
+
                   </li>
                 ))}
               </ul>
