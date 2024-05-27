@@ -6,14 +6,14 @@ export const Orders = () => {
   const [showModal, setShowModal] = useState(false);
   const [products, setProducts] = useState([]);
   const [traders, setTraders] = useState([]);
+  const [transporters, setTransporters] = useState([]);
+  const [chemists, setChemists] = useState([]);
+  const [selectedProducts, setSelectedProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState('');
   const [selectedTrader, setSelectedTrader] = useState('');
+  const [selectedTransporter, setSelectedTransporter] = useState('');
+  const [selectedChemist, setSelectedChemist] = useState('');
   const [quantity, setQuantity] = useState(1);
-  const [selectedProducts, setSelectedProducts] = useState([]);
-  const [transporters, setTransporters] = useState([]);
-  const [selectedTransporter, setSelectedTransporter] = useState([]);
-  const [chemists, setChemists] = useState([]);
-  const [selectedChemist, setSelectedChemist] = useState([]);
   const [loadingId, setLoadingId] = useState('');
   const [destination, setDestination] = useState('');
 
@@ -73,27 +73,18 @@ export const Orders = () => {
     }
   };
 
-  // const [formData, setFormData] = useState({
-  //   loading_id: '',
-  //   destination: '',
-  //   dispatch_chemist: '',
-  //   transporter: '',
-  //   trader: '',
-  //   product: ''
-  // });
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const payload = {
         loading_id: loadingId,
-      destination: destination,
-      dispatch_chemist: selectedChemist,
-      transporter: selectedTransporter,
-      trader: selectedTrader,
-      product: selectedProducts
-      }
-      console.log(payload)
+        destination: destination,
+        dispatch_chemist: selectedChemist,
+        transporter: selectedTransporter,
+        trader: selectedTrader,
+        product: selectedProducts
+      };
+      console.log(payload);
       const response = await axios.post('http://127.0.0.1:8000/api/orders/', payload);
       console.log('Order created:', response.data);
       // This is where you can redirect the user or perform other actions upon successful creation of the order
@@ -101,10 +92,6 @@ export const Orders = () => {
       console.error('Error creating order:', error);
     }
   };
-
-  // const handleChange = (event) => {
-  //   setFormData({ ...formData, [event.target.name]: event.target.value });
-  // };
 
   return (
     <div>
@@ -117,7 +104,7 @@ export const Orders = () => {
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
               <div className="sm:col-span-2">
                 <label
-                  htmlFor="name"
+                  htmlFor="loading_id"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Loading ID
@@ -131,8 +118,6 @@ export const Orders = () => {
                   placeholder="Loading ID"
                   required
                 />
-                  {/* Options for Loading ID */}
-
               </div>
               <div className="w-full">
                 <label
@@ -151,7 +136,7 @@ export const Orders = () => {
                 >
                   <option value="">Select a trader</option>
                   {traders.map((trader) => (
-                    <option key={trader.id} value={`${trader.trader_name} - ${trader.trader_address} - ${trader.contact}`}>
+                    <option key={trader.id} value={trader.id}>
                       {trader.trader_name} - {trader.trader_address} - {trader.contact}
                     </option>
                   ))}
@@ -182,8 +167,8 @@ export const Orders = () => {
                   Transporter
                 </label>
                 <select
-                  name="trader"
-                  id="trader"
+                  name="transporter"
+                  id="transporter"
                   value={selectedTransporter}
                   onChange={(e) => setSelectedTransporter(e.target.value)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -191,7 +176,7 @@ export const Orders = () => {
                 >
                   <option value="">Select a transporter</option>
                   {transporters.map((transporter) => (
-                    <option key={transporter.id} value={`${selectedTransporter.transporter_name} - ${selectedTransporter.representative} - ${transporter.contact}`}>
+                    <option key={transporter.id} value={transporter.id}>
                       {transporter.transporter_name} - {transporter.representative} - {transporter.contact}
                     </option>
                   ))}
@@ -231,7 +216,7 @@ export const Orders = () => {
                 >
                   <option value="">Select a dispatch chemist</option>
                   {chemists.map((chemist) => (
-                    <option key={chemist.id} value={`${chemist.chemist_name} - ${chemist.contact}`}>
+                    <option key={chemist.id} value={chemist.id}>
                       {chemist.chemist_name} - {chemist.contact}
                     </option>
                   ))}
