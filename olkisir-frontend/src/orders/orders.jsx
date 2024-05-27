@@ -10,10 +10,18 @@ export const Orders = () => {
   const [selectedTrader, setSelectedTrader] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [selectedProducts, setSelectedProducts] = useState([]);
+  const [transporters, setTransporters] = useState([]);
+  const [selectedTransporter, setSelectedTransporter] = useState([]);
+  const [chemists, setChemists] = useState([]);
+  const [selectedChemist, setSelectedChemist] = useState([]);
+  const [loadingId, setLoadingId] = useState('');
+  const [destination, setDestination] = useState('');
 
   useEffect(() => {
     fetchProducts();
     fetchTraders();
+    fetchTransporters();
+    fetchChemists();
   }, []);
 
   const fetchProducts = async () => {
@@ -34,9 +42,27 @@ export const Orders = () => {
     }
   };
 
+  const fetchTransporters = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/api/transporters/');
+      setTransporters(response.data);
+    } catch (error) {
+      console.error('There was an error fetching transporters:', error.message);
+    }
+  };
+
+  const fetchChemists = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/api/dispatchers/');
+      setChemists(response.data);
+    } catch (error) {
+      console.error('There was an error fetching dispatch chemist:', error.message);
+    }
+  };
+
   const handleAddProduct = () => {
     if (selectedProduct && quantity > 0) {
-      const product = products.find((p) => p.id === selectedProduct);
+      const product = products.find((p) => p.product_type === selectedProduct);
       setSelectedProducts((prevProducts) => [
         ...prevProducts,
         { ...product, quantity },
@@ -47,6 +73,39 @@ export const Orders = () => {
     }
   };
 
+  // const [formData, setFormData] = useState({
+  //   loading_id: '',
+  //   destination: '',
+  //   dispatch_chemist: '',
+  //   transporter: '',
+  //   trader: '',
+  //   product: ''
+  // });
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const payload = {
+        loading_id: loadingId,
+      destination: destination,
+      dispatch_chemist: selectedChemist,
+      transporter: selectedTransporter,
+      trader: selectedTrader,
+      product: selectedProducts
+      }
+      console.log(payload)
+      const response = await axios.post('http://127.0.0.1:8000/api/orders/', payload);
+      console.log('Order created:', response.data);
+      // This is where you can redirect the user or perform other actions upon successful creation of the order
+    } catch (error) {
+      console.error('Error creating order:', error);
+    }
+  };
+
+  // const handleChange = (event) => {
+  //   setFormData({ ...formData, [event.target.name]: event.target.value });
+  // };
+
   return (
     <div>
       <section className="bg-white dark:bg-gray-900">
@@ -54,7 +113,7 @@ export const Orders = () => {
           <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
             Make a new Order 
           </h2>
-          <form action="#">
+          <form onSubmit={handleSubmit}>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
               <div className="sm:col-span-2">
                 <label
@@ -63,13 +122,17 @@ export const Orders = () => {
                 >
                   Loading ID
                 </label>
-                <select
-                  name="product_type"
-                  id="category"
+                <input
+                  type="text"
+                  name="loading_id"
+                  id="loading_id"
+                  onChange={(e) => setLoadingId(e.target.value)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                >
+                  placeholder="Loading ID"
+                  required
+                />
                   {/* Options for Loading ID */}
-                </select>
+
               </div>
               <div className="w-full">
                 <label
@@ -88,7 +151,7 @@ export const Orders = () => {
                 >
                   <option value="">Select a trader</option>
                   {traders.map((trader) => (
-                    <option key={trader.id} value={trader.id}>
+                    <option key={trader.id} value={`${trader.trader_name} - ${trader.trader_address} - ${trader.contact}`}>
                       {trader.trader_name} - {trader.trader_address} - {trader.contact}
                     </option>
                   ))}
@@ -118,14 +181,21 @@ export const Orders = () => {
                 >
                   Transporter
                 </label>
-                <input
-                  type="text"
-                  name="transporter"
-                  id="transporter"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Choose the transporter"
+                <select
+                  name="trader"
+                  id="trader"
+                  value={selectedTransporter}
+                  onChange={(e) => setSelectedTransporter(e.target.value)}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   required
-                />
+                >
+                  <option value="">Select a transporter</option>
+                  {transporters.map((transporter) => (
+                    <option key={transporter.id} value={`${selectedTransporter.transporter_name} - ${selectedTransporter.representative} - ${transporter.contact}`}>
+                      {transporter.transporter_name} - {transporter.representative} - {transporter.contact}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div>
                 <label
@@ -138,6 +208,7 @@ export const Orders = () => {
                   type="text"
                   name="destination"
                   id="destination"
+                  onChange={(e) => setDestination(e.target.value)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Input destination"
                   required
@@ -150,14 +221,21 @@ export const Orders = () => {
                 >
                   Dispatch Chemist
                 </label>
-                <input
-                  type="text"
+                <select
                   name="chemist"
                   id="chemist"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Input chemist details"
+                  value={selectedChemist}
+                  onChange={(e) => setSelectedChemist(e.target.value)}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   required
-                />
+                >
+                  <option value="">Select a dispatch chemist</option>
+                  {chemists.map((chemist) => (
+                    <option key={chemist.id} value={`${chemist.chemist_name} - ${chemist.contact}`}>
+                      {chemist.chemist_name} - {chemist.contact}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
             <div className="mt-4">
@@ -193,7 +271,7 @@ export const Orders = () => {
           >
             <option value="">Select a product</option>
             {products.map((product) => (
-              <option key={product.id} value={product.id}>
+              <option key={product.id} value={product.product_type}>
                 {product.product_type} - {product.brand} - {product.SKU}
               </option>
             ))}

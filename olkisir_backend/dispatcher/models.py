@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-
+from django.db.models import JSONField
 
 
 class DispatchChemist(models.Model):
@@ -39,7 +39,7 @@ class Order(models.Model):
     dispatch_chemist = models.ForeignKey(DispatchChemist, on_delete=models.CASCADE)
     transporter = models.ForeignKey(Transporter, on_delete=models.CASCADE)
     trader = models.ForeignKey(Trader, on_delete=models.CASCADE)
-    product =  models.ForeignKey(Product, on_delete=models.CASCADE)
+    product =  JSONField(models.CharField(max_length=100), default=list, blank=True)
 
 
 class Reason(models.Model):
