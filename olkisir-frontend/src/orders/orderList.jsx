@@ -86,8 +86,11 @@ export const OrderList = () => {
 
     const handleOrders = async () => {
         try {
+            
             const response = await axios.get("http://127.0.0.1:8000/api/orders/");
             setOrders(response.data);
+            console.log('orders', response.data)
+
         } catch (error) {
             console.error(
                 "There was an error fetching orders from backend:",
@@ -136,14 +139,15 @@ export const OrderList = () => {
                                 No.
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Order
+                                Trader
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Order Address
+                                Transporter
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Contact
+                                Chemist Name
                             </th>
+
                             <th scope="col" className="px-6 py-3">
                                 Actions
                             </th>
@@ -151,7 +155,7 @@ export const OrderList = () => {
                     </thead>
 
                     <tbody>
-                        {paginatedOrders.map((order) => (
+                        {paginatedOrders.map((order, index) => (
                             <tr
                                 key={order.id}
                                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -160,11 +164,11 @@ export const OrderList = () => {
                                     scope="row"
                                     className="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-white"
                                 >
-                                    {i++}
+                                     {pageSize * currentPage - pageSize + index + 1}
                                 </th>
-                                <td className="px-6 py-4">{order.order_name}</td>
-                                <td className="px-6 py-4">{order.order_address}</td>
-                                <td className="px-6 py-4">{order.contact}</td>
+                                <td className="px-6 py-4">{order.trader['trader_name']}</td>
+                                <td className="px-6 py-4">{order.transporter['transporter_name']}</td>
+                                <td className="px-6 py-4">{order.dispatch_chemist['chemist_name']}</td>
                                 <td className="px-6 py-4 text-right">
                                     <div className="text-left flex justify-between space-x-2 w-4">
                                         <button

@@ -37,8 +37,9 @@ router.registry.extend(order_router.registry)
 router.registry.extend(return_router.registry)
 # router.registry.extend(custom_router.registry)
 
-
+from .views import CustomOrder
 urlpatterns = [
     path('', include(router.urls)),
+     path('order/<int:order_id>/', CustomOrder.as_view(), name='custom-order'),
     # path('custom-order/', CustomOrder.as_view(), name='custom-order'),
 ]

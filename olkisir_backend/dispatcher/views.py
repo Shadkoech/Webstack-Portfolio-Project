@@ -2,7 +2,7 @@ from .models import DispatchChemist, Transporter, Trader, Product, Reason, Order
 from rest_framework import permissions, viewsets, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import DispatchChemistSerializer, TransporterSerializer, TraderSerializer, ProductSerializer, OrderSerializer, ReasonSerializer, ReturnSerializer
+from .serializers import DispatchChemistSerializer, FetchOrderSerializer, TransporterSerializer, TraderSerializer, ProductSerializer, OrderSerializer, ReasonSerializer, ReturnSerializer
 
 
 class DispatchChemistViewSet(viewsets.ModelViewSet):
@@ -29,21 +29,40 @@ class ReasonViewSet(viewsets.ModelViewSet):
 
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
-    serializer_class = OrderSerializer
+    # serializer_class = OrderSerializer
+    def get_serializer_class(self):
+        if self.action == 'list' or self.action == 'retrieve':
+            return FetchOrderSerializer
+        return OrderSerializer
 
 class ReturnViewSet(viewsets.ModelViewSet):
     queryset = Return.objects.all()
     serializer_class = ReturnSerializer
 
-# class CustomOrder(APIView):
-#     """Fetching order details"""
+from django.shortcuts import get_object_or_404
+class CustomOrder(APIView):
+    """Fetching order details"""
+
     
-#     def getOrder(self, request):
-#         """function for return order details"""
-#         order = Order.objects.filter(request.id)
-#         chemist = DispatchChemist.objects.filter(order.dispatch_chemist)
-#         transporter = Transporter.objects.filter(order.transporter)
-#         trader = Trader.objects.filter(order.trader)
+    def get(self, request, order_id):
+        """Function for returning order details"""
+        order = get_object_or_404(Order, id=order_id)
         
-#         return Response({'order':order, 'chemist': chemist.chemist_name, 'transporter': transporter.transporter_name, 'trader': trader.trader_name})
+        chemist = order.dispatch_chemist
+        transporter = order.transporter
+        trader = order.trader
         
+        order_data = FetchOrderSerializer(order).data
+        chemist_data = DispatchChemistSerializer(chemist).data
+        transporter_data = TransporterSerializer(transporter).data
+        trader_data = TraderSerializer(trader).data
+        
+        response_data = {
+            'loading_id': order_data['loading_id'],
+            'destination': order_data['destination'],
+            'chemist': chemist_data['chemist_name'],
+            'transporter': transporter_data['transporter_name'],
+            'trader': trader_data['trader_name']
+        }
+        
+        return Response(response_data, status=status.HTTP_200_OK)

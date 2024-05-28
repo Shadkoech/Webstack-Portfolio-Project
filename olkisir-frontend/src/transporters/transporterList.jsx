@@ -8,11 +8,11 @@ import { TransporterAdd } from "./transporterAdd";
 
 
 export const TransporterList = () => {
-    let i = 1
+   
     const [activeComponent, setActiveComponent] = useState("");
     const [transporters, setTransporters] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize] = useState(10); // Setting the pagesize for pagination
+    const [pageSize] = useState(5); // Setting the pagesize for pagination
     const [showAddForm, setShowAddForm] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
     const [selectedTransporterId, setSelectedTransporterId] = useState(null);
@@ -151,7 +151,7 @@ export const TransporterList = () => {
                     </thead>
 
                     <tbody>
-                        {paginatedTransporters.map((transporter) => (
+                        {paginatedTransporters.map((transporter, index) => (
                             <tr
                                 key={transporter.id}
                                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -160,7 +160,7 @@ export const TransporterList = () => {
                                     scope="row"
                                     className="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-white"
                                 >
-                                    {i++}
+                                    {pageSize * currentPage - pageSize + index + 1}
                                 </th>
                                 <td className="px-6 py-4">{transporter.transporter_name}</td>
                                 <td className="px-6 py-4">{transporter.representative}</td>

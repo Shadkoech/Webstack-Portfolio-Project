@@ -23,10 +23,23 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class OrderSerializer(serializers.ModelSerializer):
+class FetchOrderSerializer(serializers.ModelSerializer):
+    # dispatch_chemist = serializers.StringRelatedField()
+    # transporter = serializers.StringRelatedField()
+    # trader = serializers.StringRelatedField()
+    dispatch_chemist = DispatchChemistSerializer()
+    transporter = TransporterSerializer()
+    trader = TraderSerializer()
     class Meta:
         model = Order
         fields = '__all__'
+
+
+class OrderSerializer(serializers.ModelSerializer):
+       class Meta:
+           model = Order
+           fields = '__all__'
+    
 
 class ReasonSerializer(serializers.ModelSerializer):
     class Meta:

@@ -8,11 +8,10 @@ import { ChemistView } from "./chemistView";
 
 
 export const ChemistList = () => {
-    let i = 1
     const [activeComponent, setActiveComponent] = useState("");
     const [chemists, setChemists] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize] = useState(10); // Setting the pagesize for pagination
+    const [pageSize] = useState(5); // Setting the pagesize for pagination
     const [showAddForm, setShowAddForm] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
     const [selectedChemistId, setSelectedChemistId] = useState(null);
@@ -149,7 +148,7 @@ export const ChemistList = () => {
                     </thead>
 
                     <tbody>
-                        {paginatedChemists.map((chemist) => (
+                        {paginatedChemists.map((chemist, index) => (
                             <tr
                                 key={chemist.id}
                                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -158,7 +157,7 @@ export const ChemistList = () => {
                                     scope="row"
                                     className="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-white"
                                 >
-                                    {i++}
+                                     {pageSize * currentPage - pageSize + index + 1}
                                 </th>
                                 <td className="px-6 py-4">{chemist.chemist_name}</td>                               
                                 <td className="px-6 py-4">{chemist.contact}</td>

@@ -8,11 +8,11 @@ import { TraderView } from "./traderView";
 
 
 export const TraderList = () => {
-    let i = 1
+    
     const [activeComponent, setActiveComponent] = useState("");
     const [traders, setTraders] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize] = useState(10); // Setting the pagesize for pagination
+    const [pageSize] = useState(5); // Setting the pagesize for pagination
     const [showAddForm, setShowAddForm] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
     const [selectedTraderId, setSelectedTraderId] = useState(null);
@@ -151,7 +151,7 @@ export const TraderList = () => {
                     </thead>
 
                     <tbody>
-                        {paginatedTraders.map((trader) => (
+                        {paginatedTraders.map((trader, index) => (
                             <tr
                                 key={trader.id}
                                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -160,7 +160,7 @@ export const TraderList = () => {
                                     scope="row"
                                     className="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-white"
                                 >
-                                    {i++}
+                                    {pageSize * currentPage - pageSize + index + 1}
                                 </th>
                                 <td className="px-6 py-4">{trader.trader_name}</td>
                                 <td className="px-6 py-4">{trader.trader_address}</td>
