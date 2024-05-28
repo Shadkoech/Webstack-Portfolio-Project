@@ -5,6 +5,7 @@ import OrderDelete from "./orderDelete";
 import { OrderAdd } from "./orderAdd";
 import { OrderEdit } from "./orderEdit";
 import { OrderView } from "./orderView";
+import { Link } from 'react-router-dom';
 
 
 export const OrderList = () => {
@@ -117,12 +118,12 @@ export const OrderList = () => {
         <div className="relative overflow-x-auto shadow-md mt-20 sm:rounded-lg mr-20">
             <div className="flex justify-between mt-2">
                 <div></div>
-                <button
-                    onClick={toggleAddForm}
+                <Link to='/createOrder'
+                    // onClick={toggleAddForm}
                     className="bg-blue-500 rounded-md py-2 px-4 text-white mb-2 hover:bg-blue-400"
                 >
                     Create order
-                </button>
+                </Link>
             </div>
             {showAddForm && (
                 <OrderAdd

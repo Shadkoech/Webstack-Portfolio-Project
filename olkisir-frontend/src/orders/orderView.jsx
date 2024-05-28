@@ -5,9 +5,8 @@ export const OrderView = ({ orderData, isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-gray-900 p-4 rounded-lg shadow-lg max-w-md w-full">
+      <div className="bg-white dark:bg-gray-900 p-4 rounded-lg shadow-lg max-w-md w-full max-h-[80vh] overflow-y-auto">
         <div className="flex justify-end">
-          <div></div>
           <button
             onClick={onClose}
             className="mt-4 text-sm font-medium text-gray-900 dark:text-white hover:underline"
@@ -16,20 +15,20 @@ export const OrderView = ({ orderData, isOpen, onClose }) => {
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke-width="1.5"
+              strokeWidth="1.5"
               stroke="currentColor"
-              class="size-6"
+              className="size-6"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 d="M6 18 18 6M6 6l12 12"
               />
             </svg>
           </button>
         </div>
         <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-          order Details
+          Order Details
         </h2>
         <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
           <div>
@@ -82,18 +81,19 @@ export const OrderView = ({ orderData, isOpen, onClose }) => {
               htmlFor="order_address"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-            Products
+              Products
             </label>
-            <p>{orderData.product.map((product) => (
-              <div className="border bg-green-300">
-               <p>Type: {product.product_type}</p>
-               <p>SKU: {product.SKU}</p>
-               <p>Brand: {product.brand}</p>
-               <p>Price: {product.price}</p>
-               <p>Quantity: {product.quantity}</p>
-
-              </div>
-              ))}</p>
+            <div>
+              {orderData.product.map((product, index) => (
+                <div key={index} className="border bg-green-300 p-2 mb-2 rounded">
+                  <p>Type: {product.product_type}</p>
+                  <p>SKU: {product.SKU}</p>
+                  <p>Brand: {product.brand}</p>
+                  <p>Price: {product.price}</p>
+                  <p>Quantity: {product.quantity}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
