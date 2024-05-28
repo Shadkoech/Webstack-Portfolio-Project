@@ -37,27 +37,63 @@ export const OrderView = ({ orderData, isOpen, onClose }) => {
               htmlFor="order_type"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              order
+              Destination
             </label>
-            <p>{orderData.order_name}</p>
+            <p>{orderData.destination}</p>
           </div>
           <div>
             <label
               htmlFor="order"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              order address
+              Dispatch Chemist
             </label>
-            <p>{orderData.order_address}</p>
+            <p>{orderData.dispatch_chemist['chemist_name']}</p>
           </div>
           <div>
             <label
               htmlFor="order_address"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              contact
+              Loading Id
             </label>
-            <p>{orderData.contact}</p>
+            <p>{orderData.loading_id}</p>
+          </div>
+          <div>
+            <label
+              htmlFor="order_address"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Trader
+            </label>
+            <p>{orderData.trader['trader_name']}</p>
+          </div>
+          <div>
+            <label
+              htmlFor="order_address"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Transporter
+            </label>
+            <p>{orderData.transporter['transporter_name']}</p>
+          </div>
+          <div>
+            <label
+              htmlFor="order_address"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+            Products
+            </label>
+            <p>{orderData.product.map((product) => (
+              <div className="border bg-green-300">
+               <p>Type: {product.product_type}</p>
+               <p>SKU: {product.SKU}</p>
+               <p>Brand: {product.brand}</p>
+               <p>Price: {product.price}</p>
+               <p>Quantity: {product.quantity}</p>
+
+              </div>
+              ))}</p>
           </div>
         </div>
       </div>

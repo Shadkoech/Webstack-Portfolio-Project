@@ -37,6 +37,7 @@ export const OrderList = () => {
 
     const handleViewOrder = (order) => {
         setSelectedOrder(order);
+        console.log('ee', order)
         toggleViewModal();
     };
 
@@ -89,7 +90,7 @@ export const OrderList = () => {
             
             const response = await axios.get("http://127.0.0.1:8000/api/orders/");
             setOrders(response.data);
-            console.log('orders', response.data)
+            console.log('orders:', response.data)
 
         } catch (error) {
             console.error(
