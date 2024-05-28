@@ -15,6 +15,11 @@ export const OrderEdit = ({ orderId, isOpen, onClose, onUpdateOrder }) => {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState('');
   const [quantity, setQuantity] = useState(1);
+  const [loadingId, setLoadingId] = useState('')
+  const [destination, setDestination] = useState()
+  const [selectedTransporter, setSelectedTransporter] = useState('')
+  const [selectedChemist, setSelectedChemist] = useState('')
+  const [selectedTrader, setSelectedTrader] = useState('')
 
 
 
@@ -30,8 +35,7 @@ export const OrderEdit = ({ orderId, isOpen, onClose, onUpdateOrder }) => {
       axios.get(`http://127.0.0.1:8000/api/orders/${orderId}/`)
         .then(response => {
           setOrderData(response.data);
-
-          setSelectedProducts(response.data.product || []); 
+          setSelectedProducts(response.data.product || []);
         })
         .catch(error => {
           console.error("Error fetching product details:", error);
@@ -39,11 +43,14 @@ export const OrderEdit = ({ orderId, isOpen, onClose, onUpdateOrder }) => {
     }
   }, [orderId]);
 
+  // const [loadingId, setLoadingId] = useState(orderData.loading_id)
 
+  // setLoadingId(orderData.loading_id)
   console.log(selectedProducts);
 
   useEffect(() => {
     console.log("samw", orderData); // Logs the updated orderData
+    // const [loadingId, setLoadingId] = useState(orderData.loading_id)
   }, [orderData]);
 
   const handleSubmit = async (event) => {
@@ -52,8 +59,17 @@ export const OrderEdit = ({ orderId, isOpen, onClose, onUpdateOrder }) => {
 
     try {
       let response;
+      const payload = {
+        loading_id: loadingId,
+        destination: destination,
+        dispatch_chemist: selectedChemist,
+        transporter: selectedTransporter,
+        trader: selectedTrader,
+        product: selectedProducts
+      };
+      console.log('payload', payload)
       if (orderId) {
-        response = await axios.put(`http://127.0.0.1:8000/api/orders/${orderId}/`, orderData);
+        response = await axios.put(`http://127.0.0.1:8000/api/orders/${orderId}/`, payload);
         setMessage("Order updated successfully");
       } else {
         response = await axios.post("http://127.0.0.1:8000/api/orders", orderData);
@@ -93,7 +109,7 @@ export const OrderEdit = ({ orderId, isOpen, onClose, onUpdateOrder }) => {
     }
   };
 
-  
+
   const fetchChemists = async () => {
     try {
       const response = await axios.get('http://127.0.0.1:8000/api/dispatchers/');
@@ -111,6 +127,8 @@ export const OrderEdit = ({ orderId, isOpen, onClose, onUpdateOrder }) => {
       console.error('There was an error fetching products:', error.message);
     }
   };
+
+
 
   const handleAddProduct = () => {
     if (selectedProduct && quantity > 0) {
@@ -143,9 +161,9 @@ export const OrderEdit = ({ orderId, isOpen, onClose, onUpdateOrder }) => {
       <section className="bg-white dark:bg-gray-900">
         <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
           <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-            Make a new Order
+            Update a Order
           </h2>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
               <div className="sm:col-span-2">
                 <label
@@ -159,6 +177,7 @@ export const OrderEdit = ({ orderId, isOpen, onClose, onUpdateOrder }) => {
                   name="loading_id"
                   id="loading_id"
                   value={orderData.loading_id}
+                  onChange={(e) => setLoadingId(e.target.value)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Loading ID"
                   required
@@ -175,7 +194,7 @@ export const OrderEdit = ({ orderId, isOpen, onClose, onUpdateOrder }) => {
                   name="trader"
                   id="trader"
                   // value={orderData.trader['trader_name']}
-                  // onChange={(e) => setSelectedTrader(e.target.value)}
+                  onChange={(e) => setSelectedTrader(e.target.value)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   required
                 >
@@ -200,7 +219,7 @@ export const OrderEdit = ({ orderId, isOpen, onClose, onUpdateOrder }) => {
                   id="product"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Choose the product"
-                  // onClick={() => setShowModal(true)}
+                  onClick={() => setShowModal(true)}
                   readOnly
                 />
               </div>
@@ -214,8 +233,8 @@ export const OrderEdit = ({ orderId, isOpen, onClose, onUpdateOrder }) => {
                 <select
                   name="transporter"
                   id="transporter"
-                  // value={selectedTransporter}
-                  // onChange={(e) => setSelectedTransporter(e.target.value)}
+                  value={selectedTransporter}
+                  onChange={(e) => setSelectedTransporter(e.target.value)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   required
                 >
@@ -239,7 +258,7 @@ export const OrderEdit = ({ orderId, isOpen, onClose, onUpdateOrder }) => {
                   name="destination"
                   id="destination"
                   value={orderData.destination}
-                  // onChange={(e) => setDestination(e.target.value)}
+                  onChange={(e) => setDestination(e.target.value)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Input destination"
                   required
@@ -255,8 +274,8 @@ export const OrderEdit = ({ orderId, isOpen, onClose, onUpdateOrder }) => {
                 <select
                   name="chemist"
                   id="chemist"
-                  // value={selectedChemist}
-                  // onChange={(e) => setSelectedChemist(e.target.value)}
+                  value={selectedChemist}
+                  onChange={(e) => setSelectedChemist(e.target.value)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   required
                 >
@@ -274,7 +293,7 @@ export const OrderEdit = ({ orderId, isOpen, onClose, onUpdateOrder }) => {
               <ul>
                 {selectedProducts.map((product, index) => (
                   <li className='space-x-3'
-                  key={index}>
+                    key={index}>
                     <span>{product.product_type} - {product.brand} - {product.SKU} - {product.quantity}</span>
                     <button
                       onClick={() => handleRemoveProduct(product.id)}
