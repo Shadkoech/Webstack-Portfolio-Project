@@ -52,6 +52,24 @@ class OrderSerializer(serializers.ModelSerializer):
         order = Order.objects.create(dispatch_chemist=dispatch_chemist, transporter=transporter, **validated_data)
         return order
     
+    def update(self, instance, validated_data):
+        dispatch_chemist_data = validated_data.pop('dispatch_chemist')
+        transporter_data = validated_data.pop('transporter')
+
+        # Update or create the dispatch chemist
+        dispatch_chemist, _ = DispatchChemist.objects.update_or_create(id=instance.dispatch_chemist.id, defaults=dispatch_chemist_data)
+        instance.dispatch_chemist = dispatch_chemist
+
+        # Update or create the transporter
+        transporter, _ = Transporter.objects.update_or_create(id=instance.transporter.id, defaults=transporter_data)
+        instance.transporter = transporter
+
+        # Update the remaining fields in the order
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        
+        instance.save()
+        return instance
 
 class ReasonSerializer(serializers.ModelSerializer):
     class Meta:

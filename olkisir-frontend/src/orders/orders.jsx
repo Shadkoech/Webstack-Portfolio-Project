@@ -1,37 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Modal from '../modal/Modal';
-import axios from 'axios';
+import { useForm, Controller } from 'react-hook-form';
+import PropTypes from 'prop-types';
 
-export const Orders = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [products, setProducts] = useState([]);
+export const Orders = ({ isOpen, onClose, onAddOrders }) => {
+  const { register, handleSubmit, control, reset } = useForm();
   const [traders, setTraders] = useState([]);
-  const [transporters, setTransporters] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const [chemists, setChemists] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
+  const [transporters, setTransporters] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState('');
-  const [selectedTrader, setSelectedTrader] = useState('');
-  const [selectedTransporter, setSelectedTransporter] = useState('');
-  const [selectedChemist, setSelectedChemist] = useState('');
   const [quantity, setQuantity] = useState(1);
-  const [loadingId, setLoadingId] = useState('');
-  const [destination, setDestination] = useState('');
 
   useEffect(() => {
-    fetchProducts();
     fetchTraders();
+    fetchProducts();
     fetchTransporters();
     fetchChemists();
-  }, []);
-
-  const fetchProducts = async () => {
-    try {
-      const response = await axios.get('http://127.0.0.1:8000/api/products/');
-      setProducts(response.data);
-    } catch (error) {
-      console.error('There was an error fetching products:', error.message);
-    }
-  };
+  }, [])
 
   const fetchTraders = async () => {
     try {
@@ -39,6 +28,15 @@ export const Orders = () => {
       setTraders(response.data);
     } catch (error) {
       console.error('There was an error fetching traders:', error.message);
+    }
+  };
+
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/api/products/');
+      setProducts(response.data);
+    } catch (error) {
+      console.error('There was an error fetching products:', error.message);
     }
   };
 
@@ -73,40 +71,67 @@ export const Orders = () => {
     }
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const onSubmit = async (data) => {
     try {
-      // Get selected chemist and transporter objects
-      const selectedChemistObj = chemists.find(chemist => chemist.id === parseInt(selectedChemist));
-      const selectedTransporterObj = transporters.find(transporter => transporter.id === parseInt(selectedTransporter));
+      const selectedChemistObj = chemists.find(chemist => chemist.id === parseInt(data.chemist));
+      const selectedTransporterObj = transporters.find(transporter => transporter.id === parseInt(data.transporter));
 
       const payload = {
-        loading_id: loadingId,
-        destination: destination,
+        loading_id: data.loading_id,
+        destination: data.destination,
         dispatch_chemist: selectedChemistObj,
         transporter: selectedTransporterObj,
-        trader: selectedTrader,
-        product: selectedProducts
+        trader: data.trader,
+        product: selectedProducts,
       };
+
       console.log(payload);
       const response = await axios.post('http://127.0.0.1:8000/api/orders/', payload);
       console.log('Order created:', response.data);
+
+      onAddOrders(response.data);
+      onClose();
       
+      // Reset form after successful submission
+      reset();
+      setSelectedProducts([]);
     } catch (error) {
       console.error('Error creating order:', error);
     }
   };
 
   return (
-    <div>
-      <section className="bg-white dark:bg-gray-900">
-        <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-          <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-            Make a new Order 
-          </h2>
-          <form onSubmit={handleSubmit}>
-            <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
-              <div className="sm:col-span-2">
+    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+      <div className="bg-white dark:bg-gray-900 p-4 rounded-lg shadow-lg max-w-md w-full">
+      <div className="flex justify-end">
+          <div></div>
+        <button
+          onClick={onClose}
+          className="mt-4 text-sm font-medium text-gray-900 dark:text-white hover:underline"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18 18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+        </div>
+        <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
+          Add a new Order
+        </h2>
+        {/* {message && <p className={message.includes("error") ? "text-red-500" : "text-green-500"}>{message}</p>} */}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
+          <div className="sm:col-span-2">
                 <label
                   htmlFor="loading_id"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -115,37 +140,43 @@ export const Orders = () => {
                 </label>
                 <input
                   type="text"
-                  name="loading_id"
                   id="loading_id"
-                  onChange={(e) => setLoadingId(e.target.value)}
+                  {...register("loading_id", { required: true })}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Loading ID"
                   required
                 />
-              </div>
-              <div className="w-full">
+            </div>
+
+            <div className="w-full">
                 <label
                   htmlFor="trader"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Trader
                 </label>
-                <select
+                <Controller
                   name="trader"
-                  id="trader"
-                  value={selectedTrader}
-                  onChange={(e) => setSelectedTrader(e.target.value)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  required
-                >
-                  <option value="">Select a trader</option>
-                  {traders.map((trader) => (
-                    <option key={trader.id} value={trader.id}>
-                      {trader.trader_name} - {trader.trader_address} - {trader.contact}
-                    </option>
-                  ))}
-                </select>
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <select
+                      id="trader"
+                      {...field}
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      required
+                    >
+                      <option value="">Select a trader</option>
+                      {traders.map((trader) => (
+                        <option key={trader.id} value={trader.id}>
+                          {trader.trader_name} - {trader.trader_address} - {trader.contact}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                />
               </div>
+
               <div className="w-full">
                 <label
                   htmlFor="product"
@@ -155,7 +186,6 @@ export const Orders = () => {
                 </label>
                 <input
                   type="text"
-                  name="product"
                   id="product"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Choose the product"
@@ -163,6 +193,7 @@ export const Orders = () => {
                   readOnly
                 />
               </div>
+
               <div className="w-full">
                 <label
                   htmlFor="transporter"
@@ -170,22 +201,29 @@ export const Orders = () => {
                 >
                   Transporter
                 </label>
-                <select
+                <Controller
                   name="transporter"
-                  id="transporter"
-                  value={selectedTransporter}
-                  onChange={(e) => setSelectedTransporter(e.target.value)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  required
-                >
-                  <option value="">Select a transporter</option>
-                  {transporters.map((transporter) => (
-                    <option key={transporter.id} value={transporter.id}>
-                      {transporter.transporter_name} - {transporter.representative} - {transporter.contact}
-                    </option>
-                  ))}
-                </select>
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <select
+                      id="transporter"
+                      {...field}
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      required
+                    >
+                      <option value="">Select a transporter</option>
+                      {transporters.map((transporter) => (
+                        <option key={transporter.id} value={transporter.id}>
+                          {transporter.transporter_name} - {transporter.representative} - {transporter.contact}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                />
               </div>
+              {/* destination */}
+              
               <div>
                 <label
                   htmlFor="destination"
@@ -195,14 +233,14 @@ export const Orders = () => {
                 </label>
                 <input
                   type="text"
-                  name="destination"
                   id="destination"
-                  onChange={(e) => setDestination(e.target.value)}
+                  {...register("destination", { required: true })}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Input destination"
                   required
                 />
               </div>
+
               <div className="w-full">
                 <label
                   htmlFor="chemist"
@@ -210,24 +248,29 @@ export const Orders = () => {
                 >
                   Dispatch Chemist
                 </label>
-                <select
+                <Controller
                   name="chemist"
-                  id="chemist"
-                  value={selectedChemist}
-                  onChange={(e) => setSelectedChemist(e.target.value)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  required
-                >
-                  <option value="">Select a dispatch chemist</option>
-                  {chemists.map((chemist) => (
-                    <option key={chemist.id} value={chemist.id}>
-                      {chemist.chemist_name} - {chemist.contact}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-            <div className="mt-4">
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <select
+                      id="chemist"
+                      {...field}
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      required
+                    >
+                      <option value="">Select a dispatch chemist</option>
+                      {chemists.map((chemist) => (
+                        <option key={chemist.id} value={chemist.id}>
+                          {chemist.chemist_name} - {chemist.contact}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                />
+              </div> 
+
+              <div className="mt-4">
               <h3 className="text-lg font-medium text-gray-900 dark:text-white">Selected Products</h3>
               <ul>
                 {selectedProducts.map((product, index) => (
@@ -241,11 +284,13 @@ export const Orders = () => {
               type="submit"
               className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
             >
-              Create order
+              Make order
             </button>
-          </form>
-        </div>
-      </section>
+
+            </div>
+            
+        </form>
+      </div>
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <h2 className="text-xl font-bold mb-4">Select Products</h2>
         <div className="mb-4">
@@ -296,4 +341,10 @@ export const Orders = () => {
       </Modal>
     </div>
   );
+};
+
+Orders.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onAddOrders: PropTypes.func,
 };

@@ -78,17 +78,3 @@ class CustomOrder(APIView):
         }
         
         return Response(response_data, status=status.HTTP_200_OK)
-
-# class TraderOrderApiView(APIView):
-#     """implements get method for orders of a given trader"""
-
-#     def get(self, request, traderId, format=None):
-#         try:
-#             trader = Trader.objects.get(pk=traderId)
-#         except Trader.DoesNotExist:
-#             return Response(status=status.HTTP_404_NOT_FOUND)
-        
-#         orders = Order.objects.filter(trader=trader)
-#         serializer = OrderSerializer(orders, many=True)
-
-#         return Response(serializer.data, status=status.HTTP_200_OK)

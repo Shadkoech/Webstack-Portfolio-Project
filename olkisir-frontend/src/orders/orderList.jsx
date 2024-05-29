@@ -2,14 +2,12 @@ import React, { useEffect, useState } from "react";
 import Modal from "../modal/Modal";
 import axios from "axios";
 import OrderDelete from "./orderDelete";
-import { OrderAdd } from "./orderAdd";
-import { OrderEdit } from "./orderEdit";
 import { OrderView } from "./orderView";
-import { Link } from 'react-router-dom';
-
+import { Orders } from "./orders";
+import { OrderEdit } from "./orderEdit";
 
 export const OrderList = () => {
-    let i = 1
+    // let i = 1
     const [activeComponent, setActiveComponent] = useState("");
     const [orders, setOrders] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -38,7 +36,6 @@ export const OrderList = () => {
 
     const handleViewOrder = (order) => {
         setSelectedOrder(order);
-        console.log('ee', order)
         toggleViewModal();
     };
 
@@ -88,14 +85,11 @@ export const OrderList = () => {
 
     const handleOrders = async () => {
         try {
-            
             const response = await axios.get("http://127.0.0.1:8000/api/orders/");
             setOrders(response.data);
-            console.log('orders:', response.data)
-
         } catch (error) {
             console.error(
-                "There was an error fetching orders from backend:",
+                "There was an error fetching products from backend:",
                 error.message
             );
         }
@@ -118,18 +112,18 @@ export const OrderList = () => {
         <div className="relative overflow-x-auto shadow-md mt-20 sm:rounded-lg mr-20">
             <div className="flex justify-between mt-2">
                 <div></div>
-                <Link to='/createOrder'
-                    // onClick={toggleAddForm}
+                <button
+                    onClick={toggleAddForm}
                     className="bg-blue-500 rounded-md py-2 px-4 text-white mb-2 hover:bg-blue-400"
                 >
-                    Create order
-                </Link>
+                    Create Order
+                </button>
             </div>
             {showAddForm && (
-                <OrderAdd
+                <Orders
                     isOpen={showAddForm}
                     onClose={toggleAddForm}
-                    onAddOrder={handleAddOrderList}
+                    onAddOrders={handleAddOrderList}
                 />
             )}
 
@@ -140,16 +134,18 @@ export const OrderList = () => {
                             <th scope="col" className="px-6 py-3">
                                 No.
                             </th>
+                            {/* <th scope="col" className="px-6 py-3">
+                                Loading ID
+                            </th> */}
                             <th scope="col" className="px-6 py-3">
-                                Trader
+                                Time dispatched
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Destination
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 Transporter
                             </th>
-                            <th scope="col" className="px-6 py-3">
-                                Chemist Name
-                            </th>
-
                             <th scope="col" className="px-6 py-3">
                                 Actions
                             </th>
@@ -166,11 +162,13 @@ export const OrderList = () => {
                                     scope="row"
                                     className="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-white"
                                 >
-                                     {pageSize * currentPage - pageSize + index + 1}
+                                    {pageSize * currentPage - pageSize + index + 1}
+
                                 </th>
-                                <td className="px-6 py-4">{order.trader['trader_name']}</td>
-                                <td className="px-6 py-4">{order.transporter['transporter_name']}</td>
-                                <td className="px-6 py-4">{order.dispatch_chemist['chemist_name']}</td>
+                                {/* <td className="px-6 py-4">{order.loading_id}</td> */}
+                                <td className="px-6 py-4">{order.time_dispatched}</td>
+                                <td className="px-6 py-4">{order.destination}</td>
+                                <td className="px-6 py-4">{order.transporter.transporter_name}</td>
                                 <td className="px-6 py-4 text-right">
                                     <div className="text-left flex justify-between space-x-2 w-4">
                                         <button

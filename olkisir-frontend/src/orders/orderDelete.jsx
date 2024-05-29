@@ -9,7 +9,6 @@ function OrderDelete({ orderId, onDelete }) {
       await axios.delete(`http://localhost:8000/api/orders/${orderId}/`);
       onDelete(orderId);
       closeModal();
-      // window.location.reload()
     } catch (error) {
       console.error(error.message);
     }
