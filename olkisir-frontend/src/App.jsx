@@ -10,6 +10,7 @@ import ProductDelete from './products/productDelete';
 import PrivateRoute from './users/PrivateRoute';
 import PublicRoute from './users/PublicRoute';
 import { OrderAdd } from './orders/orderAdd';
+import { TraderOders } from './orders/TraderOders';
 
 
 function App() {
@@ -30,7 +31,9 @@ function App() {
         <Route path='/editProduct/:productId' element={<ProductEdit />} />
         <Route path='/viewProduct/:productId' element={<ProductView />} />
         <Route path='/deleteProduct/:productId' element={<ProductDelete />} />
-        <Route path='/createOrder' element={<OrderAdd />} />
+        {/* <Route path='/createOrder' element={<OrderAdd />} /> */}
+
+        <Route path='traderOrders' element={<TraderOders />} />
 
         {/* <Route path='/productList' element={<ProductsList/>}/> */}
       </Routes>

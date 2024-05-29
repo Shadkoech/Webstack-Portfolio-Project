@@ -36,9 +36,21 @@ class FetchOrderSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-       class Meta:
-           model = Order
-           fields = '__all__'
+    dispatch_chemist = DispatchChemistSerializer()
+    transporter = TransporterSerializer()
+    class Meta:
+        model = Order
+        fields = '__all__'
+    
+    def create(self, validated_data):
+        dispatch_chemist_data = validated_data.pop('dispatch_chemist')
+        transporter_data = validated_data.pop('transporter')
+
+        dispatch_chemist, _ = DispatchChemist.objects.get_or_create(**dispatch_chemist_data)
+        transporter, _ = Transporter.objects.get_or_create(**transporter_data)
+
+        order = Order.objects.create(dispatch_chemist=dispatch_chemist, transporter=transporter, **validated_data)
+        return order
     
 
 class ReasonSerializer(serializers.ModelSerializer):

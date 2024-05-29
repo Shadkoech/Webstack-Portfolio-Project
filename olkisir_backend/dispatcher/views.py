@@ -2,6 +2,7 @@ from .models import DispatchChemist, Transporter, Trader, Product, Reason, Order
 from rest_framework import permissions, viewsets, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import action
 from .serializers import DispatchChemistSerializer, FetchOrderSerializer, TransporterSerializer, TraderSerializer, ProductSerializer, OrderSerializer, ReasonSerializer, ReturnSerializer
 
 
@@ -34,6 +35,17 @@ class OrderViewSet(viewsets.ModelViewSet):
         if self.action == 'list' or self.action == 'retrieve':
             return FetchOrderSerializer
         return OrderSerializer
+    
+    @action(detail=True, methods=['get'])
+    def trader_orders(self, request, pk=None):
+        try:
+            trader = Trader.objects.get(pk=pk)
+        except Trader.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        orders = Order.objects.filter(trader=trader)
+        serializer = OrderSerializer(orders, many=True)
+        return Response(serializer.data)
 
 class ReturnViewSet(viewsets.ModelViewSet):
     queryset = Return.objects.all()
@@ -66,3 +78,17 @@ class CustomOrder(APIView):
         }
         
         return Response(response_data, status=status.HTTP_200_OK)
+
+# class TraderOrderApiView(APIView):
+#     """implements get method for orders of a given trader"""
+
+#     def get(self, request, traderId, format=None):
+#         try:
+#             trader = Trader.objects.get(pk=traderId)
+#         except Trader.DoesNotExist:
+#             return Response(status=status.HTTP_404_NOT_FOUND)
+        
+#         orders = Order.objects.filter(trader=trader)
+#         serializer = OrderSerializer(orders, many=True)
+
+#         return Response(serializer.data, status=status.HTTP_200_OK)

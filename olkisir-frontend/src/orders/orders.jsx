@@ -1,10 +1,8 @@
-import { useState, useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import React, { useState, useEffect } from 'react';
 import Modal from '../modal/Modal';
 import axios from 'axios';
 
-export const OrderAdd = () => {
-  const { register, handleSubmit, control, reset } = useForm();
+export const Orders = () => {
   const [showModal, setShowModal] = useState(false);
   const [products, setProducts] = useState([]);
   const [traders, setTraders] = useState([]);
@@ -12,7 +10,12 @@ export const OrderAdd = () => {
   const [chemists, setChemists] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState('');
+  const [selectedTrader, setSelectedTrader] = useState('');
+  const [selectedTransporter, setSelectedTransporter] = useState('');
+  const [selectedChemist, setSelectedChemist] = useState('');
   const [quantity, setQuantity] = useState(1);
+  const [loadingId, setLoadingId] = useState('');
+  const [destination, setDestination] = useState('');
 
   useEffect(() => {
     fetchProducts();
@@ -70,27 +73,25 @@ export const OrderAdd = () => {
     }
   };
 
-  const onSubmit = async (data) => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      const selectedChemistObj = chemists.find(chemist => chemist.id === parseInt(data.chemist));
-      const selectedTransporterObj = transporters.find(transporter => transporter.id === parseInt(data.transporter));
+      // Get selected chemist and transporter objects
+      const selectedChemistObj = chemists.find(chemist => chemist.id === parseInt(selectedChemist));
+      const selectedTransporterObj = transporters.find(transporter => transporter.id === parseInt(selectedTransporter));
 
       const payload = {
-        loading_id: data.loading_id,
-        destination: data.destination,
+        loading_id: loadingId,
+        destination: destination,
         dispatch_chemist: selectedChemistObj,
         transporter: selectedTransporterObj,
-        trader: data.trader,
-        product: selectedProducts,
+        trader: selectedTrader,
+        product: selectedProducts
       };
-
       console.log(payload);
       const response = await axios.post('http://127.0.0.1:8000/api/orders/', payload);
       console.log('Order created:', response.data);
       
-      // Reset form after successful submission
-      reset();
-      setSelectedProducts([]);
     } catch (error) {
       console.error('Error creating order:', error);
     }
@@ -103,7 +104,7 @@ export const OrderAdd = () => {
           <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
             Make a new Order 
           </h2>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit}>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
               <div className="sm:col-span-2">
                 <label
@@ -114,8 +115,9 @@ export const OrderAdd = () => {
                 </label>
                 <input
                   type="text"
+                  name="loading_id"
                   id="loading_id"
-                  {...register("loading_id", { required: true })}
+                  onChange={(e) => setLoadingId(e.target.value)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Loading ID"
                   required
@@ -128,26 +130,21 @@ export const OrderAdd = () => {
                 >
                   Trader
                 </label>
-                <Controller
+                <select
                   name="trader"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <select
-                      id="trader"
-                      {...field}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      required
-                    >
-                      <option value="">Select a trader</option>
-                      {traders.map((trader) => (
-                        <option key={trader.id} value={trader.id}>
-                          {trader.trader_name} - {trader.trader_address} - {trader.contact}
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                />
+                  id="trader"
+                  value={selectedTrader}
+                  onChange={(e) => setSelectedTrader(e.target.value)}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  required
+                >
+                  <option value="">Select a trader</option>
+                  {traders.map((trader) => (
+                    <option key={trader.id} value={trader.id}>
+                      {trader.trader_name} - {trader.trader_address} - {trader.contact}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="w-full">
                 <label
@@ -158,6 +155,7 @@ export const OrderAdd = () => {
                 </label>
                 <input
                   type="text"
+                  name="product"
                   id="product"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Choose the product"
@@ -172,26 +170,21 @@ export const OrderAdd = () => {
                 >
                   Transporter
                 </label>
-                <Controller
+                <select
                   name="transporter"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <select
-                      id="transporter"
-                      {...field}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      required
-                    >
-                      <option value="">Select a transporter</option>
-                      {transporters.map((transporter) => (
-                        <option key={transporter.id} value={transporter.id}>
-                          {transporter.transporter_name} - {transporter.representative} - {transporter.contact}
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                />
+                  id="transporter"
+                  value={selectedTransporter}
+                  onChange={(e) => setSelectedTransporter(e.target.value)}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  required
+                >
+                  <option value="">Select a transporter</option>
+                  {transporters.map((transporter) => (
+                    <option key={transporter.id} value={transporter.id}>
+                      {transporter.transporter_name} - {transporter.representative} - {transporter.contact}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div>
                 <label
@@ -202,8 +195,9 @@ export const OrderAdd = () => {
                 </label>
                 <input
                   type="text"
+                  name="destination"
                   id="destination"
-                  {...register("destination", { required: true })}
+                  onChange={(e) => setDestination(e.target.value)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Input destination"
                   required
@@ -216,26 +210,21 @@ export const OrderAdd = () => {
                 >
                   Dispatch Chemist
                 </label>
-                <Controller
+                <select
                   name="chemist"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <select
-                      id="chemist"
-                      {...field}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      required
-                    >
-                      <option value="">Select a dispatch chemist</option>
-                      {chemists.map((chemist) => (
-                        <option key={chemist.id} value={chemist.id}>
-                          {chemist.chemist_name} - {chemist.contact}
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                />
+                  id="chemist"
+                  value={selectedChemist}
+                  onChange={(e) => setSelectedChemist(e.target.value)}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  required
+                >
+                  <option value="">Select a dispatch chemist</option>
+                  {chemists.map((chemist) => (
+                    <option key={chemist.id} value={chemist.id}>
+                      {chemist.chemist_name} - {chemist.contact}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
             <div className="mt-4">
