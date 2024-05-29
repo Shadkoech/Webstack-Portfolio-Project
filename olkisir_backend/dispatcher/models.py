@@ -48,5 +48,6 @@ class Reason(models.Model):
 
 class Return(models.Model):
     order_id = models.ForeignKey(Order, null=True, on_delete=models.CASCADE)
-    product_returned = models.ForeignKey(Product, on_delete=models.CASCADE)
-    return_reason = models.ForeignKey(Reason, on_delete=models.CASCADE)
+    products =  JSONField(default=list, blank=True)
+    # product_returned = models.ForeignKey(Product, on_delete=models.CASCADE)
+    # return_reason = models.ForeignKey(Reason, on_delete=models.CASCADE)
