@@ -11,7 +11,7 @@ export const TraderOders = () => {
     const [orders, setOrders] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize] = useState(5); // Setting the pagesize for pagination
-    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [selectedOrder, setSelectedOrder] = useState(null);
     const [showViewModal, setShowViewModal] = useState(false);
 
     const totalPages = Math.ceil(orders.length / pageSize); // calculating total no of pages
@@ -21,7 +21,7 @@ export const TraderOders = () => {
     };
 
     const handleViewProduct = (order) => {
-        setSelectedProduct(order);
+        setSelectedOrder(order);
         toggleViewModal();
     };
 
@@ -179,7 +179,7 @@ export const TraderOders = () => {
             >
                 {showViewModal && (
                     <TraderOderView
-                        productData={selectedProduct}
+                        orderData={selectedOrder}
                         isOpen={showViewModal}
                         onClose={toggleViewModal}
                     />
