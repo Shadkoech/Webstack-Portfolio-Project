@@ -11,6 +11,7 @@ import PrivateRoute from './users/PrivateRoute';
 import PublicRoute from './users/PublicRoute';
 import { OrderAdd } from './orders/orderAdd';
 import { TraderOders } from './orders/TraderOders';
+import { TraderDashboard } from './panel/TraderDashboard';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         </PublicRoute>} />
         <Route path='/login' element={<Login />} />
         <Route path='/' element={<Home />} />
+        <Route path='traderdashboard' element={<TraderDashboard/>}></Route>
         <Route path='/dispatcher'
           element={<PrivateRoute>
             <Dispatcher />
