@@ -1,3 +1,4 @@
+from django.core.exceptions import MultipleObjectsReturned
 from rest_framework import serializers
 from .models import DispatchChemist, Transporter, Trader, Product, Reason, Order, Return
 
@@ -47,7 +48,11 @@ class OrderSerializer(serializers.ModelSerializer):
         transporter_data = validated_data.pop('transporter')
 
         dispatch_chemist, _ = DispatchChemist.objects.get_or_create(**dispatch_chemist_data)
-        transporter, _ = Transporter.objects.get_or_create(**transporter_data)
+
+        try:
+            transporter, _ = Transporter.objects.get_or_create(**transporter_data)
+        except MultipleObjectsReturned:
+            transporter = Transporter.objects.filter(**transporter_data).first()
 
         order = Order.objects.create(dispatch_chemist=dispatch_chemist, transporter=transporter, **validated_data)
         return order
