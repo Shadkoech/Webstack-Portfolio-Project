@@ -7,13 +7,14 @@ import { ReturnsForm } from "../Returns/returnsForm";
 const orderId = 3;
 
 export const TraderOders = () => {
-  // let i = 1
   const [activeComponent, setActiveComponent] = useState("");
   const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(5); // Setting the pagesize for pagination
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [showViewModal, setShowViewModal] = useState(false);
+  const [showReturnForm, setShowReturnForm] = useState(false);
 
   const totalPages = Math.ceil(orders.length / pageSize); // calculating total no of pages
 
@@ -21,11 +22,15 @@ export const TraderOders = () => {
     setShowViewModal(!showViewModal);
   };
 
+  const toggleReturnForm = (orderId) => {
+    setSelectedOrderId(orderId);
+    setShowReturnForm(!showReturnForm);
+  };
+
   const handleViewProduct = (order) => {
     setSelectedProduct(order);
     toggleViewModal();
   };
-
 
   const renderCrud = () => {
     switch (activeComponent) {
@@ -39,10 +44,10 @@ export const TraderOders = () => {
         return null;
       case "initiatereturns":
         return (
-            <div>
-                <ReturnsForm/>
-            </div>
-        )  
+          <div>
+            <ReturnsForm />
+          </div>
+        );
     }
   };
 
@@ -52,13 +57,12 @@ export const TraderOders = () => {
         `http://127.0.0.1:8000/api/orders/${orderId}/trader_orders/`
       );
       setOrders(response.data);
-      console.log(response.data)
+      console.log(response.data);
     } catch (error) {
       console.error(
         "There was an error fetching products from backend:",
         error.message
       );
-    //   console.log(orders)
     }
   };
 
@@ -131,38 +135,38 @@ export const TraderOders = () => {
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
-                        stroke-width="1.5"
+                        strokeWidth="1.5"
                         stroke="currentColor"
-                        class="size-6"
+                        className="size-6"
                       >
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                           d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
                         />
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                           d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                         />
                       </svg>
                     </a>
                     <button
-                      onClick={() => setActiveComponent("initiatereturns")}
-                      className=" text-blue-500 mt-2 size-5"
+                      onClick={() => toggleReturnForm(order)}
+                      className="text-blue-500 mt-2 size-5"
                     >
                       {/* returns button */}
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
-                        stroke-width="1.5"
+                        strokeWidth="1.5"
                         stroke="currentColor"
-                        class="size-6"
+                        className="size-6"
                       >
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                           d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
                         />
                       </svg>
@@ -190,7 +194,6 @@ export const TraderOders = () => {
             disabled={currentPage === 1}
             className="mr-2 bg-orange-200 hover:bg-orange-300 text-black font-bold py-1 px-2 rounded-md text-sm"
           >
-            {/* {"<"} */}
             Previous
           </button>
           {/* Next button */}
@@ -199,20 +202,29 @@ export const TraderOders = () => {
             disabled={currentPage === totalPages}
             className="bg-orange-200 hover:bg-orange-300 text-black font-bold py-1 px-2 rounded-md text-sm mr-5"
           >
-            {/* {">"} */}
-            next
+            Next
           </button>
         </div>
       </div>
 
       <div className="p-4 sm:ml-64">{renderCrud()}</div>
 
-      <Modal isOpen={showViewModal}>
+      <Modal isOpen={showViewModal} onClose={toggleViewModal}>
         {showViewModal && (
           <TraderOderView
             productData={selectedProduct}
             isOpen={showViewModal}
             onClose={toggleViewModal}
+          />
+        )}
+      </Modal>
+
+      <Modal isOpen={showReturnForm} onClose={toggleReturnForm}>
+        {showReturnForm && (
+          <ReturnsForm
+            orderData={selectedOrderId}
+            isOpen={showReturnForm}
+            onClose={toggleReturnForm}
           />
         )}
       </Modal>
