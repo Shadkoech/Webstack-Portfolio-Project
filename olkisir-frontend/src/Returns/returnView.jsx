@@ -2,6 +2,7 @@ import React from "react";
 
 export const ReturnView = ({ returnData, isOpen, onClose }) => {
   if (!isOpen || !returnData) return null;
+  console.log('view', returnData)
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -37,27 +38,39 @@ export const ReturnView = ({ returnData, isOpen, onClose }) => {
               htmlFor="return_type"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              return
+              Trader
             </label>
-            <p>{returnData.return_name}</p>
+            <p>{returnData.trader}</p>
           </div>
           <div>
             <label
               htmlFor="return"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              return address
+              Transporter
             </label>
-            <p>{returnData.return_address}</p>
+            <p>{returnData.transporter}</p>
           </div>
           <div>
             <label
               htmlFor="return_address"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              contact
+              Destination
             </label>
-            <p>{returnData.contact}</p>
+            <p>{returnData.destination}</p>
+          </div>
+          <div>
+            {returnData.products.map((product, index)=>(
+              <div index={index}>
+                <div className="bg-gray-400 border-2">
+                <p>Brand: {product.brand}</p>
+                <p>quantity: {product.quantity}</p>
+                <p>Reason: {product.reason}</p>                
+                </div>
+                
+              </div>
+            ))}
           </div>
         </div>
       </div>

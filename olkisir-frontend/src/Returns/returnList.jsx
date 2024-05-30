@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import Modal from "../modal/Modal";
 import axios from "axios";
 import ReturnDelete from "./returnDelete";
-// import { ReturnAdd } from "./returnAdd";
-import { ReturnEdit } from "./returnEdit";
+import { ProcessReturn } from "./processReturn";
 import { ReturnView } from "./returnView";
 
 
 export const ReturnList = () => {
-    
+
     const [activeComponent, setActiveComponent] = useState("");
     const [returns, setReturns] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -44,21 +43,9 @@ export const ReturnList = () => {
         setReturns(returns.filter((remit) => remit.id !== returnId));
     };
 
-    const handleUpdateReturnList = (updatedReturn) => {
-        setReturns((prevReturns) => {
-            const updatedReturns = prevReturns.map((remit) => {
-                if (remit.id === updatedReturn.id) {
-                    return updatedReturn;
-                }
-                return remit;
-            });
-            return updatedReturns;
-        });
-    };
 
-    const handleAddReturnList = (newReturn) => {
-        setReturns((prevReturns) => [...prevReturns, newReturn]);
-    };
+
+
 
 
     const renderCrud = () => {
@@ -112,7 +99,7 @@ export const ReturnList = () => {
 
     return (
         <div className="relative overflow-x-auto shadow-md mt-20 sm:rounded-lg mr-20">
-            <div className="flex justify-between mt-2">
+            {/* <div className="flex justify-between mt-2">
                 <div></div>
                 <button
                     onClick={toggleAddForm}
@@ -127,7 +114,7 @@ export const ReturnList = () => {
                     onClose={toggleAddForm}
                     onAddReturn={handleAddReturnList}
                 />
-            )}
+            )} */}
 
             <div className="rounded-lg overflow-hidden border border-gray-500">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -140,10 +127,13 @@ export const ReturnList = () => {
                                 OrderId
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Return Address
+                                Trader
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Contact
+                                Transporter
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Destination
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 Actions
@@ -164,8 +154,9 @@ export const ReturnList = () => {
                                     {pageSize * currentPage - pageSize + index + 1}
                                 </th>
                                 <td className="px-6 py-4">{remit.order_id}</td>
-                                <td className="px-6 py-4">{remit.return_address}</td>
-                                <td className="px-6 py-4">{remit.contact}</td>
+                                <td className="px-6 py-4">{remit.trader}</td>
+                                <td className="px-6 py-4">{remit.transporter}</td>
+                                <td className="px-6 py-4">{remit.destination}</td>
                                 <td className="px-6 py-4 text-right">
                                     <div className="text-left flex justify-between space-x-2 w-4">
                                         <button
@@ -173,20 +164,11 @@ export const ReturnList = () => {
                                             className=" text-blue-500"
                                         >
                                             {/* Edit button */}
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                strokeWidth={1.5}
-                                                stroke="currentColor"
-                                                className="size-6"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
-                                                />
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 18.75 7.5-7.5 7.5 7.5" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 7.5-7.5 7.5 7.5" />
                                             </svg>
+
                                         </button>
                                         <a
                                             onClick={() => handleViewReturn(remit)}
@@ -262,11 +244,9 @@ export const ReturnList = () => {
                 onClose={() => setShowEditForm(false)}
             >
                 {showEditForm && (
-                    <ReturnEdit
-                        returnId={selectedReturnId}
+                    <ProcessReturn
                         isOpen={showEditForm}
                         onClose={() => setShowEditForm(false)}
-                        onUpdateReturn={handleUpdateReturnList}
                     />
                 )}
                 {showViewModal && (

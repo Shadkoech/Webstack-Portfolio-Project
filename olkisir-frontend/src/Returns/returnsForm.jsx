@@ -27,7 +27,9 @@ export const ReturnsForm = ({ orderData, onClose }) => {
     const data = {
       order_id: orderData.id,
       products: modifiedProducts,
-      trader: FormData.trader.trader_name
+      trader: orderData.trader.trader_name,
+      transporter: orderData.transporter.transporter_name,
+      destination: orderData.destination
     };
 
     try {

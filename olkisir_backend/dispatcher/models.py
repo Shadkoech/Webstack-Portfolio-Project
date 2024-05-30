@@ -49,5 +49,9 @@ class Reason(models.Model):
 class Return(models.Model):
     order_id = models.ForeignKey(Order, null=True, on_delete=models.CASCADE)
     products =  JSONField(default=list, blank=True)
+    trader = models.CharField(max_length=100, null=True)
+    transporter = models.CharField(max_length=100, null=True)
+    destination = models.CharField(max_length=100, null=True)
+    
     # product_returned = models.ForeignKey(Product, on_delete=models.CASCADE)
     # return_reason = models.ForeignKey(Reason, on_delete=models.CASCADE)
