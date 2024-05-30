@@ -5,7 +5,7 @@ import axios from "axios";
 import { ReturnsForm } from "../Returns/returnsForm";
 import { useAuth } from "../../ContextProvider";
 
-const orderId = 2;
+// const orderId = 2;
 
 export const TraderOders = () => {
   const {user, username} = useAuth()
@@ -56,6 +56,7 @@ export const TraderOders = () => {
         );
     }
   };
+  console.log('username', username)
   const fetchTraderId = async()=>{
     try{
       const traderData = await axios.get('http://127.0.0.1:8000/api/traders/by-username/', {params: {
@@ -71,13 +72,15 @@ export const TraderOders = () => {
   }
   
   useEffect(() => {
-    fetchTraderId()
+    if (username){
+      fetchTraderId()
+    }
   }, [username]);
   console.log('ti', traderId)
 
   console.log('trader', traderId)
 
-  const handleOrders = async () => {
+  const handleOrders = async (traderId) => {
     try {
       const response = await axios.get(
         `http://127.0.0.1:8000/api/orders/${traderId}/trader_orders/`
@@ -93,7 +96,10 @@ export const TraderOders = () => {
   };
 
   useEffect(() => {
-    handleOrders();
+    if (traderId){
+      handleOrders(traderId);
+    }
+    
   }, [traderId]);
 
   const handlePageChange = (pageNumber) => {
