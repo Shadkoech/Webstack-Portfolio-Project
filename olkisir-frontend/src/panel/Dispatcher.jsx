@@ -14,6 +14,7 @@ import logo from '/logo.png';
 import { ChemistList } from "../chemist/chemistList";
 // import { useAuth } from "../../ContextProvider";
 import { OrderList } from "../orders/orderList";
+import { ReturnList } from "../Returns/returnList";
 
 
 
@@ -71,6 +72,10 @@ export const Dispatcher = () => {
           <div>
             <OrderList />
           </div>
+        )
+      case 'returns':
+        return(
+          <div><ReturnList/></div>
         )
 
     }
@@ -299,6 +304,7 @@ export const Dispatcher = () => {
             </li>
             <li>
               <a
+              onClick={()=>setActiveComponent('returns')}
                 href="#"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 
 export const ReturnsForm = ({ orderData, onClose }) => {
+  console.log(orderData)
   const [products, setProducts] = useState(
     orderData.product.map((product) => ({
       brand: product.brand,
@@ -26,6 +27,7 @@ export const ReturnsForm = ({ orderData, onClose }) => {
     const data = {
       order_id: orderData.id,
       products: modifiedProducts,
+      trader: FormData.trader.trader_name
     };
 
     try {
