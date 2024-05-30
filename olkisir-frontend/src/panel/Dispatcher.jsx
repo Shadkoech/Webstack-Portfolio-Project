@@ -165,7 +165,7 @@ export const Dispatcher = () => {
             <li>
               <a
                 onClick={() => setActiveComponent("home")}
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={`flex items-center p-2 text-gray-900 ${activeComponent === 'home' ? 'bg-gray-100' : ''} rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}
               >
                 <svg
                   className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -183,7 +183,7 @@ export const Dispatcher = () => {
             <li>
               <a
                 onClick={() => setActiveComponent("orders")}
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={`flex items-center p-2 text-gray-900 rounded-lg ${activeComponent === 'orders' ? 'bg-gray-100' : ''}  dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}
               >
                 <svg
                   className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -203,28 +203,28 @@ export const Dispatcher = () => {
             <li>
               <a
                 onClick={() => setActiveComponent("orderlist")}
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={`flex items-center p-2 ${activeComponent === 'orderlist' ? 'bg-gray-100' : ''}  text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}
               >
                 <svg
                   className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
-                  viewBox="0 0 18 18"
+                  viewBox="0 0 20 20"
                 >
-                  <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
+                  <path d="M16 6V4a4 4 0 1 0-8 0v2H5v2h10V6h-1zM8 4a2 2 0 1 1 4 0v2H8V4zm7 8H5v6h2v-4h6v4h2v-6zm-2 2H7v2h6v-2z" />
                 </svg>
                 <span className="flex-1 ms-3 whitespace-nowrap">
                   Orders
                 </span>
-                {/* <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">Pro</span> */}
               </a>
             </li>
+
 
             <li>
               <a
                 onClick={() => setActiveComponent("trader")}
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={`flex items-center p-2 text-gray-900 ${activeComponent === 'trader' ? 'bg-gray-100' : ''}  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}
               >
                 <svg
                   className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -241,7 +241,7 @@ export const Dispatcher = () => {
             <li>
               <a
                 onClick={() => setActiveComponent("products")}
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={`flex items-center p-2 text-gray-900 rounded-lg ${activeComponent === 'products' ? 'bg-gray-100' : ''}  dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}
               >
                 <svg
                   className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -260,7 +260,7 @@ export const Dispatcher = () => {
             <li>
               <a
                 onClick={() => setActiveComponent("transporter")}
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={`flex items-center p-2 text-gray-900 rounded-lg ${activeComponent === 'transporter' ? 'bg-gray-100' : ''}  dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}
               >
                 <svg
                   className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -280,7 +280,7 @@ export const Dispatcher = () => {
             <li>
               <a
                 onClick={() => setActiveComponent("chemist")}
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={`flex items-center p-2 text-gray-900 ${activeComponent === 'chemist' ? 'bg-gray-100' : ''}  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}
               >
                 <svg
                   className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
