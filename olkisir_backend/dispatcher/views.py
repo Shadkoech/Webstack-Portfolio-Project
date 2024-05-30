@@ -19,6 +19,19 @@ class TransporterViewSet(viewsets.ModelViewSet):
 class TraderViewSet(viewsets.ModelViewSet):
     queryset = Trader.objects.all()
     serializer_class = TraderSerializer
+    
+    
+    @action(detail=False, methods=['get'], url_path='by-username')
+    def get_trader_id_by_username(self, request):
+        username = request.query_params.get('username')
+        if not username:
+            return Response({"error": "Username query parameter is required"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            trader = Trader.objects.get(username=username)
+            return Response({"trader_id": trader.id}, status=status.HTTP_200_OK)
+        except Trader.DoesNotExist:
+            return Response({"error": "Trader not found"}, status=status.HTTP_404_NOT_FOUND)
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()

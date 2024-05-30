@@ -3,10 +3,13 @@ import { TraderOderView } from "./TraderOderView";
 import Modal from "../modal/Modal";
 import axios from "axios";
 import { ReturnsForm } from "../Returns/returnsForm";
+import { useAuth } from "../../ContextProvider";
 
 const orderId = 2;
 
 export const TraderOders = () => {
+  const {user} = useAuth()
+  console.log('user', user)
   const [activeComponent, setActiveComponent] = useState("");
   const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,6 +18,9 @@ export const TraderOders = () => {
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [showViewModal, setShowViewModal] = useState(false);
   const [showReturnForm, setShowReturnForm] = useState(false);
+  const [traderId, setTraderId] = useState('')
+
+
 
   const totalPages = Math.ceil(orders.length / pageSize); // calculating total no of pages
 
@@ -50,14 +56,31 @@ export const TraderOders = () => {
         );
     }
   };
+  const fetchTraderId = async()=>{
+    try{
+      const traderData = await axios.get('http://127.0.0.1:8000/api/traders/by-username/', {params: {
+        username: user.username       
+    }})
+    // console.log('ti:', traderData.data.trader_id)
+    setTraderId(traderData.data.trader_id)
+    }
+    catch(error){
+      console.error(error.message)
+    }
+  }
+  useEffect(() => {
+    fetchTraderId()
+  }, [user]);
+
+  console.log('trader', traderId)
 
   const handleOrders = async () => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/orders/${orderId}/trader_orders/`
+        `http://127.0.0.1:8000/api/orders/${traderId}/trader_orders/`
       );
       setOrders(response.data);
-      console.log(response.data);
+   
     } catch (error) {
       console.error(
         "There was an error fetching products from backend:",
@@ -78,6 +101,7 @@ export const TraderOders = () => {
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );
+
 
   return (
     <div className="relative overflow-x-auto shadow-md mt-20 sm:rounded-lg mr-20">

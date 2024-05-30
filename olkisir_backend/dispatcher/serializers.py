@@ -50,8 +50,7 @@ class OrderSerializer(serializers.ModelSerializer):
         trader_data = validated_data.pop('trader')
 
         dispatch_chemist, _ = DispatchChemist.objects.get_or_create(**dispatch_chemist_data)
-        trader, _ = Trader.objects.get_or_create(**trader_data)
-        
+        trader, _ = Trader.objects.get_or_create(**trader_data)   
 
         try:
             transporter, _ = Transporter.objects.get_or_create(**transporter_data)

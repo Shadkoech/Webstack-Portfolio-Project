@@ -15,6 +15,7 @@ import { ChemistList } from "../chemist/chemistList";
 // import { useAuth } from "../../ContextProvider";
 import { OrderList } from "../orders/orderList";
 import { ReturnList } from "../Returns/returnList";
+import axios from "axios";
 
 
 
@@ -23,6 +24,7 @@ export const Dispatcher = () => {
   const navigate = useNavigate();
   const { logout, token, user } = useAuth();
   const [activeComponent, setActiveComponent] = useState("home");
+  const[returnsLength, setReturnsLength] = useState()
 
   useEffect(() => {
     if (!token) {
@@ -80,7 +82,23 @@ export const Dispatcher = () => {
 
     }
   };
+  const handleReturns = async () => {
+    try {
+        const response = await axios.get("http://127.0.0.1:8000/api/returns/");
+        setReturnsLength(response.data.length);
+       
+    } catch (error) {
+        console.error(
+            "There was an error fetching returns from backend:",
+            error.message
+        );
+    }
+};
 
+
+useEffect(() => {
+    handleReturns();
+}, []);
   return (
     <div>
       <nav
@@ -306,7 +324,7 @@ export const Dispatcher = () => {
               <a
               onClick={()=>setActiveComponent('returns')}
                 href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={`flex items-center p-2 ${activeComponent === 'returns'? 'bg-gray-100': ''} text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}
               >
                 <svg
                   className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -321,7 +339,7 @@ export const Dispatcher = () => {
                   Returns
                 </span>
                 <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
-                  3
+                  {returnsLength}
                 </span>
               </a>
             </li>
