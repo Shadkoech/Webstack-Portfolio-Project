@@ -14,7 +14,7 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [isError, setIsError] = useState(false);
     const [loginSuccess, setLoginSucess] = useState('');
-    const { login, token } = useAuth()
+    const { login, token, user, role } = useAuth()
 
     const handleSubmit = async (e) => {
         
@@ -29,14 +29,23 @@ const Login = () => {
                 password,
             };
             login(payload)
-            console.log(token)
+            
         }
     };
     useEffect(()=>{
+        
+
         if(token){
-          navigate('/dispatcher')
+            console.log('r', role)
+            if (role === '4'){
+                navigate('/traderdashboard')
+            }
+            else{
+                navigate('/dispatcher')
+            }
+         
         }
-      }, [token, navigate])
+      }, [token, navigate, user])
 
 
     return (

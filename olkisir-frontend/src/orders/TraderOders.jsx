@@ -8,7 +8,7 @@ import { useAuth } from "../../ContextProvider";
 const orderId = 2;
 
 export const TraderOders = () => {
-  const {user} = useAuth()
+  const {user, username} = useAuth()
   console.log('user', user)
   const [activeComponent, setActiveComponent] = useState("");
   const [orders, setOrders] = useState([]);
@@ -59,18 +59,21 @@ export const TraderOders = () => {
   const fetchTraderId = async()=>{
     try{
       const traderData = await axios.get('http://127.0.0.1:8000/api/traders/by-username/', {params: {
-        username: user.username       
+        username: username      
     }})
-    // console.log('ti:', traderData.data.trader_id)
+  
     setTraderId(traderData.data.trader_id)
+    
     }
     catch(error){
       console.error(error.message)
     }
   }
+  
   useEffect(() => {
     fetchTraderId()
-  }, [user]);
+  }, [username]);
+  console.log('ti', traderId)
 
   console.log('trader', traderId)
 
@@ -91,7 +94,7 @@ export const TraderOders = () => {
 
   useEffect(() => {
     handleOrders();
-  }, []);
+  }, [traderId]);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);

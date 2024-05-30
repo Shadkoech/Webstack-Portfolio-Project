@@ -10,6 +10,7 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [role, setRole] = useState(0)
     const [token, setToken] = useState(localStorage.getItem('ACCESS_TOKEN'))
+    const [username, setUserName] = useState('')
 
 
     const login = async (payload) => {
@@ -37,6 +38,7 @@ const AuthProvider = ({ children }) => {
             try {
                 const response = await axiosClient.get('/api/user/details/')
                 setUser(response.data)
+                setUserName(response.data.username)
             } catch (e) {
                 console.error('Error fetching user', error)
             }
@@ -63,7 +65,7 @@ const AuthProvider = ({ children }) => {
     //     setUser({});
     // }
 
-    return (<AuthContext.Provider value={{ login, role, token, logout, user }}>
+    return (<AuthContext.Provider value={{ login, role, token, logout, user, username }}>
         {children}
     </AuthContext.Provider>)
 
