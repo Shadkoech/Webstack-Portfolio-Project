@@ -13,6 +13,7 @@ export const OrderAdd = () => {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState('');
   const [quantity, setQuantity] = useState(1);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     fetchProducts();
@@ -87,10 +88,16 @@ export const OrderAdd = () => {
       console.log(payload);
       const response = await axios.post('http://127.0.0.1:8000/api/orders/', payload);
       console.log('Order created:', response.data);
+
+      setMessage("Order created successfully");
       
       // Reset form after successful submission
       reset();
       setSelectedProducts([]);
+
+      setTimeout(() => {
+        setMessage("");
+      }, 2000);
     } catch (error) {
       console.error('Error creating order:', error);
     }
@@ -98,11 +105,12 @@ export const OrderAdd = () => {
 
   return (
     <div>
-      <section className="bg-white dark:bg-gray-900">
-        <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+      <section className="bg-gray-50 dark:bg-gray-900">
+        <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16 mt-6">
           <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
             Make a new Order 
           </h2>
+          {message && <p className="text-green-500">{message}</p>}
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
               <div className="sm:col-span-2">
