@@ -13,6 +13,9 @@ export const ReturnsForm = ({ orderData, onClose }) => {
   );
 
   const handleInputChange = (index, field, value) => {
+    // if (key === "quantity" && value > products[index].quantity) {
+    //   value = products[index].quantity;
+    // }
     const updatedProducts = [...products];
     updatedProducts[index][field] = value;
     setProducts(updatedProducts);
@@ -55,9 +58,10 @@ export const ReturnsForm = ({ orderData, onClose }) => {
             </label>
             <input
               type="number"
+             
               value={product.quantity}
               id={`quantity-${index}`}
-              className="shadow-sm bg-gray-50 border border-gray-300 h-4 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+              className="shadow-sm px-20 bg-gray-50 border border-gray-300 h-8 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
               required
               onChange={(e) => handleInputChange(index, "quantity", e.target.value)}
             />

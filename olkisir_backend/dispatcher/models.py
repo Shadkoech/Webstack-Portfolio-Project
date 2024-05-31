@@ -14,6 +14,7 @@ class Transporter(models.Model):
     transporter_name = models.CharField(max_length=100)
     representative = models.CharField(max_length=100)
     contact = models.CharField(null=True, max_length=20)
+    username = models.CharField(null=True, max_length=20)
 
 class Trader(models.Model):
     """Model for the customer getting the dispatched goods"""
@@ -21,6 +22,7 @@ class Trader(models.Model):
     trader_name = models.CharField(max_length=100)
     trader_address = models.CharField(max_length=100, null=True)
     contact = models.CharField(null=True, max_length=20)
+    username = models.CharField(null=True, max_length=20)
 
 
 class Product(models.Model):

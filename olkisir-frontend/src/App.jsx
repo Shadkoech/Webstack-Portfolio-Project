@@ -12,6 +12,7 @@ import PublicRoute from './users/PublicRoute';
 import { OrderAdd } from './orders/orderAdd';
 import { TraderOders } from './orders/TraderOders';
 import { TraderDashboard } from './panel/TraderDashboard';
+import { TransporterDashboard } from './panel/TransporterDashboard';
 
 
 function App() {
@@ -25,7 +26,7 @@ function App() {
         </PublicRoute>} />
         <Route path='/login' element={<Login />} />
         <Route path='/' element={<Home />} />
-        <Route path='traderdashboard' element={<TraderDashboard/>}></Route>
+        
         <Route path='/dispatcher'
           element={<PrivateRoute>
             <Dispatcher />
@@ -36,6 +37,8 @@ function App() {
         {/* <Route path='/createOrder' element={<OrderAdd />} /> */}
 
         <Route path='traderOrders' element={<TraderOders />} />
+        <Route path='traderdashboard' element={<TraderDashboard/>}></Route>
+        <Route path='transporterdashboard' element={<TransporterDashboard/>}></Route>
 
         {/* <Route path='/productList' element={<ProductsList/>}/> */}
       </Routes>
