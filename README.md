@@ -2,4 +2,4 @@
 
 ## Author's
 - Alphonce Mcrymbo
-- Norbert Maina
+- Norbert Main
