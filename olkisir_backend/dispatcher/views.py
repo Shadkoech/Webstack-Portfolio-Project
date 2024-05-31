@@ -15,6 +15,18 @@ class DispatchChemistViewSet(viewsets.ModelViewSet):
 class TransporterViewSet(viewsets.ModelViewSet):
     queryset = Transporter.objects.all()
     serializer_class = TransporterSerializer
+    
+    @action(detail=False, methods=['get'], url_path='by-username')
+    def get_transporter_id_by_username(self, request):
+        username = request.query_params.get('username')
+        if not username:
+            return Response({"error": "Username query parameter is required"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            transporter = Transporter.objects.get(username=username)
+            return Response({"transporter_id": transporter.id}, status=status.HTTP_200_OK)
+        except Transporter.DoesNotExist:
+            return Response({"error": "Transporter not found"}, status=status.HTTP_404_NOT_FOUND)
 
 class TraderViewSet(viewsets.ModelViewSet):
     queryset = Trader.objects.all()
@@ -57,6 +69,17 @@ class OrderViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_404_NOT_FOUND)
         
         orders = Order.objects.filter(trader=trader)
+        serializer = OrderSerializer(orders, many=True)
+        return Response(serializer.data)
+    
+    @action(detail=True, methods=['get'])
+    def transporter_orders(self, request, pk=None):
+        try:
+            transporter = Transporter.objects.get(pk=pk)
+        except Transporter.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        orders = Order.objects.filter(transporter=transporter)
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
 

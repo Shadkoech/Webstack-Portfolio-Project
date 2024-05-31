@@ -14,6 +14,7 @@ class Transporter(models.Model):
     transporter_name = models.CharField(max_length=100)
     representative = models.CharField(max_length=100)
     contact = models.CharField(null=True, max_length=20)
+    username = models.CharField(null=True, max_length=20)
 
 class Trader(models.Model):
     """Model for the customer getting the dispatched goods"""

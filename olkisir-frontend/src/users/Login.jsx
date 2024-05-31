@@ -36,11 +36,13 @@ const Login = () => {
         
 
         if(token){
-            console.log('r', role)
+            
             if (role === '4'){
                 navigate('/traderdashboard')
-            }
-            else{
+            } else if (role === '3'){
+                navigate('/transporterdashboard')
+
+            } else{
                 navigate('/dispatcher')
             }
          
