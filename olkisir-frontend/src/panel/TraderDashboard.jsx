@@ -45,9 +45,9 @@ export const TraderDashboard = () => {
           <div className='w-14 h-14 mb-8'>
             <img className='mb-8 rounded-full' src={logo} alt='logo' />
           </div>
-          <div className="text-xl"><span className="text-xl text-sl-400 font-bold">Welcome,</span> {!user ? 'Loading user....' : user.first_name}</div>
+          {/* <div className="text-xl"><span className="text-xl text-sl-400 font-bold">Welcome,</span> {!user ? 'Loading user....' : user.first_name}</div> */}
           <div className="flex items-center justify-end space-x-3">
-            <div><span className="text-xl font-bold">Role,</span> {!user ? 'loading role...' : user.role === 4 ? 'Trader' : ""}</div>
+            {/* <div><span className="text-xl font-bold">Role,</span> {!user ? 'loading role...' : user.role === 4 ? 'Trader' : ""}</div> */}
             <button
               type="button"
               className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
