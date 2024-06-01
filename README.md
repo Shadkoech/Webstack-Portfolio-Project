@@ -34,10 +34,20 @@ To install Olkisir locally, follow these steps:
 1. Access the web application in your browser by navigating to `http://localhost:8000`. 
 2. Access the front-end by navigating to `http://localhost:5173/`
 3. Register an account or log in (if you already have one). You can access olkisir as: an admin, dispatcher, transporter or a trader 
-4. Onced logged in with appropriate roles, you will be navigated to different dashboards with different fucntionalities and permissions
-   - **Dispatcher dashboad**: Makes, updates and views new and available orders; registers traders, transporters and products; assigns transporters new orders; receives returned orders from the trader
-   - **Transporter dashboad**: Views and lists assigned orders to a particular transporter
-   - **Trader dashboad**: Receives orders from the dispatcher; initiate, view or edit returns to be sent back to dispatcher dashboard
+4. Onced logged in with appropriate roles, you will be navigated to different dashboards with different functionalities and permissions:
+   - **Dispatcher dashboad**: 
+      1. Makes new orders, updates and views available orders
+      2. Registers traders, transporters and products
+      3. Assigns available orders to transporters 
+      4. Receives returned orders from the trader
+
+   - **Transporter dashboad**: 
+      1. Views and lists assigned orders to a particular transporter
+
+   - **Trader dashboad**: 
+      1. Receives orders from the dispatcher
+      2. Views received orders from the dispatcher
+      3. Initiates and edits returns to be sent back to the dispatcher
 
 
 ## Database
@@ -61,7 +71,10 @@ Project Olkisir utilizes PostgreSQL as its database management system. PostgreSQ
 
 ## Credits
 This project olkisir is a joint effort of the following:
-1. Shadrack Koech - [Github](https://github.com/Shadkoech) / [Twitter](https://twitter.com/Shad_Koech)
+1. Shadrack Koech - [Github](https://github.com/Shadkoech) / [LinkedIn](https://www.linkedin.com/in/koechshadrack/)
+2. Norbert Maina - [Github](https://github.com/mainanorbert) / [LinkedIn](https://www.linkedin.com/in/norbert-osiemo-0256a4144/)
+3. Samwel Aboki - [Github](https://github.com/Abokiey) / [LinkedIn](https://www.linkedin.com/in/samwel-aboki/)
+4. Alphonce Mcrymbo - [Github](https://github.com/Mcrymbo)
 
 
 ## License
