@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../ContextProvider";
 import { useNavigate } from "react-router-dom";
-import { Home } from "../home/home";
 import { OrderAdd } from "../orders/orderAdd";
 import { OrderList } from "../orders/orderList";
 import backgroundImage from "/oilbg6.jpg";
 import logo from '/logo.png';
 import { TraderOders } from "../orders/TraderOders";
+import { Home } from "../home/traderhome";
 
 export const TraderDashboard = () => {
   const navigate = useNavigate();

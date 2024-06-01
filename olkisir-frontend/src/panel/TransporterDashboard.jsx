@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../ContextProvider";
 import { useNavigate } from "react-router-dom";
-import { Home } from "../home/home";
 import backgroundImage from "/oilbg6.jpg";
 import logo from '/logo.png';
 import { TransporterOrders } from "../orders/TransporterOrders";
+import { Home } from "../home/transporterhome";
 
 export const TransporterDashboard = () => {
   const navigate = useNavigate();
