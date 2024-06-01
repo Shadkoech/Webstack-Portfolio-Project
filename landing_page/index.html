@@ -121,21 +121,21 @@
               <a
                 class="inline-block py-2 px-4 text-black font-bold no-underline"
                 href="#"
-                >Active</a
+                >Home</a
               >
             </li>
             <li class="mr-3">
               <a
                 class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4"
-                href="#"
-                >link</a
+                href="#about"
+                >About</a
               >
             </li>
             <li class="mr-3">
               <a
                 class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4"
-                href="#"
-                >link</a
+                href="#roles"
+                >Roles</a
               >
             </li>
           </ul>
@@ -170,11 +170,11 @@
         >
           Sign Up
         </a>
-        <a
+        <!-- <a
           href="#"
           class="inline-block mx-auto lg:mx-0 hover:underline bg-transparent text-gray-600 font-extrabold my-2 md:my-6 py-2 lg:py-4 px-8"
           >View Additional Action</a
-        >
+        > -->
       </div>
 
       <div class="flex items-center w-full mx-auto content-end">
@@ -184,10 +184,10 @@
           <img
             src="images/eduardo-soares-QsYXYSwV3NU-unsplash.jpg"
             alt=""
-            width="400"
+            width="467"
           />
-          <img src="images/oilbg6.jpg" alt="oil" width="400" />
-          <img src="images/Truck_c.jpg" alt="" width="400" />
+          <img src="images/oilbg6.jpg" alt="oil" width="507" />
+          <img src="images/Truck_c.jpg" alt="" width="467" />
         </div>
       </div>
     </div>
@@ -274,7 +274,7 @@
     </section>
 
     <!-- about section -->
-    <section class="bg-gray-100 border-b py-8">
+    <section class="bg-gray-100 border-b py-8" id="about">
       <div class="container max-w-5xl mx-auto m-8">
         <h2
           class="w-full my-2 text-5xl font-black leading-tight text-center text-gray-800"
@@ -740,13 +740,12 @@
                 Our Mission
               </h3>
               <p class="text-gray-600 mb-8">
-                To streamline global trade by offering a
-                seamless platform for end-to-end order and return management
-                across traders worldwide. We are committed to maximizing
-                efficiency, minimizing waste, and saving costs through
-                innovative solutions. By optimizing supply chain operations, we
-                empower businesses to enhance profitability and drive
-                sustainable growth in the global marketplace.
+                To streamline global trade by offering a seamless platform for
+                end-to-end order and return management across traders worldwide.
+                We are committed to maximizing efficiency, minimizing waste, and
+                saving costs through innovative solutions. By optimizing supply
+                chain operations, we empower businesses to enhance profitability
+                and drive sustainable growth in the global marketplace.
               </p>
             </div>
           </div>
@@ -754,12 +753,13 @@
       </div>
     </section>
 
-    <section class="bg-white border-b py-8">
+    <!-- Roles section -->
+    <section class="bg-white border-b py-8" id="roles">
       <div class="container mx-auto flex flex-wrap pt-4 pb-12">
         <h2
           class="w-full my-2 text-5xl font-black leading-tight text-center text-gray-800"
         >
-          Title
+          Roles
         </h2>
         <div class="w-full mb-4">
           <div
@@ -772,15 +772,14 @@
             class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow"
           >
             <a href="#" class="flex flex-wrap no-underline hover:no-underline">
-              <p class="w-full text-gray-600 text-xs md:text-sm px-6 mt-6">
-                GETTING STARTED
-              </p>
               <div class="w-full font-bold text-xl text-gray-800 px-6">
-                Lorem ipsum dolor sit amet.
+                Dispatcher
               </div>
               <p class="text-gray-600 text-base px-6 mb-5">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-                at ipsum eu nunc commodo posuere et sit amet ligula.
+                A dispatch chemist initiates an order that is tracked from the
+                warehouse to the customer. The dashboard offers a comprehensive
+                overview, ensuring that each order is accurately recorded and
+                efficiently monitored throughout the entire delivery process.
               </p>
             </a>
           </div>
@@ -788,11 +787,13 @@
             class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6"
           >
             <div class="flex items-center justify-start">
-              <button
-                class="mx-auto lg:mx-0 hover:underline gradient2 text-gray-800 font-extrabold rounded my-6 py-4 px-8 shadow-lg"
+              <a
+                href="http://localhost:5173/dispatcher"
+                id="navAction"
+                class="mx-auto lg:mx-0 hover:underline text-lime-500 font-extrabold bg-yellow-400 rounded mt-4 lg:mt-0 py-4 px-8 shadow opacity-75"
               >
-                Action
-              </button>
+                Dispatcher
+              </a>
             </div>
           </div>
         </div>
@@ -802,15 +803,16 @@
             class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow"
           >
             <a href="#" class="flex flex-wrap no-underline hover:no-underline">
-              <p class="w-full text-gray-600 text-xs md:text-sm px-6 mt-6">
-                GETTING STARTED
-              </p>
               <div class="w-full font-bold text-xl text-gray-800 px-6">
-                Lorem ipsum dolor sit amet.
+                Transporter
               </div>
               <p class="text-gray-600 text-base px-6 mb-5">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-                at ipsum eu nunc commodo posuere et sit amet ligula.
+                A dashboard designed for transporters to view and manage their
+                orders efficiently. It provides detailed information on each
+                order's status, delivery routes, and schedules. This tool helps
+                transporters stay organized, ensuring timely deliveries and
+                enabling them to handle any issues that may arise during
+                transportation.
               </p>
             </a>
           </div>
@@ -818,11 +820,13 @@
             class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6"
           >
             <div class="flex items-center justify-center">
-              <button
-                class="mx-auto lg:mx-0 hover:underline gradient2 text-gray-800 font-extrabold rounded my-6 py-4 px-8 shadow-lg"
+              <a
+                href="http://localhost:5173/transporterdashboard"
+                id="navAction"
+                class="mx-auto lg:mx-0 hover:underline text-lime-500 font-extrabold bg-yellow-400 rounded mt-4 lg:mt-0 py-4 px-8 shadow opacity-75"
               >
-                Action
-              </button>
+                Transporter
+              </a>
             </div>
           </div>
         </div>
@@ -832,15 +836,16 @@
             class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow"
           >
             <a href="#" class="flex flex-wrap no-underline hover:no-underline">
-              <p class="w-full text-gray-600 text-xs md:text-sm px-6 mt-6">
-                GETTING STARTED
-              </p>
               <div class="w-full font-bold text-xl text-gray-800 px-6">
-                Lorem ipsum dolor sit amet.
+                Trader
               </div>
               <p class="text-gray-600 text-base px-6 mb-5">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-                at ipsum eu nunc commodo posuere et sit amet ligula.
+                This crucial dashboard manages the reception of goods and
+                initiates returns if necessary. It tracks inventory levels,
+                records incoming shipments, and processes return requests. The
+                trader dashboard ensures that all transactions are logged
+                accurately, maintaining a smooth flow of goods and addressing
+                any discrepancies promptly.
               </p>
             </a>
           </div>
@@ -848,11 +853,13 @@
             class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6"
           >
             <div class="flex items-center justify-end">
-              <button
-                class="mx-auto lg:mx-0 hover:underline gradient2 text-gray-800 font-extrabold rounded my-6 py-4 px-8 shadow-lg"
+              <a
+                href="http://localhost:5173/traderdashboard"
+                id="navAction"
+                class="mx-auto lg:mx-0 hover:underline text-lime-500 font-extrabold bg-yellow-400 rounded mt-4 lg:mt-0 py-4 px-8 shadow opacity-75"
               >
-                Action
-              </button>
+                Trader
+              </a>
             </div>
           </div>
         </div>
@@ -864,7 +871,7 @@
       <h2
         class="w-full my-2 text-5xl font-black leading-tight text-center text-white"
       >
-        Call to Action
+        Visit us now!
       </h2>
       <div class="w-full mb-4">
         <div
@@ -874,11 +881,12 @@
 
       <h3 class="my-4 text-3xl font-extrabold">Welcome to Olkisir!</h3>
 
-      <button
-        class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded my-6 py-4 px-8 shadow-lg"
-      >
-        Action!
-      </button>
+      <a
+          href="http://localhost:5173/register"
+          class="mx-auto lg:mx-0 hover:underline text-gray-800 bg-yellow-400 font-extrabold rounded my-2 md:my-6 py-4 px-8 shadow-lg w-48"
+        >
+          Sign Up
+        </a>
     </section>
 
     <!--Footer-->
@@ -897,7 +905,7 @@
               >
                 <path d="M13 8V0L8.11 5.87 3 12h4v8L17 8h-4z" />
               </svg>
-              Olkisir Dispacher
+              Olkisir Dispatcher
             </a>
           </div>
 
@@ -906,7 +914,7 @@
             <ul class="list-reset mb-6">
               <li class="mt-2 inline-block mr-2 md:block md:mr-0">
                 <a
-                  href="#"
+                  href=""
                   class="font-light no-underline hover:underline text-gray-800 hover:text-orange-500"
                   >FAQ</a
                 >
