@@ -27,14 +27,14 @@ export const OrderView = ({ orderData, isOpen, onClose }) => {
             </svg>
           </button>
         </div>
-        <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
+        <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white underline">
           Order Details
         </h2>
         <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
           <div>
             <label
               htmlFor="order_type"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-bold italic text-gray-900 dark:text-white"
             >
               Destination
             </label>
@@ -43,7 +43,7 @@ export const OrderView = ({ orderData, isOpen, onClose }) => {
           <div>
             <label
               htmlFor="order"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-bold italic text-gray-900 dark:text-white"
             >
               Dispatch Chemist
             </label>
@@ -52,7 +52,7 @@ export const OrderView = ({ orderData, isOpen, onClose }) => {
           <div>
             <label
               htmlFor="order_address"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-bold italic text-gray-900 dark:text-white"
             >
               Loading Id
             </label>
@@ -61,7 +61,7 @@ export const OrderView = ({ orderData, isOpen, onClose }) => {
           <div>
             <label
               htmlFor="order_address"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-bold italic text-gray-900 dark:text-white"
             >
               Trader
             </label>
@@ -70,7 +70,7 @@ export const OrderView = ({ orderData, isOpen, onClose }) => {
           <div>
             <label
               htmlFor="order_address"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-bold italic text-gray-900 dark:text-white"
             >
               Transporter
             </label>
@@ -79,13 +79,13 @@ export const OrderView = ({ orderData, isOpen, onClose }) => {
           <div>
             <label
               htmlFor="order_address"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-bold italic text-gray-900 dark:text-white"
             >
               Products
             </label>
             <div>
               {orderData.product.map((product, index) => (
-                <div key={index} className="border bg-green-300 p-2 mb-2 rounded">
+                <div key={index} className="border bg-lime-200 p-2 mb-2 rounded hover:bg-lime-300">
                   <p>Type: {product.product_type}</p>
                   <p>SKU: {product.SKU}</p>
                   <p>Brand: {product.brand}</p>
