@@ -10,6 +10,7 @@ django-jazzmin = "*"
 dj-database-url = "*"
 gunicorn = "*"
 psycopg2-binary = "*"
+django-environ = "*"
 
 [dev-packages]
 
