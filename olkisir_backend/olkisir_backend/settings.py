@@ -89,19 +89,23 @@ APPEND_SLASH = False
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'olkisirdb',
+#         'USER': 'olkisir',
+#         'PASSWORD': 'leaves',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'olkisirdb',
-        'USER': 'olkisir',
-        'PASSWORD': 'leaves',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.parse('postgres://olkisir:MAjcKgZxJ68G1GgO12NFVtIjeQS2NJoT@dpg-cpes6bdds78s73fm5k10-a/olkisirdb')
 }
 
 
-DATABASES['default'] = dj_database_url.parse('postgres://olkisir:MAjcKgZxJ68G1GgO12NFVtIjeQS2NJoT@dpg-cpes6bdds78s73fm5k10-a.virginia-postgres.render.com/olkisirdb')
 
 
 # Password validation
@@ -192,6 +196,7 @@ SIMPLE_JWT = {
 ALLOWED_HOSTS = ['*']
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
+    'https://dispatcher.koech.tech',
     # Add other origins as needed
 ]
 CORS_ALLOW_CREDENTIALS = True
