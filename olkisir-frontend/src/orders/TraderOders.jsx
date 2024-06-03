@@ -4,6 +4,7 @@ import Modal from "../modal/Modal";
 import axios from "axios";
 import { ReturnsForm } from "../Returns/returnsForm";
 import { useAuth } from "../../ContextProvider";
+import axiosClient from "../../AxiosClient";
 
 // const orderId = 2;
 
@@ -59,7 +60,7 @@ export const TraderOders = () => {
   console.log('username', username)
   const fetchTraderId = async()=>{
     try{
-      const traderData = await axios.get('http://127.0.0.1:8000/api/traders/by-username/', {params: {
+      const traderData = await axiosClient.get('api/traders/by-username/', {params: {
         username: username      
     }})
   
@@ -82,8 +83,8 @@ export const TraderOders = () => {
 
   const handleOrders = async (traderId) => {
     try {
-      const response = await axios.get(
-        `http://127.0.0.1:8000/api/orders/${traderId}/trader_orders/`
+      const response = await axiosClient.get(
+        `api/orders/${traderId}/trader_orders/`
       );
       setOrders(response.data);
    

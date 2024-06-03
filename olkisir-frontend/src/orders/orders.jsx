@@ -3,6 +3,7 @@ import axios from "axios";
 import Modal from '../modal/Modal';
 import { useForm, Controller } from 'react-hook-form';
 import PropTypes from 'prop-types';
+import axiosClient from "../../AxiosClient";
 
 export const Orders = ({ isOpen, onClose, onAddOrders }) => {
   const { register, handleSubmit, control, reset } = useForm();
@@ -24,7 +25,7 @@ export const Orders = ({ isOpen, onClose, onAddOrders }) => {
 
   const fetchTraders = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/traders/');
+      const response = await axiosClient.get('api/traders/');
       setTraders(response.data);
     } catch (error) {
       console.error('There was an error fetching traders:', error.message);
@@ -33,7 +34,7 @@ export const Orders = ({ isOpen, onClose, onAddOrders }) => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/products/');
+      const response = await axiosClient.get('api/products/');
       setProducts(response.data);
     } catch (error) {
       console.error('There was an error fetching products:', error.message);
@@ -42,7 +43,7 @@ export const Orders = ({ isOpen, onClose, onAddOrders }) => {
 
   const fetchTransporters = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/transporters/');
+      const response = await axiosClient.get('api/transporters/');
       setTransporters(response.data);
     } catch (error) {
       console.error('There was an error fetching transporters:', error.message);
@@ -51,7 +52,7 @@ export const Orders = ({ isOpen, onClose, onAddOrders }) => {
 
   const fetchChemists = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/dispatchers/');
+      const response = await axiosClient.get('api/dispatchers/');
       setChemists(response.data);
     } catch (error) {
       console.error('There was an error fetching dispatch chemist:', error.message);
@@ -87,7 +88,7 @@ export const Orders = ({ isOpen, onClose, onAddOrders }) => {
       };
 
       console.log(payload);
-      const response = await axios.post('http://127.0.0.1:8000/api/orders/', payload);
+      const response = await axiosClient.post('api/orders/', payload);
       console.log('Order created:', response.data);
 
       onAddOrders(response.data);

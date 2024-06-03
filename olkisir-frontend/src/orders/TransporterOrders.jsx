@@ -4,6 +4,7 @@ import Modal from "../modal/Modal";
 import axios from "axios";
 import { ReturnsForm } from "../Returns/returnsForm";
 import { useAuth } from "../../ContextProvider";
+import axiosClient from "../../AxiosClient";
 
 // const orderId = 2;
 
@@ -59,7 +60,7 @@ export const TransporterOrders = () => {
   console.log('username', username)
   const fetchTransporterId = async()=>{
     try{
-      const transporterData = await axios.get('http://127.0.0.1:8000/api/transporters/by-username/', {params: {
+      const transporterData = await axiosClient.get('api/transporters/by-username/', {params: {
         username: username      
     }})
   
@@ -82,8 +83,8 @@ export const TransporterOrders = () => {
 
   const handleOrders = async (transporterId) => {
     try {
-      const response = await axios.get(
-        `http://127.0.0.1:8000/api/orders/${transporterId}/transporter_orders/`
+      const response = await axiosClient.get(
+        `api/orders/${transporterId}/transporter_orders/`
       );
       setOrders(response.data);
    

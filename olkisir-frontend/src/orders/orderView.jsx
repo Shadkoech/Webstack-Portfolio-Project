@@ -49,15 +49,7 @@ export const OrderView = ({ orderData, isOpen, onClose }) => {
             </label>
             <p className="border border-1/2 border-lime-500">{orderData.dispatch_chemist['chemist_name']}</p>
           </div>
-          {/* <div>
-            <label
-              htmlFor="order_address"
-              className="block mb-2 text-sm font-bold italic text-gray-900 dark:text-white"
-            >
-              Loading Id
-            </label>
-            <p>{orderData.loading_id}</p>
-          </div> */}
+
           <div>
             <label
               htmlFor="order_address"

@@ -5,12 +5,14 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
 from .serializers import DispatchChemistSerializer, FetchOrderSerializer, TransporterSerializer, TraderSerializer, ProductSerializer, OrderSerializer, ReasonSerializer, ReturnSerializer
-
+from rest_framework.permissions import IsAuthenticated
 
 class DispatchChemistViewSet(viewsets.ModelViewSet):
     """
     ViewSet for handling CRUD operations for DispatchChemist.
     """
+    permission_classes = [IsAuthenticated]
+
     queryset = DispatchChemist.objects.all()
     serializer_class = DispatchChemistSerializer
 
@@ -21,6 +23,8 @@ class TransporterViewSet(viewsets.ModelViewSet):
     """
     ViewSet for handling CRUD operations for Transporter.
     """
+    permission_classes = [IsAuthenticated]
+
     queryset = Transporter.objects.all()
     serializer_class = TransporterSerializer
     
@@ -49,6 +53,8 @@ class TraderViewSet(viewsets.ModelViewSet):
     """
     ViewSet for handling CRUD operations for Trader.
     """
+    permission_classes = [IsAuthenticated]
+
     queryset = Trader.objects.all()
     serializer_class = TraderSerializer
     
@@ -77,6 +83,8 @@ class ProductViewSet(viewsets.ModelViewSet):
     """
     ViewSet for handling CRUD operations for Product.
     """
+    permission_classes = [IsAuthenticated]
+
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
@@ -84,6 +92,8 @@ class ReasonViewSet(viewsets.ModelViewSet):
     """
     ViewSet for handling CRUD operations for Reason.
     """
+    permission_classes = [IsAuthenticated]
+
     queryset = Reason.objects.all()
     serializer_class = ReasonSerializer
 
@@ -91,6 +101,8 @@ class OrderViewSet(viewsets.ModelViewSet):
     """
     ViewSet for handling CRUD operations for Order.
     """
+    permission_classes = [IsAuthenticated]
+
     queryset = Order.objects.all()
     
     # Dynamically select the serializer class based on the action
@@ -145,6 +157,8 @@ class ReturnViewSet(viewsets.ModelViewSet):
     """
     ViewSet for handling CRUD operations for Return.
     """
+    permission_classes = [IsAuthenticated]
+
     queryset = Return.objects.all()
     serializer_class = ReturnSerializer
 
@@ -152,6 +166,7 @@ class CustomOrder(APIView):
     """
     API view to fetch custom order details including associated chemist, transporter, and trader.
     """
+    permission_classes = [IsAuthenticated]
     
     def get(self, request, order_id):
         """

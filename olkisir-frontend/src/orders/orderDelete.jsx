@@ -1,12 +1,12 @@
-import axios from "axios";
 import { useState } from "react";
+import axiosClient from "../../AxiosClient";
 
 function OrderDelete({ orderId, onDelete }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:8000/api/orders/${orderId}/`);
+      await axiosClient.delete(`api/orders/${orderId}/`);
       onDelete(orderId);
       closeModal();
     } catch (error) {

@@ -3,6 +3,7 @@ import axios from "axios";
 import Modal from '../modal/Modal';
 import { useForm, Controller } from 'react-hook-form';
 import PropTypes from 'prop-types';
+import axiosClient from "../../AxiosClient";
 
 export const OrderEdit = ({ orderId, isOpen, onClose, onUpdateOrder }) => {
   const { register, handleSubmit, control, reset } = useForm();
@@ -33,7 +34,7 @@ export const OrderEdit = ({ orderId, isOpen, onClose, onUpdateOrder }) => {
 
   const fetchOrder = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/orders/${orderId}/`);
+      const response = await axiosClient.get(`api/orders/${orderId}/`);
       const orderData = response.data;
       setSelectedProducts(orderData.product); // Set existing products
       reset({
@@ -50,7 +51,7 @@ export const OrderEdit = ({ orderId, isOpen, onClose, onUpdateOrder }) => {
 
   const fetchTraders = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/traders/');
+      const response = await axiosClient.get('api/traders/');
       setTraders(response.data);
     } catch (error) {
       console.error('Error fetching traders:', error.message);
@@ -59,7 +60,7 @@ export const OrderEdit = ({ orderId, isOpen, onClose, onUpdateOrder }) => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/products/');
+      const response = await axiosClient.get('api/products/');
       setProducts(response.data);
     } catch (error) {
       console.error('Error fetching products:', error.message);
@@ -68,7 +69,7 @@ export const OrderEdit = ({ orderId, isOpen, onClose, onUpdateOrder }) => {
 
   const fetchTransporters = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/transporters/');
+      const response = await axiosClient.get('api/transporters/');
       setTransporters(response.data);
     } catch (error) {
       console.error('Error fetching transporters:', error.message);
@@ -77,7 +78,7 @@ export const OrderEdit = ({ orderId, isOpen, onClose, onUpdateOrder }) => {
 
   const fetchChemists = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/dispatchers/');
+      const response = await axiosClient.get('api/dispatchers/');
       setChemists(response.data);
     } catch (error) {
       console.error('Error fetching dispatch chemists:', error.message);
@@ -112,7 +113,7 @@ export const OrderEdit = ({ orderId, isOpen, onClose, onUpdateOrder }) => {
         product: selectedProducts,
       };
 
-      const response = await axios.put(`http://127.0.0.1:8000/api/orders/${orderId}/`, payload);
+      const response = await axiosClient.put(`api/orders/${orderId}/`, payload);
       console.log('Order updated:', response.data);
 
       onUpdateOrder(response.data);

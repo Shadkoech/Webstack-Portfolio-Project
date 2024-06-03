@@ -5,6 +5,7 @@ import OrderDelete from "./orderDelete";
 import { OrderView } from "./orderView";
 import { Orders } from "./orders";
 import { OrderEdit } from "./orderEdit";
+import axiosClient from "../../AxiosClient";
 
 export const OrderList = () => {
     // let i = 1
@@ -85,7 +86,7 @@ export const OrderList = () => {
 
     const handleOrders = async () => {
         try {
-            const response = await axios.get("http://127.0.0.1:8000/api/orders/");
+            const response = await axiosClient.get("api/orders/");
             setOrders(response.data);
         } catch (error) {
             console.error(
