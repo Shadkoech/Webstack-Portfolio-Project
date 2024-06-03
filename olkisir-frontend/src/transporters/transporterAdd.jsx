@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import PropTypes from 'prop-types';
+import axiosClient from "../../AxiosClient";
 
 export const TransporterAdd = ({ isOpen, onClose, onAddTransporter }) => {
   const [transporterData, settransporterData] = useState({
@@ -17,7 +18,7 @@ export const TransporterAdd = ({ isOpen, onClose, onAddTransporter }) => {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/transporters/", transporterData);
+      const response = await axiosClient.post("api/transporters/", transporterData);
       setMessage("Transporter added successfully");
       console.log("Transporter added successfully:", response.data);
       onAddTransporter(response.data);

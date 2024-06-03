@@ -5,6 +5,7 @@ import { TransporterEdit } from "./transporterEdit";
 import { TransporterView } from "./transporterView";
 import TransporterDelete from "./transporterDelete";
 import { TransporterAdd } from "./transporterAdd";
+import axiosClient from "../../AxiosClient";
 
 
 export const TransporterList = () => {
@@ -86,7 +87,7 @@ export const TransporterList = () => {
 
     const handleTransporters = async () => {
         try {
-            const response = await axios.get("http://127.0.0.1:8000/api/transporters/");
+            const response = await axiosClient.get("api/transporters/");
             setTransporters(response.data);
         } catch (error) {
             console.error(

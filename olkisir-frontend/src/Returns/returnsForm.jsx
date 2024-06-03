@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import axiosClient from "../../AxiosClient";
 
 export const ReturnsForm = ({ orderData, onClose }) => {
   console.log(orderData)
@@ -37,7 +38,7 @@ export const ReturnsForm = ({ orderData, onClose }) => {
 
     try {
       console.log('dww', data)
-      await axios.post("http://127.0.0.1:8000/api/returns/", data);
+      await axiosClient.post("api/returns/", data);
       console.log("Returns Submitted successfully")
       onClose();
     } catch (error) {

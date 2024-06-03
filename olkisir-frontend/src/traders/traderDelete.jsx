@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
+import axiosClient from "../../AxiosClient";
 
 function TraderDelete({ traderId, onDelete }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:8000/api/traders/${traderId}/`);
+      await axiosClient.delete(`api/traders/${traderId}/`);
       onDelete(traderId);
       closeModal();
       // window.location.reload()

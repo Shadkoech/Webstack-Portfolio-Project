@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import PropTypes from 'prop-types';
+import axiosClient from "../../AxiosClient";
 
 export const ChemistAdd = ({ isOpen, onClose, onAddChemist }) => {
   const [chemistData, setChemistData] = useState({
@@ -16,7 +17,7 @@ export const ChemistAdd = ({ isOpen, onClose, onAddChemist }) => {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/dispatchers/", chemistData);
+      const response = await axiosClient.post("api/dispatchers/", chemistData);
       setMessage("Chemist added successfully");
       console.log("Chemist added successfully:", response.data);
       onAddChemist(response.data);

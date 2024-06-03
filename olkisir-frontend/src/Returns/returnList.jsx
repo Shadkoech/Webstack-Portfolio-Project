@@ -4,6 +4,7 @@ import axios from "axios";
 import ReturnDelete from "./returnDelete";
 import { ProcessReturn } from "./processReturn";
 import { ReturnView } from "./returnView";
+import axiosClient from "../../AxiosClient";
 
 
 export const ReturnList = () => {
@@ -73,7 +74,7 @@ export const ReturnList = () => {
 
     const handleReturns = async () => {
         try {
-            const response = await axios.get("http://127.0.0.1:8000/api/returns/");
+            const response = await axiosClient.get("api/returns/");
             setReturns(response.data);
             console.log('res', response.data)
         } catch (error) {
@@ -99,22 +100,6 @@ export const ReturnList = () => {
 
     return (
         <div className="relative overflow-x-auto shadow-md mt-20 sm:rounded-lg mr-20">
-            {/* <div className="flex justify-between mt-2">
-                <div></div>
-                <button
-                    onClick={toggleAddForm}
-                    className="bg-blue-500 rounded-md py-2 px-4 text-white mb-2 hover:bg-blue-400"
-                >
-                    Create return
-                </button>
-            </div>
-            {showAddForm && (
-                <ReturnAdd
-                    isOpen={showAddForm}
-                    onClose={toggleAddForm}
-                    onAddReturn={handleAddReturnList}
-                />
-            )} */}
 
             <div className="rounded-lg overflow-hidden border border-gray-500">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">

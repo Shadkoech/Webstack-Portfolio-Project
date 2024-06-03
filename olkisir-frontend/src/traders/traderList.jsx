@@ -5,6 +5,7 @@ import TraderDelete from "./traderDelete";
 import { TraderAdd } from "./traderAdd";
 import { TraderEdit } from "./traderEdit";
 import { TraderView } from "./traderView";
+import axiosClient from "../../AxiosClient";
 
 
 export const TraderList = () => {
@@ -86,7 +87,7 @@ export const TraderList = () => {
 
     const handleTraders = async () => {
         try {
-            const response = await axios.get("http://127.0.0.1:8000/api/traders/");
+            const response = await axiosClient.get("api/traders/");
             setTraders(response.data);
         } catch (error) {
             console.error(

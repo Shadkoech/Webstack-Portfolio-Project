@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PropTypes from 'prop-types';
+import axiosClient from "../../AxiosClient";
 
 export const TransporterEdit = ({ transporterId, isOpen, onClose, onUpdateTransporter }) => {
   const [transporterData, setTransporterData] = useState({
@@ -13,7 +14,7 @@ export const TransporterEdit = ({ transporterId, isOpen, onClose, onUpdateTransp
 
   useEffect(() => {
     if (transporterId) {
-      axios.get(`http://127.0.0.1:8000/api/transporters/${transporterId}/`)
+      axiosClient.get(`api/transporters/${transporterId}/`)
         .then(response => {
           setTransporterData(response.data);
         })
@@ -30,10 +31,10 @@ export const TransporterEdit = ({ transporterId, isOpen, onClose, onUpdateTransp
     try {
       let response;
       if (transporterId) {
-        response = await axios.put(`http://127.0.0.1:8000/api/transporters/${transporterId}/`, transporterData);
+        response = await axiosClient.put(`api/transporters/${transporterId}/`, transporterData);
         setMessage("Transporter updated successfully");
       } else {
-        response = await axios.post("http://127.0.0.1:8000/api/transporters", transporterData);
+        response = await axiosClient.post("api/transporters", transporterData);
         setMessage("Transporter added successfully");
       }
       console.log("Transporter action successful:", response.data);

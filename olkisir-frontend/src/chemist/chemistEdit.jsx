@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PropTypes from 'prop-types';
+import axiosClient from "../../AxiosClient";
 
 export const ChemistEdit = ({ chemistId, isOpen, onClose, onUpdateChemist }) => {
   const [chemistData, setChemistData] = useState({
@@ -12,7 +13,7 @@ export const ChemistEdit = ({ chemistId, isOpen, onClose, onUpdateChemist }) => 
 
   useEffect(() => {
     if (chemistId) {
-      axios.get(`http://127.0.0.1:8000/api/dispatchers/${chemistId}/`)
+      axiosClient.get(`api/dispatchers/${chemistId}/`)
         .then(response => {
           setChemistData(response.data);
         })
@@ -29,10 +30,10 @@ export const ChemistEdit = ({ chemistId, isOpen, onClose, onUpdateChemist }) => 
     try {
       let response;
       if (chemistId) {
-        response = await axios.put(`http://127.0.0.1:8000/api/dispatchers/${chemistId}/`, chemistData);
+        response = await axiosClient.put(`api/dispatchers/${chemistId}/`, chemistData);
         setMessage("Chemist updated successfully");
       } else {
-        response = await axios.post("http://127.0.0.1:8000/api/dispatchers", chemistData);
+        response = await axiosClient.post("api/dispatchers", chemistData);
         setMessage("Chemist added successfully");
       }
       console.log("Chemist action successful:", response.data);

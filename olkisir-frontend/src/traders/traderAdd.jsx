@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import PropTypes from 'prop-types';
+import axiosClient from "../../AxiosClient";
 
 export const TraderAdd = ({ isOpen, onClose, onAddTrader }) => {
   const [traderData, setTraderData] = useState({
@@ -17,7 +18,7 @@ export const TraderAdd = ({ isOpen, onClose, onAddTrader }) => {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/traders/", traderData);
+      const response = await axiosClient.post("api/traders/", traderData);
       setMessage("Trader added successfully");
       console.log("Trader added successfully:", response.data);
       onAddTrader(response.data);

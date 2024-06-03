@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
+import axiosClient from "../../AxiosClient";
 
 function ChemistDelete({ chemistId, onDelete }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:8000/api/dispatchers/${chemistId}/`);
+      await axiosClient.delete(`api/dispatchers/${chemistId}/`);
       onDelete(chemistId);
       closeModal();
       // window.location.reload()

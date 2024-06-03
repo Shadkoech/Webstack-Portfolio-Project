@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PropTypes from 'prop-types';
+import axiosClient from "../../AxiosClient";
 
 export const TraderEdit = ({ traderId, isOpen, onClose, onUpdateTrader }) => {
   const [traderData, setTraderData] = useState({
@@ -13,7 +14,7 @@ export const TraderEdit = ({ traderId, isOpen, onClose, onUpdateTrader }) => {
 
   useEffect(() => {
     if (traderId) {
-      axios.get(`http://127.0.0.1:8000/api/traders/${traderId}/`)
+      axiosClient.get(`api/traders/${traderId}/`)
         .then(response => {
           setTraderData(response.data);
         })
@@ -30,10 +31,10 @@ export const TraderEdit = ({ traderId, isOpen, onClose, onUpdateTrader }) => {
     try {
       let response;
       if (traderId) {
-        response = await axios.put(`http://127.0.0.1:8000/api/traders/${traderId}/`, traderData);
+        response = await axiosClient.put(`api/traders/${traderId}/`, traderData);
         setMessage("Trader updated successfully");
       } else {
-        response = await axios.post("http://127.0.0.1:8000/api/traders", traderData);
+        response = await axiosClient.post("api/traders", traderData);
         setMessage("Trader added successfully");
       }
       console.log("Trader action successful:", response.data);

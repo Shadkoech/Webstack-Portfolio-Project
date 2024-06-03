@@ -5,6 +5,7 @@ import ChemistDelete from "./chemistDelete";
 import { ChemistAdd } from "./chemistAdd";
 import { ChemistEdit } from "./chemistEdit";
 import { ChemistView } from "./chemistView";
+import axiosClient from "../../AxiosClient";
 
 
 export const ChemistList = () => {
@@ -85,7 +86,7 @@ export const ChemistList = () => {
 
     const handleChemists = async () => {
         try {
-            const response = await axios.get("http://127.0.0.1:8000/api/dispatchers/");
+            const response = await axiosClient.get("api/dispatchers/");
             setChemists(response.data);
         } catch (error) {
             console.error(
