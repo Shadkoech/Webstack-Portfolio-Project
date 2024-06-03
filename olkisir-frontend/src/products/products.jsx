@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import axiosClient from "../../AxiosClient";
 
 export const Products = () => {
   const [product_type, setProductType] = useState("");
@@ -22,7 +23,7 @@ export const Products = () => {
     setLoading(true); // Loading set to true whilst submission is underway
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/products/", productData);
+      const response = await axiosClient.post("api/products/", productData);
       console.log("Product added successfully:", response.data);
       setMessage("Product added successfully");
 

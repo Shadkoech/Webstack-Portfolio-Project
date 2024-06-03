@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PropTypes from 'prop-types';
+import axiosClient from "../../AxiosClient";
 
 export const ProductEdit = ({ productId, isOpen, onClose, onUpdateProduct }) => {
   const [productData, setProductData] = useState({
@@ -14,7 +15,7 @@ export const ProductEdit = ({ productId, isOpen, onClose, onUpdateProduct }) => 
 
   useEffect(() => {
     if (productId) {
-      axios.get(`http://127.0.0.1:8000/api/products/${productId}/`)
+      axiosClient.get(`api/products/${productId}/`)
         .then(response => {
           setProductData(response.data);
         })
@@ -31,10 +32,10 @@ export const ProductEdit = ({ productId, isOpen, onClose, onUpdateProduct }) => 
     try {
       let response;
       if (productId) {
-        response = await axios.put(`http://127.0.0.1:8000/api/products/${productId}/`, productData);
+        response = await axiosClient.put(`api/products/${productId}/`, productData);
         setMessage("Product updated successfully");
       } else {
-        response = await axios.post("http://127.0.0.1:8000/api/products", productData);
+        response = await axiosClient.post("api/products", productData);
         setMessage("Product added successfully");
       }
       console.log("Product action successful:", response.data);

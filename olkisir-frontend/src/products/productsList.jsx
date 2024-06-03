@@ -5,6 +5,7 @@ import Modal from "../modal/Modal";
 import axios from "axios";
 import ProductDelete from "./productDelete";
 import { ProductAdd } from "./productAdd";
+import axiosClient from "../../AxiosClient";
 
 export const ProductsList = () => {
     // let i = 1
@@ -85,7 +86,7 @@ export const ProductsList = () => {
 
     const handleProducts = async () => {
         try {
-            const response = await axios.get("http://127.0.0.1:8000/api/products/");
+            const response = await axiosClient.get("api/products/");
             setProducts(response.data);
         } catch (error) {
             console.error(

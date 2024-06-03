@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
+import axiosClient from "../../AxiosClient";
 
 function ProductDelete({ productId, onDelete }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:8000/api/products/${productId}/`);
+      await axiosClient.delete(`api/products/${productId}/`);
       onDelete(productId);
       closeModal();
       // window.location.reload()
