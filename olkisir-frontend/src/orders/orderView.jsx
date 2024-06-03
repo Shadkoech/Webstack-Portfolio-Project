@@ -27,8 +27,8 @@ export const OrderView = ({ orderData, isOpen, onClose }) => {
             </svg>
           </button>
         </div>
-        <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white underline">
-          Order Details
+        <h2 className="mb-4 flex justify-center text-xl font-bold text-gray-900 dark:text-white underline">
+          Order {orderData.loading_id}
         </h2>
         <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
           <div>
@@ -38,7 +38,7 @@ export const OrderView = ({ orderData, isOpen, onClose }) => {
             >
               Destination
             </label>
-            <p>{orderData.destination}</p>
+            <p className="border border-1/2 border-lime-500">{orderData.destination}</p>
           </div>
           <div>
             <label
@@ -47,9 +47,9 @@ export const OrderView = ({ orderData, isOpen, onClose }) => {
             >
               Dispatch Chemist
             </label>
-            <p>{orderData.dispatch_chemist['chemist_name']}</p>
+            <p className="border border-1/2 border-lime-500">{orderData.dispatch_chemist['chemist_name']}</p>
           </div>
-          <div>
+          {/* <div>
             <label
               htmlFor="order_address"
               className="block mb-2 text-sm font-bold italic text-gray-900 dark:text-white"
@@ -57,7 +57,7 @@ export const OrderView = ({ orderData, isOpen, onClose }) => {
               Loading Id
             </label>
             <p>{orderData.loading_id}</p>
-          </div>
+          </div> */}
           <div>
             <label
               htmlFor="order_address"
@@ -65,7 +65,7 @@ export const OrderView = ({ orderData, isOpen, onClose }) => {
             >
               Trader
             </label>
-            <p>{orderData.trader['trader_name']}</p>
+            <p className="border border-1/2 border-lime-500">{orderData.trader['trader_name']}</p>
           </div>
           <div>
             <label
@@ -74,28 +74,44 @@ export const OrderView = ({ orderData, isOpen, onClose }) => {
             >
               Transporter
             </label>
-            <p>{orderData.transporter['transporter_name']}</p>
+            <p className="border border-1/2 border-lime-500">{orderData.transporter['transporter_name']}</p>
           </div>
-          <div>
+        </div>
+        <div className="mt-4 ">
             <label
               htmlFor="order_address"
               className="block mb-2 text-sm font-bold italic text-gray-900 dark:text-white"
             >
               Products
             </label>
-            <div>
-              {orderData.product.map((product, index) => (
-                <div key={index} className="border bg-lime-200 p-2 mb-2 rounded hover:bg-lime-300">
-                  <p>Type: {product.product_type}</p>
-                  <p>SKU: {product.SKU}</p>
-                  <p>Brand: {product.brand}</p>
-                  <p>Price: {product.price}</p>
-                  <p>Quantity: {product.quantity}</p>
-                </div>
-              ))}
+            <div className="h-[150px] overflow-y-scroll" >
+              <table className="w-full border border-1/2 border-lime-500">
+                <thead className="font-bold border border-1/2 border-lime-500 bg-lime-50">
+                  <tr>
+                    <th>No.</th>
+                    <th>Type</th>
+                    <th>Brand</th>
+                    <th>SKU</th>                    
+                    <th>Price</th>
+                    <th>Quantity</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                    {orderData.product.map((product, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{product.product_type}</td>
+                      <td>{product.brand}</td>
+                      <td>{product.SKU}</td>                    
+                      <td>{product.price}</td>
+                      <td>{product.quantity}</td>                      
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
-        </div>
       </div>
     </div>
   );

@@ -81,8 +81,8 @@ export const OrderAdd = () => {
         loading_id: data.loading_id,
         destination: data.destination,
         dispatch_chemist: selectedChemistObj,
-        transporter: selectedTransporterObj,
         trader: selectedTraderObj,
+        transporter: selectedTransporterObj,        
         product: selectedProducts,
       };
 

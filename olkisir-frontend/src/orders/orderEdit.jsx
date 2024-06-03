@@ -101,13 +101,14 @@ export const OrderEdit = ({ orderId, isOpen, onClose, onUpdateOrder }) => {
     try {
       const selectedChemist = chemists.find(chemist => chemist.id === parseInt(data.chemist));
       const selectedTransporter = transporters.find(transporter => transporter.id === parseInt(data.transporter));
+      const selectedTraderObj = traders.find(trader => trader.id === parseInt(data.trader));
 
       const payload = {
         loading_id: data.loading_id,
         destination: data.destination,
         dispatch_chemist: selectedChemist,
         transporter: selectedTransporter,
-        trader: data.trader,
+        trader: selectedTraderObj,
         product: selectedProducts,
       };
 
