@@ -18,7 +18,7 @@ export const ProductAdd = ({ isOpen, onClose, onAddProduct }) => {
     setLoading(true);
 
     try {
-      const response = await axios.post("https://olkisir-backend.onrender.com/api/products/", productData);
+      const response = await axiosClient.post("api/products/", productData);
       setMessage("Product added successfully");
       console.log("Product added successfully:", response.data);
 
