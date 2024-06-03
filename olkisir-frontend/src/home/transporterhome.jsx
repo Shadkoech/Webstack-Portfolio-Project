@@ -13,8 +13,9 @@ export const Home = () => {
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         height: 'calc(100vh - 5rem)', // Adjust height to be below the navbar
-        marginTop: '3.5rem', // Adjust for the navbar height
-        marginLeft: '-1rem', // Adjust for the sidebar width
+        marginTop: '3rem', // Adjust for the navbar height
+        marginLeft: '-2rem', // Adjust for the sidebar width
+        marginRight: '-2rem',
         position: 'relative',
         zIndex: 1
       }}
