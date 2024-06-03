@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import PropTypes from 'prop-types';
+import axiosClient from "../../AxiosClient";
 
 export const ProductAdd = ({ isOpen, onClose, onAddProduct }) => {
   const [productData, setProductData] = useState({
@@ -17,7 +18,7 @@ export const ProductAdd = ({ isOpen, onClose, onAddProduct }) => {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/products/", productData);
+      const response = await axiosClient.post("api/products/", productData);
       setMessage("Product added successfully");
       console.log("Product added successfully:", response.data);
 

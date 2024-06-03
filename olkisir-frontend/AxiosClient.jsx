@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const axiosClient = axios.create({
-//   baseURL: 'http://nobertechx.tech/api/',
   baseURL:'https://olkisir-backend.onrender.com/',
 });
 
