@@ -14,6 +14,7 @@ export const Home = () => {
         height: 'calc(100vh - 5rem)', // Adjust height to be below the navbar
         marginTop: '3.5rem', // Adjust for the navbar height
         marginLeft: '-1rem', // Adjust for the sidebar width
+        marginRight: '-1rem',
         position: 'relative',
         zIndex: 1
       }}

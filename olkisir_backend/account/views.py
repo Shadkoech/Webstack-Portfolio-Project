@@ -12,14 +12,24 @@ from .serializers import LogoutSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 class UserList(generics.ListCreateAPIView):
+    """
+    API view to retrieve list of users or create new user.
+    """
     queryset = User.objects.all()
     serializer_class = UserSerializers
 
 class AuthUserLoginView(APIView):
+    """
+    API view to handle user login.
+    """
     serializer_class = UserLoginSerializer
     permission_classes = (AllowAny, )
 
     def post(self, request):
+        """
+        Handle POST request for user login.
+        Validates the user credentials and returns access and refresh tokens.
+        """
         serializer = self.serializer_class(data=request.data)
         valid = serializer.is_valid(raise_exception=True)
 
@@ -40,10 +50,15 @@ class AuthUserLoginView(APIView):
             return Response(response, status=status.HTTP_200_OK)
 
 class UserDetailsView(APIView):
-    # Class the fetches user details
+    """
+    API view to fetch authenticated user details.
+    """
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        """
+        Handle GET request to retrieve user details.
+        """
         user = request.user
         user_data = {
             'username': user.username,
@@ -55,12 +70,17 @@ class UserDetailsView(APIView):
         return Response(user_data, status=status.HTTP_200_OK)
         
 class LogoutView(APIView):
+    """
+    API view to handle user logout.
+    """
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
     serializer_class = LogoutSerializer
 
     def post(self, request):
-        # print('ew')
+        """
+        Handle POST request to log out the user by blacklisting the refresh token.
+        """
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             refresh_token = serializer.validated_data['refresh_token']
