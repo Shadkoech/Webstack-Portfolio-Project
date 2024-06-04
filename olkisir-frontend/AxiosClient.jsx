@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosClient = axios.create({
-  baseURL:'https://olkisir-backend.onrender.com/',
+  baseURL:'http://127.0.0.1:8000/',
 });
 
 axiosClient.interceptors.request.use(

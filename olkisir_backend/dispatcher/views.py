@@ -3,46 +3,83 @@ from rest_framework import permissions, viewsets, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from django.core.cache import cache
 from django.shortcuts import get_object_or_404
 from .serializers import DispatchChemistSerializer, FetchOrderSerializer, TransporterSerializer, TraderSerializer, ProductSerializer, OrderSerializer, ReasonSerializer, ReturnSerializer
 from rest_framework.permissions import IsAuthenticated
+from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from .config.utils import delete_cache
 
 class DispatchChemistViewSet(viewsets.ModelViewSet):
     """
     ViewSet for handling CRUD operations for DispatchChemist.
     """
+
+    CACHE_KEY_PREFIX = "chemist-view"
     # permission_classes = [IsAuthenticated]
 
     queryset = DispatchChemist.objects.all()
     serializer_class = DispatchChemistSerializer
 
-    @method_decorator(cache_page(60 * 15))
+    @method_decorator(cache_page(settings.CACHE_TTL, key_prefix=CACHE_KEY_PREFIX))
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
     
-    @method_decorator(cache_page(60 * 15))
+    @method_decorator(cache_page(settings.CACHE_TTL, key_prefix=CACHE_KEY_PREFIX))
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
+    
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+    
+    def destroy(self, request, *args, **kwargs):
+        response = super().destroy(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+    
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
 
 class TransporterViewSet(viewsets.ModelViewSet):
     """
     ViewSet for handling CRUD operations for Transporter.
     """
+
+    CACHE_KEY_PREFIX = "transport-view"
+
     permission_classes = [IsAuthenticated]
 
     queryset = Transporter.objects.all()
     serializer_class = TransporterSerializer
 
-    @method_decorator(cache_page(60 * 15))
+    @method_decorator(cache_page(settings.CACHE_TTL, key_prefix=CACHE_KEY_PREFIX))
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
     
-    @method_decorator(cache_page(60 * 15))
+    @method_decorator(cache_page(settings.CACHE_TTL, key_prefix=CACHE_KEY_PREFIX))
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
-
+    
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+    
+    def destroy(self, request, *args, **kwargs):
+        response = super().destroy(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+    
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
     
     @action(detail=False, methods=['get'], url_path='by-username')
     def get_transporter_id_by_username(self, request):
@@ -69,20 +106,38 @@ class TraderViewSet(viewsets.ModelViewSet):
     """
     ViewSet for handling CRUD operations for Trader.
     """
+
+    CACHE_KEY_PREFIX = "Trader-view"
+
     permission_classes = [IsAuthenticated]
 
     queryset = Trader.objects.all()
     serializer_class = TraderSerializer
 
-    @method_decorator(cache_page(60 * 15))
+    @method_decorator(cache_page(settings.CACHE_TTL, key_prefix=CACHE_KEY_PREFIX))
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
     
-    @method_decorator(cache_page(60 * 15))
+    @method_decorator(cache_page(settings.CACHE_TTL, key_prefix=CACHE_KEY_PREFIX))
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
+    
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+    
+    def destroy(self, request, *args, **kwargs):
+        response = super().destroy(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+    
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
 
-    @cache_page(60 * 15)
+    @method_decorator(cache_page(settings.CACHE_TTL))
     @action(detail=False, methods=['get'], url_path='by-username')
     def get_trader_id_by_username(self, request):
         """
@@ -108,52 +163,84 @@ class ProductViewSet(viewsets.ModelViewSet):
     """
     ViewSet for handling CRUD operations for Product.
     """
+
+    CACHE_KEY_PREFIX = "product-view"
+
     permission_classes = [IsAuthenticated]
 
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
-    @method_decorator(cache_page(60 * 15))
+    @method_decorator(cache_page(settings.CACHE_TTL, key_prefix=CACHE_KEY_PREFIX))
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
     
-    @method_decorator(cache_page(60 * 15))
+    @method_decorator(cache_page(settings.CACHE_TTL, key_prefix=CACHE_KEY_PREFIX))
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
+    
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+    
+    def destroy(self, request, *args, **kwargs):
+        response = super().destroy(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+    
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
 
 
 class ReasonViewSet(viewsets.ModelViewSet):
     """
     ViewSet for handling CRUD operations for Reason.
     """
+
+    CACHE_KEY_PREFIX = "reason-view"
+
     permission_classes = [IsAuthenticated]
 
     queryset = Reason.objects.all()
     serializer_class = ReasonSerializer
 
-    @method_decorator(cache_page(60 * 15))
+    @method_decorator(cache_page(settings.CACHE_TTL, key_prefix=CACHE_KEY_PREFIX))
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
     
-    @method_decorator(cache_page(60 * 15))
+    @method_decorator(cache_page(settings.CACHE_TTL, key_prefix=CACHE_KEY_PREFIX))
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
+    
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+    
+    def destroy(self, request, *args, **kwargs):
+        response = super().destroy(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+    
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+
 
 class OrderViewSet(viewsets.ModelViewSet):
     """
     ViewSet for handling CRUD operations for Order.
     """
+
+    CACHE_KEY_PREFIX = "order-view"
+
     permission_classes = [IsAuthenticated]
 
     queryset = Order.objects.all()
-
-    @method_decorator(cache_page(60 * 15))
-    def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
-    
-    @method_decorator(cache_page(60 * 15))
-    def retrieve(self, request, *args, **kwargs):
-        return super().retrieve(request, *args, **kwargs)
     
     # Dynamically select the serializer class based on the action
     def get_serializer_class(self):
@@ -161,7 +248,30 @@ class OrderViewSet(viewsets.ModelViewSet):
             return FetchOrderSerializer
         return OrderSerializer
     
-    @cache_page(60 * 15)
+    @method_decorator(cache_page(settings.CACHE_TTL, key_prefix=CACHE_KEY_PREFIX))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    
+    @method_decorator(cache_page(settings.CACHE_TTL, key_prefix=CACHE_KEY_PREFIX))
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+    
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+    
+    def destroy(self, request, *args, **kwargs):
+        response = super().destroy(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+    
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+    
+    @cache_page(settings.CACHE_TTL)
     @action(detail=True, methods=['get'])
     def trader_orders(self, request, pk=None):
         """
@@ -183,7 +293,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
     
-    @cache_page(60 * 15)
+    @cache_page(settings.CACHE_TTL)
     @action(detail=True, methods=['get'])
     def transporter_orders(self, request, pk=None):
         """
@@ -209,15 +319,34 @@ class ReturnViewSet(viewsets.ModelViewSet):
     """
     ViewSet for handling CRUD operations for Return.
     """
+
+    CACHE_KEY_PREFIX = "return-view"
+
     permission_classes = [IsAuthenticated]
 
     queryset = Return.objects.all()
     serializer_class = ReturnSerializer
 
-    @method_decorator(cache_page(60 * 15))
+    @method_decorator(cache_page(settings.CACHE_TTL, key_prefix=CACHE_KEY_PREFIX))
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
     
-    @method_decorator(cache_page(60 * 15))
+    @method_decorator(cache_page(settings.CACHE_TTL, key_prefix=CACHE_KEY_PREFIX))
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
+    
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+    
+    def destroy(self, request, *args, **kwargs):
+        response = super().destroy(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+    
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        delete_cache(self.CACHE_KEY_PREFIX)
+        return response
+
