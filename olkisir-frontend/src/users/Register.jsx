@@ -15,6 +15,7 @@ const Register = () => {
     const [lastName, setLastName] = useState('');
     const [role, setRole] = useState(3); // Default role set to DRIVER
     const [errorMessage, setErrorMessage] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('')
     const [isError, setIsError] = useState(false);
 
     const roles = [
@@ -27,10 +28,14 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (username === '' || email === '' || password === '' || firstName === '' || lastName === '') {
+        if (username === '' || email === '' || password === '' || firstName === '' || lastName === '' || role === '') {
             setErrorMessage('All fields are required');
             setIsError(true);
-        } else {
+        } else if (password !== confirmPassword) {
+            setErrorMessage('Passwords do not match');
+            setIsError(true);
+        }
+        else {
             const payload = {
                 username,
                 email,
@@ -41,11 +46,11 @@ const Register = () => {
             };
             console.log(payload)
             try {
-                const response = await axios.post('https://olkisir-backend.onrender.com/register/', payload);
+                const response = await axios.post('http://127.0.0.1:8000/register/', payload);
                 console.log('User registered successfully:', response.data);
                 navigate('/login')
                 // return response.data;
-                
+
             } catch (error) {
                 console.error('Error registering user:', error.response.data);
                 setIsError(true)
@@ -70,15 +75,15 @@ const Register = () => {
 
     return (
         <div className="flex flex-col items-center justify-center h-screen"
-   
-        style={{
-         backgroundImage: `url(${backgroundImage})`,
-         backgroundSize: "cover",
-         backgroundPosition: "center",
-         backgroundRepeat: "no-repeat",
-         // Optional: Ensures background stays fixed while content scrolls
-         backgroundAttachment: "fixed",
-       }}>
+
+            style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                // Optional: Ensures background stays fixed while content scrolls
+                backgroundAttachment: "fixed",
+            }}>
             <form className='border p-10 my- md:w-4/12 w-8/12  bg-lime-300  rounded-md' onSubmit={handleSubmit}>
                 <img className="w-10 mx-auto mb- rounded-full" src="/logo.png" alt="Tiger" />
 
@@ -152,6 +157,17 @@ const Register = () => {
                     />
                 </div>
                 <div className=''>
+                    <label className='mb- text-black'>Confirm Password</label><br />
+                    <input
+                        type={showPass ? 'text' : 'password'}
+                        name='confirm_password'
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        className='w-full p-1 mb-1 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300'
+                        required
+                    />
+                </div>
+
+                <div className=''>
                     <label className='mb- text-black'>Role</label><br />
                     <select
                         name='role'
@@ -160,6 +176,7 @@ const Register = () => {
                         className='w-full p-1 mb-1 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300'
                         required
                     >
+                        <option value="" key="">Chose Role</option>
                         {roles.map((role) => (
                             <option key={role.value} value={role.value}>
                                 {role.label}
@@ -186,31 +203,6 @@ const Register = () => {
                 </div>
             </form>
         </div>
-        //     <div className="w-full max-w-xs m-auto bg-indigo-100 rounded p-5">
-        //   <header>
-        //     <img className="w-20 mx-auto mb-5" src="https://img.icons8.com/fluent/344/year-of-tiger.png" alt="Tiger" />
-        //   </header>
-        //   <form>
-        //     <div>
-        //       <label className="block mb-2 text-indigo-500" htmlFor="username">Username</label>
-        //       <input className="w-full p-2 mb-6 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300" type="text" name="username" />
-        //     </div>
-        //     <div>
-        //       <label className="block mb-2 text-indigo-500" htmlFor="email">Email</label>
-        //       <input className="w-full p-2 mb-6 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300" type="email" name="email" />
-        //     </div>
-        //     <div>
-        //       <label className="block mb-2 text-indigo-500" htmlFor="password">Password</label>
-        //       <input className="w-full p-2 mb-6 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300" type="password" name="password" />
-        //     </div>
-        //     <div>
-        //       <input className="w-full bg-indigo-700 hover:bg-pink-700 text-white font-bold py-2 px-4 mb-6 rounded" type="submit" value="Register" />
-        //     </div>
-        //   </form>
-        //   <footer>
-        //     <a className="text-indigo-700 hover:text-pink-700 text-sm float-left" href="#">Already have an account? Login</a>
-        //   </footer>
-        // </div>
     );
 };
 

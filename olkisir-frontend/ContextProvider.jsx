@@ -41,7 +41,8 @@ const AuthProvider = ({ children }) => {
             }, [])
             // console.log('u', res.data)
         } catch (error) {
-            console.error('Error logging in:', error.response.data);
+            // console.error('Error logging in:', error['non_field_errors']);
+            console.log(error.response.data.non_field_errors[0])
             // setErrorMessage('Invalid username or password');
             // setIsError(true);
         }
