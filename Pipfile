@@ -11,6 +11,8 @@ dj-database-url = "*"
 gunicorn = "*"
 psycopg2-binary = "*"
 django-environ = "*"
+django-redis = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 

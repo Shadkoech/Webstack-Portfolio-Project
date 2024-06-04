@@ -25,10 +25,10 @@ environ.Env.read_env()
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = '4f2d58c13f8bd84a923d78a0ea780339' # env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = True #env('DEBUG')
 
 
 
@@ -48,12 +48,14 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'rest_framework',
+    "debug_toolbar",
     'account',
     'corsheaders',
     'dispatcher',
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -92,24 +94,32 @@ APPEND_SLASH = False
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'olkisirdb',
-#         'USER': 'olkisir',
-#         'PASSWORD': 'leaves',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
-
-
 DATABASES = {
-    'default': dj_database_url.parse(env('DB_URL'))
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'olkisirdb',
+        'USER': 'olkisir',
+        'PASSWORD': 'leaves',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
 
 
+# DATABASES = {
+#     'default': dj_database_url.parse(env('DB_URL'))
+# }
 
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -197,6 +207,9 @@ SIMPLE_JWT = {
 
 
 ALLOWED_HOSTS = ['*']
+INTERNAL_IPS = [
+    '127.0.0.1'
+]
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'https://dispatcher.koech.tech',

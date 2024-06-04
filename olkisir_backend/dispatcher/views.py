@@ -6,18 +6,25 @@ from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
 from .serializers import DispatchChemistSerializer, FetchOrderSerializer, TransporterSerializer, TraderSerializer, ProductSerializer, OrderSerializer, ReasonSerializer, ReturnSerializer
 from rest_framework.permissions import IsAuthenticated
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 class DispatchChemistViewSet(viewsets.ModelViewSet):
     """
     ViewSet for handling CRUD operations for DispatchChemist.
     """
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     queryset = DispatchChemist.objects.all()
     serializer_class = DispatchChemistSerializer
 
-    # Uncomment the following line to enforce authentication
-    # permission_classes = [permissions.IsAuthenticated]
+    @method_decorator(cache_page(60 * 15))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    
+    @method_decorator(cache_page(60 * 15))
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
 
 class TransporterViewSet(viewsets.ModelViewSet):
     """
@@ -27,6 +34,15 @@ class TransporterViewSet(viewsets.ModelViewSet):
 
     queryset = Transporter.objects.all()
     serializer_class = TransporterSerializer
+
+    @method_decorator(cache_page(60 * 15))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    
+    @method_decorator(cache_page(60 * 15))
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+
     
     @action(detail=False, methods=['get'], url_path='by-username')
     def get_transporter_id_by_username(self, request):
@@ -57,7 +73,16 @@ class TraderViewSet(viewsets.ModelViewSet):
 
     queryset = Trader.objects.all()
     serializer_class = TraderSerializer
+
+    @method_decorator(cache_page(60 * 15))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
     
+    @method_decorator(cache_page(60 * 15))
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+
+    @cache_page(60 * 15)
     @action(detail=False, methods=['get'], url_path='by-username')
     def get_trader_id_by_username(self, request):
         """
@@ -88,6 +113,15 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+    @method_decorator(cache_page(60 * 15))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    
+    @method_decorator(cache_page(60 * 15))
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+
+
 class ReasonViewSet(viewsets.ModelViewSet):
     """
     ViewSet for handling CRUD operations for Reason.
@@ -97,6 +131,14 @@ class ReasonViewSet(viewsets.ModelViewSet):
     queryset = Reason.objects.all()
     serializer_class = ReasonSerializer
 
+    @method_decorator(cache_page(60 * 15))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    
+    @method_decorator(cache_page(60 * 15))
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+
 class OrderViewSet(viewsets.ModelViewSet):
     """
     ViewSet for handling CRUD operations for Order.
@@ -104,6 +146,14 @@ class OrderViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     queryset = Order.objects.all()
+
+    @method_decorator(cache_page(60 * 15))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    
+    @method_decorator(cache_page(60 * 15))
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
     
     # Dynamically select the serializer class based on the action
     def get_serializer_class(self):
@@ -111,6 +161,7 @@ class OrderViewSet(viewsets.ModelViewSet):
             return FetchOrderSerializer
         return OrderSerializer
     
+    @cache_page(60 * 15)
     @action(detail=True, methods=['get'])
     def trader_orders(self, request, pk=None):
         """
@@ -132,6 +183,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
     
+    @cache_page(60 * 15)
     @action(detail=True, methods=['get'])
     def transporter_orders(self, request, pk=None):
         """
@@ -162,40 +214,10 @@ class ReturnViewSet(viewsets.ModelViewSet):
     queryset = Return.objects.all()
     serializer_class = ReturnSerializer
 
-class CustomOrder(APIView):
-    """
-    API view to fetch custom order details including associated chemist, transporter, and trader.
-    """
-    permission_classes = [IsAuthenticated]
+    @method_decorator(cache_page(60 * 15))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
     
-    def get(self, request, order_id):
-        """
-        Handle GET request to return order details.
-        
-        Args:
-            request (Request): The request object.
-            order_id (int): The ID of the order.
-        
-        Returns:
-            Response: A Response object containing the order details and associated data.
-        """
-        order = get_object_or_404(Order, id=order_id)
-        
-        chemist = order.dispatch_chemist
-        transporter = order.transporter
-        trader = order.trader
-        
-        order_data = FetchOrderSerializer(order).data
-        chemist_data = DispatchChemistSerializer(chemist).data
-        transporter_data = TransporterSerializer(transporter).data
-        trader_data = TraderSerializer(trader).data
-        
-        response_data = {
-            'loading_id': order_data['loading_id'],
-            'destination': order_data['destination'],
-            'chemist': chemist_data['chemist_name'],
-            'transporter': transporter_data['transporter_name'],
-            'trader': trader_data['trader_name']
-        }
-        
-        return Response(response_data, status=status.HTTP_200_OK)
+    @method_decorator(cache_page(60 * 15))
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
