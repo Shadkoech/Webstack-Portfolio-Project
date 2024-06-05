@@ -46,7 +46,7 @@ const Register = () => {
             };
             console.log(payload)
             try {
-                const response = await axios.post('http://127.0.0.1:8000/register/', payload);
+                const response = await axios.post('https://olkisir-backend.onrender.com/register/', payload);
                 console.log('User registered successfully:', response.data);
                 navigate('/login')
                 // return response.data;
