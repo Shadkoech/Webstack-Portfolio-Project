@@ -8,9 +8,8 @@ import axiosClient from "../../AxiosClient";
 
 // const orderId = 2;
 
-export const TransporterOrders = () => {
+export const TransporterOrders = ({ setOrderLength }) => {
   const {user, username} = useAuth()
-  console.log('user', user)
   const [activeComponent, setActiveComponent] = useState("");
   const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -57,13 +56,13 @@ export const TransporterOrders = () => {
         );
     }
   };
-  console.log('username', username)
+
   const fetchTransporterId = async()=>{
     try{
       const transporterData = await axiosClient.get('api/transporters/by-username/', {params: {
         username: username      
     }})
-  
+
     setTransporterId(transporterData.data.transporter_id)
     
     }
@@ -77,9 +76,6 @@ export const TransporterOrders = () => {
       fetchTransporterId()
     }
   }, [username]);
-  console.log('ti', transporterId)
-
-  console.log('transporter', transporterId)
 
   const handleOrders = async (transporterId) => {
     try {
@@ -87,12 +83,11 @@ export const TransporterOrders = () => {
         `api/orders/${transporterId}/transporter_orders/`
       );
       setOrders(response.data);
+      setOrderLength(response.data.length);
    
     } catch (error) {
       console.error(
-        "There was an error fetching products from backend:",
-        error.message
-      );
+        "There was an error fetching products from backend:", error.message);
     }
   };
 
