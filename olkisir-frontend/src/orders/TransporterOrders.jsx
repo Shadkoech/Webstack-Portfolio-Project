@@ -5,11 +5,8 @@ import axios from "axios";
 import { ReturnsForm } from "../Returns/returnsForm";
 import { useAuth } from "../../ContextProvider";
 
-// const orderId = 2;
-
-export const TransporterOrders = () => {
-  const {user, username} = useAuth()
-  console.log('user', user)
+export const TransporterOrders = ({ setOrderLength }) => {
+  const { user, username } = useAuth();
   const [activeComponent, setActiveComponent] = useState("");
   const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -18,9 +15,7 @@ export const TransporterOrders = () => {
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [showViewModal, setShowViewModal] = useState(false);
   const [showReturnForm, setShowReturnForm] = useState(false);
-  const [transporterId, setTransporterId] = useState('')
-
-
+  const [transporterId, setTransporterId] = useState("");
 
   const totalPages = Math.ceil(orders.length / pageSize); // calculating total no of pages
 
@@ -56,29 +51,24 @@ export const TransporterOrders = () => {
         );
     }
   };
-  console.log('username', username)
-  const fetchTransporterId = async()=>{
-    try{
-      const transporterData = await axios.get('http://127.0.0.1:8000/api/transporters/by-username/', {params: {
-        username: username      
-    }})
-  
-    setTransporterId(transporterData.data.transporter_id)
-    
+
+  const fetchTransporterId = async () => {
+    try {
+      const transporterData = await axios.get('http://127.0.0.1:8000/api/transporters/by-username/', {
+        params: { username: username }
+      });
+
+      setTransporterId(transporterData.data.transporter_id);
+    } catch (error) {
+      console.error(error.message);
     }
-    catch(error){
-      console.error(error.message)
-    }
-  }
-  
+  };
+
   useEffect(() => {
-    if (username){
-      fetchTransporterId()
+    if (username) {
+      fetchTransporterId();
     }
   }, [username]);
-  console.log('ti', transporterId)
-
-  console.log('transporter', transporterId)
 
   const handleOrders = async (transporterId) => {
     try {
@@ -86,20 +76,16 @@ export const TransporterOrders = () => {
         `http://127.0.0.1:8000/api/orders/${transporterId}/transporter_orders/`
       );
       setOrders(response.data);
-   
+      setOrderLength(response.data.length);
     } catch (error) {
-      console.error(
-        "There was an error fetching products from backend:",
-        error.message
-      );
+      console.error("There was an error fetching products from backend:", error.message);
     }
   };
 
   useEffect(() => {
-    if (transporterId){
+    if (transporterId) {
       handleOrders(transporterId);
     }
-    
   }, [transporterId]);
 
   const handlePageChange = (pageNumber) => {
@@ -110,7 +96,6 @@ export const TransporterOrders = () => {
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );
-
 
   return (
     <div className="relative overflow-x-auto shadow-md mt-20 sm:rounded-lg mr-20">
@@ -138,7 +123,6 @@ export const TransporterOrders = () => {
               </th>
             </tr>
           </thead>
-
           <tbody>
             {paginatedOrders.map((order, index) => (
               <tr
@@ -163,7 +147,6 @@ export const TransporterOrders = () => {
                       onClick={() => handleViewOrder(order)}
                       className="text-blue-500 mt-2 size-5"
                     >
-                      {/* View button */}
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -184,7 +167,6 @@ export const TransporterOrders = () => {
                         />
                       </svg>
                     </a>
-                  
                   </div>
                 </td>
               </tr>
@@ -193,29 +175,25 @@ export const TransporterOrders = () => {
         </table>
       </div>
 
-    <div className="p-4 sm:ml-64">{renderCrud()}</div>
+      <div className="p-4 sm:ml-64">{renderCrud()}</div>
 
-    <Modal
-        isOpen={showViewModal}
-    >
+      <Modal isOpen={showViewModal}>
         {showViewModal && (
-            <TransporterOderView
-                orderData={selectedOrder}
-                isOpen={showViewModal}
-                onClose={toggleViewModal}
-            />
+          <TransporterOderView
+            orderData={selectedOrder}
+            isOpen={showViewModal}
+            onClose={toggleViewModal}
+          />
         )}
-    </Modal>
-      {/* Pagination Logic at the table foot */}
+      </Modal>
+
       <div className="mt-4 flex justify-between items-center">
         <div>
-          {/* Display the number of available pages */}
           <span className="text-sm text-black ml-2">
             Page {currentPage} of {totalPages}
           </span>
         </div>
         <div>
-          {/* Previous button */}
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
@@ -223,7 +201,6 @@ export const TransporterOrders = () => {
           >
             Previous
           </button>
-          {/* Next button */}
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
@@ -233,28 +210,6 @@ export const TransporterOrders = () => {
           </button>
         </div>
       </div>
-
-      <div className="p-4 sm:ml-64">{renderCrud()}</div>
-
-      {/* <Modal isOpen={showViewModal} onClose={toggleViewModal}>
-        {showViewModal && (
-          <TransporterOderView
-            productData={selectedOrder}
-            isOpen={showViewModal}
-            onClose={toggleViewModal}
-          />
-        )}
-      </Modal> */}
-
-      {/* <Modal isOpen={showReturnForm} onClose={toggleReturnForm}>
-        {showReturnForm && (
-          <ReturnsForm
-            orderData={selectedOrderId}
-            isOpen={showReturnForm}
-            onClose={toggleReturnForm}
-          />
-        )}
-      </Modal> */}
     </div>
   );
 };
