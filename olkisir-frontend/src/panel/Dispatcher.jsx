@@ -16,6 +16,7 @@ import { ChemistList } from "../chemist/chemistList";
 import { OrderList } from "../orders/orderList";
 import { ReturnList } from "../Returns/returnList";
 import axios from "axios";
+import axiosClient from "../../AxiosClient";
 
 
 
@@ -84,7 +85,7 @@ export const Dispatcher = () => {
   };
   const handleReturns = async () => {
     try {
-        const response = await axios.get("http://127.0.0.1:8000/api/returns/");
+        const response = await axiosClient.get("api/returns/");
         setReturnsLength(response.data.length);
        
     } catch (error) {

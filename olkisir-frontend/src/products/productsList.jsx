@@ -242,7 +242,7 @@ export const ProductsList = () => {
                     <button
                         onClick={() => handlePageChange(currentPage - 1)}
                         disabled={currentPage === 1}
-                        className="mr-2 bg-orange-200 hover:bg-orange-300 text-black font-bold py-1 px-2 rounded-md text-sm"
+                        className="mr-2 bg-blue-500 hover:bg-blue-400 text-white py-1 px-2 rounded-md text-sm"
                     >
                         {/* {"<"} */}
                         Previous
@@ -251,7 +251,7 @@ export const ProductsList = () => {
                     <button
                         onClick={() => handlePageChange(currentPage + 1)}
                         disabled={currentPage === totalPages}
-                        className="bg-orange-200 hover:bg-orange-300 text-black font-bold py-1 px-2 rounded-md text-sm mr-5"
+                        className="bg-blue-500 hover:bg-blue-400 text-white py-1 px-2 rounded-md text-sm mr-5"
                     >
                         {/* {">"} */}
                         next
